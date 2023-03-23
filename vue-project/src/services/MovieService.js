@@ -16,3 +16,9 @@ export async function getMovie(id) {
     let product = await response.json();
     return product;
 }
+
+export async function getKeyWordIds(keyword) {
+    const response = await fetch(baseURL + 'search/keyword' + '?' + 'query=' + keyword, headers);
+    let product = await response.json();
+    return product.results;
+}
