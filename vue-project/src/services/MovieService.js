@@ -7,18 +7,18 @@ const headers = {
 
 
 export async function getRecentMovies() {
-  const response = await fetch(baseURL + '/trending/movie/day', headers);
+  const response = await fetch(baseURL + '/trending/movie/day' + '?' + apiKey, headers);
   return await Object.keys(response.json().results).slice(0, 3);
 }
 
 export async function getMovie(id) {
-    const response = await fetch(baseURL + 'movie/' + id, headers);
+    const response = await fetch(baseURL + 'movie/' + id + '?' + apiKey, headers);
     let product = await response.json();
     return product;
 }
 
 export async function getKeyWordIds(keyword) {
-    const response = await fetch(baseURL + 'search/keyword' + '?' + 'query=' + keyword, headers);
+    const response = await fetch(baseURL + 'search/keyword' + '?' + apiKey + '&query=' + keyword, headers);
     let product = await response.json();
     return product.results;
 }
