@@ -13,12 +13,13 @@ export async function getRecentMovies() {
 
 export async function getMovie(id) {
     const response = await fetch(baseURL + 'movie/' + id + '?' + apiKey, headers);
-    let product = await response.json();
-    return product;
+    let movie = await response.json();
+    return movie;
 }
 
-export async function getKeyWordIds(keyword) {
-    const response = await fetch(baseURL + 'search/keyword' + '?' + apiKey + '&query=' + keyword, headers);
-    let product = await response.json();
-    return product.results;
+export async function searchMoviesByKeyWords(keywords) {
+    // keywords format should be : "keyword1,keyword2,keyword3"
+    const response = await fetch(baseURL + 'search/movie' + '?' + 'api_key=' + apiKey + '&query=' + keywords, headers);
+    let movies = await response.json();
+    return movies;
 }
