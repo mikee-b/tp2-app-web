@@ -11,8 +11,8 @@ export async function getRecentMovies() {
   return await Object.keys(response.json().results).slice(0, 3);
 }
 
-export async function getProduct(id) {
-    const response = await fetch(baseURL + RESOURCE_NAME + '/' + id, headers);
+export async function getMovie(id) {
+    const response = await fetch(baseURL + 'movie/' + id, headers);
     let product = await response.json();
     return product;
 }
