@@ -8,7 +8,7 @@ const headers = {
 
 export async function getRecentMovies() {
   const response = await fetch(baseURL + '/trending/movie/day', headers);
-  return await response.json().results;
+  return await Object.keys(response.json().results).slice(0, 3);
 }
 
 export async function getProduct(id) {
