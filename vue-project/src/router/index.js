@@ -26,7 +26,6 @@ const router = createRouter({
       path: "/movie/:id",
       name: "movie",
       component: () => import("../views/MovieDetailsView.vue"),
-      props: castRouteParams
     },
   ]
 })
