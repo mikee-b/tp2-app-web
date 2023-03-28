@@ -45,3 +45,9 @@ export async function rateMovie(movieId, rating, guestSessionId) {
     let msg = await response.json();
     return msg;
 }
+
+export async function getNewGuestSessionId() {
+    const response = await fetch(baseURL + 'authentication/guest_session/new' + '?' + apiKeyParam + apiKey, headers);
+    let msg = await response.json();
+    return msg.guest_session_id;
+}
