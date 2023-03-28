@@ -37,8 +37,6 @@
     },
     computed: {
       threeMovies() {
-          console.log("home")
-          console.log(this.movies)
         return this.movies;
       },
     },
@@ -53,4 +51,3 @@
   <style lang="css" scoped>
   
   </style>
-  
