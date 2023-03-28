@@ -20,12 +20,12 @@ const router = createRouter({
     {
       path: "/movies",
       name: "movies",
-      component: () => import("../views/ProductsView.vue"),
+      component: () => import("../views/MoviesView.vue"),
     },
     {
       path: "/movie/:id",
       name: "movie",
-      component: () => import("../views/ProductDetailsView.vue"),
+      component: () => import("../views/MovieDetailsView.vue"),
       props: castRouteParams
     },
   ]
