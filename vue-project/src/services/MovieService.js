@@ -30,3 +30,18 @@ export async function searchMoviesByGenreAndYear(genre, year) {
     let movies = await response.json();
     return movies;
 }
+
+export async function rateMovie(movieId, rating, guestSessionId) {
+    // rating between 0.5 and 10
+    // TODO : guest_session_id
+    let options = {
+        method: 'POST',
+        headers: headers,
+        body: {
+            value: rating
+        },
+    };
+    const response = await fetch(baseURL + 'movie/' + movieId + '?' + apiKeyParam + apiKey + '&guest_session_id=' + guestSessionId, options);
+    let msg = await response.json();
+    return msg;
+}
