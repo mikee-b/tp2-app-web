@@ -31,13 +31,15 @@ export default {
   data() {
     return {
       title: "movies",
-      selectedmovie: null,
+      selectedMovie: null,
       pageNumber: 1,
     };
   },
   computed: {
     threeMovies() {
-      return this.movies.slice(start, 3);
+        console.log("home")
+        console.log(this.movies)
+      return this.movies;
     },
   },
   methods: {

@@ -16,8 +16,10 @@ export default {
       movies: []
     }
   },
-  mounted() {
+  created() {
     getRecentMovies().then(response => this.movies = response);
+    console.log('homeView')
+    console.log(this.movies)
   },
 };
 </script>
