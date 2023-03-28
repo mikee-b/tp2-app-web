@@ -1,6 +1,6 @@
 
 <template>
-  <RecentMovieList :products="products" :page-size="5"></RecentMovieList>
+  <RecentMovieList :movies="movies"></RecentMovieList>
 </template>
 
 <script>
