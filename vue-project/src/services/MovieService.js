@@ -25,9 +25,8 @@ export async function searchMoviesByKeyWords(keywords) {
     return movies;
 }
 
-export async function searchMoviesByYear(year) {
-    // keywords format should be : "keyword1,keyword2,keyword3"
-    const response = await fetch(baseURL + 'search/movie' + '?' + apiKeyParam + apiKey + '&year=' + year, headers);
+export async function searchMoviesByGenreAndYear(genre, year) {
+    const response = await fetch(baseURL + 'search/movie' + '?' + apiKeyParam + apiKey + '&query=' + genre + '&year=' + year, headers);
     let movies = await response.json();
     return movies;
 }
