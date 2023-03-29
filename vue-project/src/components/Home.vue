@@ -11,9 +11,9 @@
         }"
         @click="onSelect(movie)" 
       >
-       <img src={{ movie.picture }} alt="movie picture">
+      <p>wefbeb</p>
+       <!--<img src={{ movie.picture }} alt="movie picture">
         <span class="title">{{ movie.title }}</span>
-        <!-- <span class="img">{{ movie.img }}</span>
         <span class="release">{{ movie.release }}</span> -->
       </li>
     </ul>
@@ -37,7 +37,7 @@ export default {
   },
   computed: {
     threeMovies() {
-      return this.movies.slice(start, 3);
+      return this.movies;
     },
   },
   methods: {
