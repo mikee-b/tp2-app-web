@@ -37,7 +37,6 @@ export default {
   },
   methods: {
     onSelect(movie) {
-        console.log(movie.id)
       this.$router.push({ name: "movie", params: { id: movie.id } });
     },
   },
