@@ -4,9 +4,9 @@
     :src="baseUrlImg + movie.backdrop_path" width="600"  style="float: right" />
   <h2>{{ movie.overview }}</h2>
   <p>Rating: {{ movie.vote_average }}</p>
-  <p>durée: {{ product.runtime }}</p>
-  <p>année de parution: {{ movie.release_date }}</p>
-  <p>site: {{ movie.homepage }}</p>
+  <p>durée: {{ movie.runtime }}</p>
+  <p>année de parution: {{ getYearFromDate(movie.release_date) }}</p>
+  <p>site: <a :href="movie.homepage" target="_blank">{{ movie.homepage }}</a></p>
 </template>
 
 <script>
@@ -28,6 +28,14 @@ export default {
   mounted() {
     getMovie(this.id).then(response => this.movie = response);
   },
+  methods: {
+    getYearFromDate(date)
+    {
+        if (date != undefined)
+            date = date.split("-", 1).pop();
+        return date;
+    }
+  }
 };
 </script>
 
