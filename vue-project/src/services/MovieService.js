@@ -19,6 +19,12 @@ export async function getMovie(id) {
     return movie;
 }
 
+export async function getGenres() {
+    const response = await fetch(baseURL + 'genre/movie/list' + '?' + apiKeyParam + apiKey, headers);
+    let genres = await response.json();
+    return genres.genres;
+}
+
 export async function searchMoviesByKeyWords(keywords) {
     // keywords format should be : "keyword1,keyword2,keyword3"
     const response = await fetch(baseURL + 'search/movie' + '?' + apiKeyParam + apiKey + '&query=' + keywords, headers);
