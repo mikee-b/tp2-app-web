@@ -4,7 +4,7 @@
     :src="baseUrlImg + movie.backdrop_path" width="600"  style="float: right" />
   <h2>{{ movie.overview }}</h2>
   <p>Rating: {{ movie.vote_average }}</p>
-  <p>durée: {{ movie.runtime }}</p>
+  <p>durée: {{ movie.runtime }} minutes</p>
   <p>année de parution: {{ getYearFromDate(movie.release_date) }}</p>
   <p>site: <a :href="movie.homepage" target="_blank">{{ movie.homepage }}</a></p>
 </template>
