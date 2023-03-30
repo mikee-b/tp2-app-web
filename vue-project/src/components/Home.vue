@@ -4,9 +4,8 @@
     <ul class="movies">
       <li
         v-for="movie in threeMovies"
-        :key="movie.id"
         
-        @click="onSelect(movie.title)" 
+        @click="onSelect(movie)" 
       >
         <img class="movie-img" :src="baseUrlImg + movie.backdrop_path" alt="movie picture">
         <span class="movie-title">{{ movie.title }}</span>
@@ -39,6 +38,7 @@ export default {
   },
   methods: {
     onSelect(movie) {
+        console.log(movie.id)
       this.$router.push({ name: "movie", params: { id: movie.id } });
     },
   },
