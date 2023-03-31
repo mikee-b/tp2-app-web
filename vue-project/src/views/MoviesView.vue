@@ -1,3 +1,4 @@
+
 <template>
     <RecentMovieList :movies="movies"></RecentMovieList>
   </template>
@@ -15,7 +16,7 @@
         movies: []
       }
     },
-    created() {
+    mounted() {
       getRecentMovies().then(response => this.movies = response);
     },
   };
