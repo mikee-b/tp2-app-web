@@ -65,6 +65,7 @@ nav a.router-link-exact-active:hover {
 
 nav a {
   display: inline-block;
+  font-size: 1.2rem;
   padding: 0 1rem;
   font-size: 1.2rem;
   border-left: 1px solid var(--color-border);
