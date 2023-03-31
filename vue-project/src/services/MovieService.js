@@ -13,6 +13,12 @@ export async function getRecentMovies() {
   return await json.results.slice(0, 3);
 }
 
+export async function getGenres() {
+    const response = await fetch(baseURL + 'genre/movie/list' + '?' + apiKeyParam + apiKey, headers);
+    let json = await response.json();
+    return json.genres;
+}
+
 export async function getMovie(id) {
     const response = await fetch(baseURL + 'movie/' + id + '?' + apiKeyParam + apiKey, headers);
     let movie = await response.json();
