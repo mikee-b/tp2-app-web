@@ -9,31 +9,54 @@ import { RouterLink, RouterView } from 'vue-router'
         <RouterLink to="/about">About</RouterLink>
         <RouterLink to="/movies">Movies</RouterLink>
       </nav>
+      <span class="search">
+        Recherche par nom: <input v-model="filterName" />
+        Genre: <select v-for="genre in this.genres">
+          <option>{{ genre.name }}</option>
+        </select>
+        Year: <input class="input-year" />
+      </span>
   </header>
 
   <RouterView />
 </template>
 
+<script>
+/*import RecentMovieList from '../components/Home.vue'
+import { getRecentMovies } from '@/services/MovieService.js';
+
+export default {
+  /*components: {
+    RecentMovieList,
+  },
+  data() {
+    return {
+      genres: []
+    }
+  },
+  created() {
+    getGenres().then(response => this.genres = response);
+  },
+};*/
+</script>
+
 <style scoped>
 header {
+  background: rgba(255, 0, 123, 0.1);
+  display: flex;
+  padding: 1.5rem;
+  justify-content:space-around;
   line-height: 1.5;
   max-height: 100vh;
 }
 
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
-}
-
 nav {
-  width: 100%;
   font-size: 12px;
   text-align: center;
-  margin-top: 2rem;
 }
 
 nav a.router-link-exact-active {
-  color: var(--color-text);
+  color: var(--selected-color);
 }
 
 nav a.router-link-exact-active:hover {
@@ -43,6 +66,7 @@ nav a.router-link-exact-active:hover {
 nav a {
   display: inline-block;
   padding: 0 1rem;
+  font-size: 1.2rem;
   border-left: 1px solid var(--color-border);
 }
 
@@ -50,30 +74,29 @@ nav a:first-of-type {
   border: 0;
 }
 
+header .search{
+  align-self: center;
+  color: var(--nav-content-color);
+  font-size: 1.2rem;
+}
+
+header .search > input{
+  background-color: var(--nav-content-color);
+  height: 2rem;
+  width: 15rem;
+  border: 2px solid var(--selected-color);
+  border-radius: 25px;
+}
+
+header .search > .input-year{
+  width: 6rem;
+}
+
 @media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
-
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
   header .wrapper {
     display: flex;
     place-items: flex-start;
     flex-wrap: wrap;
-  }
-
-  nav {
-    text-align: left;
-    margin-left: -1rem;
-    font-size: 1rem;
-
-    padding: 1rem 0;
-    margin-top: 1rem;
   }
 }
 </style>
