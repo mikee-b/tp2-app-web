@@ -3,6 +3,7 @@
 :root {
   --background-color: rgb(15, 14, 35);
   --background-color-hover: hsla(160, 100%, 74%, 0.2);
+  --nav-content-color: hsla(160, 100%, 37%, 1);
   --selected-color: rgba(0, 255, 0, 0.2);
   --main-text-color: rgb(255, 81, 110);
   --second-text-color: rgb(148, 44, 61);
@@ -23,7 +24,7 @@ body {
 a,
 .green {
   text-decoration: none;
-  color: hsla(160, 100%, 37%, 1);
+  color: var(--nav-content-color);
   transition: 0.4s;
 }
 

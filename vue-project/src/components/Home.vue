@@ -11,7 +11,6 @@
         <span class="movie-title">{{ movie.title }}</span>
         <span class="movie-release">{{ movie.release_date }}</span>
       </li>
-    
     </ul>
   </div>
 </template>
