@@ -3,7 +3,12 @@
     <img
       :src="baseUrlImg + movie.backdrop_path" width="600"  style="float: right" />
     <h2>{{ movie.overview }}</h2>
-    <p>Rating: {{ movie.vote_average }}</p>
+    <div class="average-rating">
+        <div class="average-rating-star" v-for="index in 5" :key="index">
+            <p v-if="getNumberOfStarsFromRating(movie.vote_average) >= (index)" class="static-rate full-star ">★</p>
+            <p v-if="getNumberOfStarsFromRating(movie.vote_average) <= (index - 1)" class="static-rate empty-star">★</p>
+        </div>
+    </div>
     <p>durée: {{ movie.runtime }}</p>
     <p>année de parution: {{ getYearFromDate(movie.release_date) }}</p>
     <p>site: <a :href="movie.homepage" target="_blank">{{ movie.homepage }}</a></p>
@@ -57,13 +62,16 @@
           if (rating == null)
               rating = 0
           rateMovie(this.id, rating, 'guestSessionId' /*TODO*/)
+      },
+      getNumberOfStarsFromRating(num) {
+        return Math.round(num / 2);
       }
     }
   };
   </script>
   
   <style lang="css" scoped>
-      .rate {
+.rate {
           float: left;
           height: 46px;
           padding: 0 10px;
@@ -98,4 +106,21 @@
       .rate > label:hover ~ input:checked ~ label {
           color: #c59b08;
       }
-  </style>
+
+      .average-rating-star {
+          display: inline;
+      }
+      .static-rate {
+        display: inline; 
+        font-size:30px;
+      }
+
+      .empty-star {
+        color:#ccc;
+      }
+      
+      .full-star {
+        color:#ffc700;
+      }
+
+</style>
