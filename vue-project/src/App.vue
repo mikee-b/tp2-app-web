@@ -10,9 +10,9 @@ import { RouterLink, RouterView } from 'vue-router'
         <RouterLink to="/movies">Movies</RouterLink>
       </nav>
       <span class="search">
-        Recherche par nom: <input v-model="filterName" />
-        Genre: <select v-for="genre in this.genres">
-          <option>{{ genre.name }}</option>
+        Recherche par mots-clés: <input v-model="filterName" />
+        Genre: <select>
+          <option v-for="genre in this.genres">{{ genre.name }}</option>
         </select>
         Year: <input class="input-year" />
       </span>
@@ -22,13 +22,9 @@ import { RouterLink, RouterView } from 'vue-router'
 </template>
 
 <script>
-/*import RecentMovieList from '../components/Home.vue'
-import { getRecentMovies } from '@/services/MovieService.js';
+import { getGenres } from '@/services/MovieService.js';
 
 export default {
-  /*components: {
-    RecentMovieList,
-  },
   data() {
     return {
       genres: []
@@ -37,7 +33,7 @@ export default {
   created() {
     getGenres().then(response => this.genres = response);
   },
-};*/
+};
 </script>
 
 <style scoped>

@@ -11,7 +11,7 @@ const sessionId = await getNewGuestSessionId();
 export async function getRecentMovies() {
   const response = await fetch(baseURL + '/trending/movie/day' + '?' + apiKeyParam + apiKey, headers);
   let json = await response.json()
-  return await json.results.slice(0, 9);
+  return await json.results.slice(0, 3);
 }
 
 export async function getGenres() {
@@ -33,9 +33,22 @@ export async function searchMoviesByKeyWords(keywords) {
     return movies;
 }
 
-export async function searchMoviesByGenreAndYear(genre, year) {
-    const response = await fetch(baseURL + 'search/movie' + '?' + apiKeyParam + apiKey + '&query=' + genre + '&year=' + year, headers);
+export async function searchMoviesByKeyWordsAndGenre(keywords, genre) {
+    // not implemented
+    let movies = null;
+    return movies;
+}
+
+export async function searchMoviesByKeyWordsAndYear(keywords, year) {
+    // keywords format should be : "keyword1,keyword2,keyword3"
+    const response = await fetch(baseURL + 'search/movie' + '?' + apiKeyParam + apiKey + '&query=' + keywords + '&year=' + year, headers);
     let movies = await response.json();
+    return movies;
+}
+
+export async function searchMoviesByKeyWordsGenreAndYear(keywords, genre, year) {
+    // not implemented
+    let movies = null;
     return movies;
 }
 
