@@ -9,13 +9,17 @@ import { RouterLink, RouterView } from 'vue-router'
         <RouterLink to="/about">About</RouterLink>
         <RouterLink to="/movies">Movies</RouterLink>
       </nav>
-      <span class="search">
-        Recherche par mots-clés: <input v-model="filterName" />
-        Genre: <select>
-          <option v-for="genre in this.genres">{{ genre.name }}</option>
-        </select>
-        Year: <input class="input-year" />
-      </span>
+      <form action="" method="post" @submit.prevent="executeSearch">
+          <span class="search">
+            Recherche par mots-clés: <input v-model="keyWordInput" />
+            Genre: <select v-model="genreSelect">
+              <option></option>
+              <option v-for="genre in this.genres">{{ genre.name }}</option>
+            </select>
+            Year: <input v-model="yearInput" class="input-year" />
+            <button>search</button>
+          </span>
+      </form>
   </header>
 
   <RouterView />
@@ -23,11 +27,51 @@ import { RouterLink, RouterView } from 'vue-router'
 
 <script>
 import { getGenres } from '@/services/MovieService.js';
+import { searchMoviesByKeyWords } from '@/services/MovieService.js';
 
 export default {
   data() {
     return {
-      genres: []
+      genres: [],
+      keyWordInput: '',
+      genreSelect: '',
+      yearInput: ''
+    }
+  },
+  watch: {
+    async keyWordInput()
+    {
+        if (this.keyWordInput.length >= 3)
+        {
+            this.executeSearch()
+        }
+    },
+
+    async genreSelect()
+    {
+        this.executeSearch()
+    },
+
+    async yearInput()
+    {
+        if (this.yearInput.length == 4 || this.yearInput.length == 0)
+            this.executeSearch()
+    },
+  },
+  methods: {
+    async executeSearch()
+    {
+        if (this.yearInput != '')
+        {
+            if (this.genreSelect != '')
+                this.$router.push(`/movies?` + `query=` + this.keyWordInput + `&` + `genre=` + this.genreSelect + `&` + `year=` + this.yearInput)
+            else
+                this.$router.push(`/movies?` + `query=` + this.keyWordInput + `&` + `year=` + this.yearInput)
+        }
+        else if (this.genreSelect != '')
+            this.$router.push(`/movies?` + `query=` + this.keyWordInput + `&` + `genre=` + this.genreSelect)
+        else
+        this.$router.push(`/movies?` + `query=` + this.keyWordInput)
     }
   },
   created() {
