@@ -28,6 +28,7 @@ export async function getMovie(id) {
 
 export async function searchMoviesByKeyWords(keywords) {
     // keywords format should be : "keyword1,keyword2,keyword3"
+    let query = baseURL + 'search/movie' + '?' + apiKeyParam + apiKey + '&query=' + keywords, headers;
     const response = await fetch(baseURL + 'search/movie' + '?' + apiKeyParam + apiKey + '&query=' + keywords, headers);
     let movies = await response.json();
     return movies;
@@ -70,7 +71,6 @@ export async function rateMovie(movieId, rating, guestSessionId) {
 export async function getNewGuestSessionId() {
     const response = await fetch(baseURL + 'authentication/guest_session/new' + '?' + apiKeyParam + apiKey, headers);
     let msg = await response.json();
-    console.log(msg.guest_session_id);
     return msg.guest_session_id;
 }
 

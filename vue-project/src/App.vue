@@ -61,17 +61,8 @@ export default {
   methods: {
     async executeSearch()
     {
-        if (this.yearInput != '')
-        {
-            if (this.genreSelect != '')
-                this.$router.push(`/movies?` + `query=` + this.keyWordInput + `&` + `genre=` + this.genreSelect + `&` + `year=` + this.yearInput)
-            else
-                this.$router.push(`/movies?` + `query=` + this.keyWordInput + `&` + `year=` + this.yearInput)
-        }
-        else if (this.genreSelect != '')
-            this.$router.push(`/movies?` + `query=` + this.keyWordInput + `&` + `genre=` + this.genreSelect)
-        else
-        this.$router.push(`/movies?` + `query=` + this.keyWordInput)
+        this.$router.push(`/movies?` + `searchQuery=` + this.keyWordInput + `&` + `genre=` + this.genreSelect + `&` + `year=` + this.yearInput).then(this.$forceUpdate())
+
     }
   },
   created() {
