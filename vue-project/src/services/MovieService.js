@@ -2,15 +2,16 @@ const apiKey = '7a43453c090876ec404f9d3117402b26';
 const apiKeyParam = 'api_key='
 const baseURL = 'https://api.themoviedb.org/3/';
 const headers = {
-  Accept: "application/json",
-  "Content-Type": "application/json"
+    "Accept": "application/json;charset=utf-8",
+    "Content-Type": "application/json;charset=utf-8"
 };
+const sessionId = await getNewGuestSessionId();
 
 
 export async function getRecentMovies() {
   const response = await fetch(baseURL + '/trending/movie/day' + '?' + apiKeyParam + apiKey, headers);
   let json = await response.json()
-  return await json.results.slice(0, 3);
+  return await json.results.slice(0, 9);
 }
 
 export async function getGenres() {
@@ -48,7 +49,7 @@ export async function rateMovie(movieId, rating, guestSessionId) {
             value: rating
         },
     };
-    const response = await fetch(baseURL + 'movie/' + movieId + '?' + apiKeyParam + apiKey + '&guest_session_id=' + guestSessionId, options);
+    const response = await fetch(baseURL + 'movie/' + movieId + '/rating?' + apiKeyParam + apiKey + '&guest_session_id=' + guestSessionId, options);
     let msg = await response.json();
     return msg;
 }
@@ -56,5 +57,10 @@ export async function rateMovie(movieId, rating, guestSessionId) {
 export async function getNewGuestSessionId() {
     const response = await fetch(baseURL + 'authentication/guest_session/new' + '?' + apiKeyParam + apiKey, headers);
     let msg = await response.json();
+    console.log(msg.guest_session_id);
     return msg.guest_session_id;
+}
+
+export function getCurrentSessionId() {
+    return sessionId;
 }
