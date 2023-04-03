@@ -32,6 +32,7 @@
   <script>
   import { getMovie } from '@/services/MovieService.js';
   import { rateMovie } from '@/services/MovieService.js';
+  import { getCurrentSessionId } from '@/services/MovieService.js';
   
   export default {
     data() {
@@ -60,8 +61,8 @@
           const formData = new FormData(e.target);
           let rating = formData.get("rate");
           if (rating == null)
-              rating = 0
-          rateMovie(this.id, rating, 'guestSessionId' /*TODO*/)
+              rating = 0.5;
+          rateMovie(this.id, rating, getCurrentSessionId() /*TODO*/)
       },
       getNumberOfStarsFromRating(num) {
         return Math.round(num / 2);
