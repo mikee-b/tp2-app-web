@@ -13,8 +13,8 @@ import { RouterLink, RouterView } from 'vue-router'
           <span class="search">
             Recherche par mots-clés: <input v-model="keyWordInput" />
             Genre: <select v-model="genreSelect">
-              <option></option>
-              <option v-for="genre in this.genres">{{ genre.name }}</option>
+              <option value=""></option>
+              <option :value="genre.id" v-for="genre in this.genres">{{ genre.name }}</option>
             </select>
             Year: <input v-model="yearInput" class="input-year" />
             <button>search</button>
@@ -29,7 +29,7 @@ import { RouterLink, RouterView } from 'vue-router'
 
 <script>
 import { getGenres } from '@/services/MovieService.js';
-import { searchMoviesByKeyWords } from '@/services/MovieService.js';
+import { searchMoviesByKeyWordsGenreAndYear } from '@/services/MovieService.js';
 
 export default {
   data() {
