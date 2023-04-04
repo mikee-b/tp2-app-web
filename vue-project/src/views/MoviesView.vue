@@ -5,9 +5,8 @@
   
   <script>
   import RecentMovieList from '../components/RecentMovies.vue'
-  import { searchMoviesByKeyWords } from '@/services/MovieService.js';
-import SearchResults from '../components/SearchResults.vue';
-import { searchMoviesByKeyWordsGenreAndYear } from '../services/MovieService';
+  import SearchResults from '../components/SearchResults.vue';
+  import { searchMoviesByKeyWordsGenreAndYear } from '../services/MovieService';
   
   export default {
     components: {

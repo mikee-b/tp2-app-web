@@ -26,30 +26,11 @@ export async function getMovie(id) {
     return movie;
 }
 
-export async function searchMoviesByKeyWords(keywords) {
-    // keywords format should be : "keyword1,keyword2,keyword3"
-    let query = baseURL + 'search/movie' + '?' + apiKeyParam + apiKey + '&query=' + keywords, headers;
+export async function searchMoviesByKeyWordsGenreAndYear(keywords, genre, year) {
+    let query = baseURL + 'discover/movie?' + apiKeyParam + apiKey + '&year=' + year + '&with_keywords=' + keywords + '&with_genres=' + genre + '&include_adult=false', headers;
     const response = await fetch(baseURL + 'search/movie' + '?' + apiKeyParam + apiKey + '&query=' + keywords, headers);
     let movies = await response.json();
-    return movies;
-}
-
-export async function searchMoviesByKeyWordsAndGenre(keywords, genre) {
-    // not implemented
-    let movies = null;
-    return movies;
-}
-
-export async function searchMoviesByKeyWordsAndYear(keywords, year) {
-    // keywords format should be : "keyword1,keyword2,keyword3"
-    const response = await fetch(baseURL + 'search/movie' + '?' + apiKeyParam + apiKey + '&query=' + keywords + '&year=' + year, headers);
-    let movies = await response.json();
-    return movies;
-}
-
-export async function searchMoviesByKeyWordsGenreAndYear(keywords, genre, year) {
-    // not implemented
-    let movies = null;
+    console.log('test')
     return movies;
 }
 
@@ -60,7 +41,7 @@ export async function rateMovie(movieId, rating, guestSessionId) {
         method: 'POST',
         headers: headers,
         body: {
-            value: rating
+            "value": rating
         },
     };
     const response = await fetch(baseURL + 'movie/' + movieId + '/rating?' + apiKeyParam + apiKey + '&guest_session_id=' + guestSessionId, options);

@@ -27,7 +27,7 @@ import { RouterLink, RouterView } from 'vue-router'
 
 <script>
 import { getGenres } from '@/services/MovieService.js';
-import { searchMoviesByKeyWords } from '@/services/MovieService.js';
+import { searchMoviesByKeyWordsGenreAndYear } from '@/services/MovieService.js';
 
 export default {
   data() {
