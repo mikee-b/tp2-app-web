@@ -3,7 +3,7 @@
   </template>
   
   <script>
-  import RecentMovieList from '../components/Home.vue'
+  import RecentMovieList from '../components/RecentMovies.vue'
   import { getRecentMovies } from '@/services/MovieService.js';
   
   export default {
