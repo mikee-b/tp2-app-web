@@ -1,6 +1,7 @@
 <template>
     <div>
       <h2 class="title">{{ title }}</h2>
+      <h3 class="greetingMessage">{{ greetingMessage }}</h3>
       <ul class="movies">
         <li
           v-for="movie in threeMovies"
@@ -26,6 +27,7 @@
     data() {
       return {
         title: "Most Popular Movies",
+        greetingMessage: "🎥Welcome movies enjoyers🎥",
         selectedmovie: null,
         baseUrlImg: "https://image.tmdb.org/t/p/w500"
       };
