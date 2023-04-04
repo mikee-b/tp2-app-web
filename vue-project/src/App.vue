@@ -12,7 +12,7 @@ import { RouterLink, RouterView } from 'vue-router'
       <form action="" method="post" @submit.prevent="executeSearch">
           <span class="search">
             Recherche par mots-clés: <input v-model="keyWordInput" />
-            Genre: <select v-model="genreSelect">
+            Genre: <select class="genre" v-model="genreSelect">
               <option value=""></option>
               <option :value="genre.id" v-for="genre in this.genres">{{ genre.name }}</option>
             </select>
@@ -74,14 +74,27 @@ export default {
 </script>
 
 <style scoped>
- .credit{
-      position: fixed;
-      bottom: 10px;
-      right: 0;
-      left: 0;
-      text-align: center;
-    }
-
+.credit{
+  position: fixed;
+  bottom: 10px;
+  right: 0;
+  left: 0;
+  text-align: center;
+}
+.genre{
+  background-color: var(--nav-content-color);
+}
+.genre option{
+  color: #fff;
+    font-size: 0.8rem;
+}
+button{
+margin-left: 10px;
+}
+input{
+  color: #fff;
+  font-size: 1rem;
+}
 header {
   background: rgba(255, 0, 123, 0.1);
   display: flex;
@@ -92,7 +105,6 @@ header {
 }
 
 nav {
-  font-size: 12px;
   text-align: center;
 }
 
