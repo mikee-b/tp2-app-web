@@ -1,7 +1,7 @@
 <template>
     <div>
-      <h2 class="title">{{ title }}</h2>
       <h3 class="greetingMessage">{{ greetingMessage }}</h3>
+      <h2 class="title">{{ title }}</h2>
       <ul class="movies">
         <li
           v-for="movie in threeMovies"
@@ -55,12 +55,17 @@
       padding: 0;
     }
   
-    .title{
+    .title, .greetingMessage{
       text-align: center;
-      text-decoration: underline;
-      font-size: 2rem;
       color: var(--main-text-color);
       margin: 2rem 0;
+    }
+    .title{
+      font-size: 2rem;
+      text-decoration: underline;
+    }
+    .greetingMessage{
+      font-size: 3rem;
     }
     .movies .movie-img{
       width: 25vw;
