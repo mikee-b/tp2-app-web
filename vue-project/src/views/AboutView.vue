@@ -5,11 +5,16 @@
 </template>
 
 <style>
-@media (min-width: 1024px) {
-  .about {
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-  }
+@keyframes move-text {
+  0% {margin:10rem;}
+  50% {margin:20rem;}
+  100% {margin:10rem;}
+}
+.about h1{
+  text-align: center;
+  margin:10rem;
+  color: var(--main-text-color);
+  animation: move-text 6s infinite;
+ 
 }
 </style>
