@@ -1,5 +1,6 @@
 <template>
     <div>
+      <h2 class="title">{{ title }}</h2>
       <ul class="movies">
         <li
           v-for="movie in this.movies.results"
@@ -25,7 +26,7 @@
     },
     data() {
       return {
-        title: "Most Popular Movies",
+        title: "Search your favorite movie!",
         selectedmovie: null,
         baseUrlImg: "https://image.tmdb.org/t/p/w500"
       };
