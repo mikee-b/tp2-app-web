@@ -21,7 +21,9 @@ import { RouterLink, RouterView } from 'vue-router'
           </span>
       </form>
   </header>
-
+  <footer class="credit">
+    <h2>credit: "Mathys Deshaies, Mikee Blanchet - 2023</h2>
+  </footer>
   <RouterView />
 </template>
 
@@ -72,6 +74,14 @@ export default {
 </script>
 
 <style scoped>
+ .credit{
+      position: fixed;
+      bottom: 10px;
+      right: 0;
+      left: 0;
+      text-align: center;
+    }
+
 header {
   background: rgba(255, 0, 123, 0.1);
   display: flex;
@@ -123,6 +133,13 @@ header .search > input{
 header .search > .input-year{
   width: 6rem;
 }
+.credit{
+      position: fixed;
+      bottom: 10px;
+      right: 0;
+      left: 0;
+      text-align: center;
+    }
 
 @media (min-width: 1024px) {
   header .wrapper {

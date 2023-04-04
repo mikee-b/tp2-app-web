@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="recent-movies-container">
       <h3 class="greetingMessage">{{ greetingMessage }}</h3>
       <h2 class="title">{{ title }}</h2>
       <ul class="movies">
@@ -54,7 +54,9 @@
       list-style-type: none;
       padding: 0;
     }
-  
+    .recent-movies-container{
+      position: relative;
+    }
     .title, .greetingMessage{
       text-align: center;
       color: var(--main-text-color);
