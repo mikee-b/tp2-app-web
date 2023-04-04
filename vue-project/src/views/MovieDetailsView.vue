@@ -1,17 +1,21 @@
 <template>
     <h2>{{ movie.title }}</h2>
-    <img
-    :src="baseUrlImg + movie.backdrop_path" width="600"  style="float: right" />
-    <p>{{ movie.overview }}</p>
+    <div class="img-main-info">
+        <img
+        :src="baseUrlImg + movie.backdrop_path" width="600" />
+        <div class="main-info">
+            <p class="overview">{{ movie.overview }}</p>
+            <p>Durée: {{ movie.runtime }} min</p>
+            <p>Année de parution: {{ getYearFromDate(movie.release_date) }}</p>
+            <p>Site: <a :href="movie.homepage" target="_blank">{{ movie.homepage }}</a></p>
+        </div>
+    </div>
     <div class="average-rating">
         <div class="average-rating-star" v-for="index in 5" :key="index">
             <p v-if="getNumberOfStarsFromRating(movie.vote_average) >= (index)" class="static-rate full-star ">★</p>
             <p v-if="getNumberOfStarsFromRating(movie.vote_average) <= (index - 1)" class="static-rate empty-star">★</p>
         </div>
     </div>
-    <p>durée: {{ movie.runtime }}</p>
-    <p>année de parution: {{ getYearFromDate(movie.release_date) }}</p>
-    <p>site: <a :href="movie.homepage" target="_blank">{{ movie.homepage }}</a></p>
     <form action="" method="post" @submit.prevent="submitForm">
       <div class="rate">
           <input type="radio" id="star5" name="rate" value="10" />
@@ -72,15 +76,31 @@
   </script>
   
   <style lang="css" scoped>
-h2, p{
+p{
+    color: var(--second-text-color);
+}
+h2{
     color: var(--main-text-color);
+    margin: 1rem 0;
+}
+.overview{
+    color: var(--main-text-color);
+    font-size: 1.5rem;   
+    margin-bottom: 1rem;
 }
 
+/* CSS */
+.main-info{
+    margin: 0 1rem;
+}
+.img-main-info{
+    display: flex;
+}
 /*css étoiles*/
 .rate {
     float: left;
     height: 46px;
-    padding: 0 10px;
+    padding: 0;
 }
 .rate:not(:checked) > input {
     position:absolute;
