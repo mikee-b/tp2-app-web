@@ -27,11 +27,19 @@ export async function getMovie(id) {
 }
 
 export async function searchMoviesByKeyWordsGenreAndYear(keywords, genre, year) {
-    let query = baseURL + 'discover/movie?' + apiKeyParam + apiKey + '&year=' + year + '&with_keywords=' + keywords + '&with_genres=' + genre + '&include_adult=false', headers;
-    const response = await fetch(baseURL + 'search/movie' + '?' + apiKeyParam + apiKey + '&query=' + keywords, headers);
+
+    let keywordsIds = getKeywordsIds(keywords);
+    let query = baseURL + 'discover/movie?' + apiKeyParam + apiKey + '&year=' + year + '&with_keywords=' + keywordsIds + '&with_genres=' + genre + '&include_adult=false', headers;
+    const response = await fetch(query, headers);
     let movies = await response.json();
-    console.log('test')
+    console.log(query)
+    console.log(movies)
     return movies;
+}
+
+export async function getKeywordsIds(keywords) {
+    
+    return ''
 }
 
 export async function rateMovie(movieId, rating, guestSessionId) {
