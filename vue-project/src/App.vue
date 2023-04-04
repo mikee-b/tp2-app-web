@@ -22,7 +22,7 @@ import { RouterLink, RouterView } from 'vue-router'
       </form>
   </header>
   <footer class="credit">
-    <h2>credit: "Mathys Deshaies, Mikee Blanchet - 2023</h2>
+    <h2>Mathys Deshaies, Mikee Blanchet - 2023</h2>
   </footer>
   <RouterView />
 </template>

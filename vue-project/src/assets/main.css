@@ -4,7 +4,8 @@
   --background-color: rgb(15, 14, 35);
   --background-color-hover: hsla(160, 100%, 74%, 0.2);
   --selected-color: rgba(0, 255, 0, 0.2);
-  --main-text-color: rgb(255, 81, 110);
+  --main-text-color: rgb(255, 62, 95);
+  --second-text-color: rgb(174, 48, 69);
 }
 
 #app {
