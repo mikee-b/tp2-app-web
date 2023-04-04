@@ -9,6 +9,14 @@
   --second-text-color: rgb(148, 44, 61);
 }
 
+h3{
+  font-size: 3rem;
+}
+
+h2{
+  font-size: 2rem;
+}
+
 #app {
   /*max-width: 1280px;*/
   margin: 0 auto;

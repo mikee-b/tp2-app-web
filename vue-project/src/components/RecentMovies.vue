@@ -63,11 +63,7 @@
       margin: 2rem 0;
     }
     .title{
-      font-size: 2rem;
       text-decoration: underline;
-    }
-    .greetingMessage{
-      font-size: 3rem;
     }
     .movies .movie-img{
       width: 25vw;

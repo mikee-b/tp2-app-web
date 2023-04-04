@@ -1,8 +1,8 @@
 <template>
-    <h1>{{ movie.title }}</h1>
+    <h2>{{ movie.title }}</h2>
     <img
-      :src="baseUrlImg + movie.backdrop_path" width="600"  style="float: right" />
-    <h2>{{ movie.overview }}</h2>
+    :src="baseUrlImg + movie.backdrop_path" width="600"  style="float: right" />
+    <p>{{ movie.overview }}</p>
     <div class="average-rating">
         <div class="average-rating-star" v-for="index in 5" :key="index">
             <p v-if="getNumberOfStarsFromRating(movie.vote_average) >= (index)" class="static-rate full-star ">★</p>
@@ -72,56 +72,61 @@
   </script>
   
   <style lang="css" scoped>
+h2, p{
+    color: var(--main-text-color);
+}
+
+/*css étoiles*/
 .rate {
-          float: left;
-          height: 46px;
-          padding: 0 10px;
-      }
-      .rate:not(:checked) > input {
-          position:absolute;
-          top:-9999px;
-      }
-      .rate:not(:checked) > label {
-          float:right;
-          width:1em;
-          overflow:hidden;
-          white-space:nowrap;
-          cursor:pointer;
-          font-size:30px;
-          color:#ccc;
-      }
-      .rate:not(:checked) > label:before {
-          content: '★ ';
-      }
-      .rate > input:checked ~ label {
-          color: #ffc700;    
-      }
-      .rate:not(:checked) > label:hover,
-      .rate:not(:checked) > label:hover ~ label {
-          color: #deb217;  
-      }
-      .rate > input:checked + label:hover,
-      .rate > input:checked + label:hover ~ label,
-      .rate > input:checked ~ label:hover,
-      .rate > input:checked ~ label:hover ~ label,
-      .rate > label:hover ~ input:checked ~ label {
-          color: #c59b08;
-      }
+    float: left;
+    height: 46px;
+    padding: 0 10px;
+}
+.rate:not(:checked) > input {
+    position:absolute;
+    top:-9999px;
+}
+.rate:not(:checked) > label {
+    float:right;
+    width:1em;
+    overflow:hidden;
+    white-space:nowrap;
+    cursor:pointer;
+    font-size:30px;
+    color:#ccc;
+}
+.rate:not(:checked) > label:before {
+    content: '★ ';
+}
+.rate > input:checked ~ label {
+    color: #ffc700;    
+}
+.rate:not(:checked) > label:hover,
+.rate:not(:checked) > label:hover ~ label {
+    color: #deb217;  
+}
+.rate > input:checked + label:hover,
+.rate > input:checked + label:hover ~ label,
+.rate > input:checked ~ label:hover,
+.rate > input:checked ~ label:hover ~ label,
+.rate > label:hover ~ input:checked ~ label {
+    color: #c59b08;
+}
 
-      .average-rating-star {
-          display: inline;
-      }
-      .static-rate {
-        display: inline; 
-        font-size:30px;
-      }
+.average-rating-star {
+    display: inline;
+}
+.static-rate {
+display: inline; 
+font-size:30px;
+}
 
-      .empty-star {
-        color:#ccc;
-      }
-      
-      .full-star {
-        color:#ffc700;
-      }
+.empty-star {
+color:#ccc;
+}
+
+.full-star {
+color:#ffc700;
+}
 
 </style>
