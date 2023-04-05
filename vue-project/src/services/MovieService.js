@@ -28,23 +28,30 @@ export async function getMovie(id) {
 
 export async function searchMoviesByKeyWordsGenreAndYear(keywords, genre, year) {
 
-    let keywordsIds = getKeywordsIds(keywords);
+    let keywordsIds = await getKeywordsIds(keywords);
     let query = baseURL + 'discover/movie?' + apiKeyParam + apiKey + '&year=' + year + '&with_keywords=' + keywordsIds + '&with_genres=' + genre + '&include_adult=false', headers;
     const response = await fetch(query, headers);
     let movies = await response.json();
-    console.log(query)
-    console.log(movies)
     return movies;
 }
 
 export async function getKeywordsIds(keywords) {
-    
-    return ''
+    let keywordIds = '';
+    let keywordsArray = keywords.split(",");
+    for (let i = 0; i < keywordsArray.length; i++)
+    {
+        let query = baseURL + 'search/keyword?' + apiKeyParam + apiKey + '&query=' + keywordsArray[i], headers;
+        const response = await fetch(query, headers);
+        const json = await response.json();
+        
+        if (json.results.length > 0)
+            keywordIds += json.results[0].id + ','
+    }
+    return keywordIds;
 }
 
 export async function rateMovie(movieId, rating, guestSessionId) {
     // rating between 0.5 and 10
-    // TODO : guest_session_id
     let options = {
         method: 'POST',
         headers: headers,

@@ -66,7 +66,7 @@
           let rating = formData.get("rate");
           if (rating == null)
               rating = 0.5;
-          rateMovie(this.id, rating, getCurrentSessionId() /*TODO*/)
+          rateMovie(this.id, rating, getCurrentSessionId())
       },
       getNumberOfStarsFromRating(num) {
         return Math.round(num / 2);
