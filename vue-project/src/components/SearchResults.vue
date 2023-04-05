@@ -2,7 +2,7 @@
     <div>
       <ul class="movies">
         <li
-          v-for="movie in this.movies.results"
+          v-for="movie in getMovies()"
           
           @click="onSelect(movie)" 
         >
@@ -15,7 +15,8 @@
   </template>
   
   <script>
-  
+  import { getCurrentInstance} from "vue";
+
   export default {
     props: {
       movies: {
@@ -39,6 +40,12 @@
       onSelect(movie) {
         this.$router.push({ name: "movie", params: { id: movie.id } });
       },
+      getMovies()
+      {
+        let test = getCurrentInstance().vnode.key;
+        console.log(test.results)
+        return test.results
+    }
     },
   };
   </script>
