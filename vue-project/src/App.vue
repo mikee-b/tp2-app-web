@@ -9,17 +9,24 @@ import { RouterLink, RouterView } from 'vue-router'
         <RouterLink to="/about">About</RouterLink>
         <RouterLink to="/movies">Movies</RouterLink>
       </nav>
-      <form action="" method="post" @submit.prevent="executeSearch">
-          <span class="search">
-            Recherche par mots-clés: <input v-model="keyWordInput" />
-            Genre: <select class="genre" v-model="genreSelect">
-              <option value=""></option>
-              <option :value="genre.id" v-for="genre in this.genres">{{ genre.name }}</option>
-            </select>
-            Year: <input v-model="yearInput" class="input-year" />
-            <button>search</button>
-          </span>
-      </form>
+      <div class="main">
+        <form action="" method="post" @submit.prevent="executeSearch">
+            <span class="search">
+              Recherche par mots-clés: <input v-model="keyWordInput" placeholder="abc,def,..." />
+              Genre: <select class="genre" v-model="genreSelect">
+                <option value=""></option>
+                <option :value="genre.id" v-for="genre in this.genres">{{ genre.name }}</option>
+              </select>
+              Year: <input v-model="yearInput" class="input-year" placeholder="YYYY"/>
+              <button>search</button>
+            </span>
+        </form>
+        <div class="triage">
+          <p>Trier:</p>
+          <button>Note d'appréciation</button>
+          <button>Date de parution</button>
+        </div>
+      </div>
   </header>
   <footer class="credit">
     <h2>Mathys Deshaies, Mikee Blanchet - 2023</h2>
@@ -83,29 +90,36 @@ export default {
 }
 .genre{
   background-color: var(--nav-content-color);
+  height: 2rem;
+  color: #fff;
 }
 .genre option{
   color: #fff;
-    font-size: 0.8rem;
+  font-size: 0.8rem;
 }
 button{
-margin-left: 10px;
+  margin-left: 10px;
 }
-input{
-  color: #fff;
-  font-size: 1rem;
+.main{
+  display: flex;
+  flex-direction: column;
+}
+.triage{
+  display: flex;
+  margin-left: auto;
+  margin-right: auto;
+}
+.triage p{
+  color: var(--nav-content-color);
+  align-self: center;
 }
 header {
   background: rgba(255, 0, 123, 0.1);
   display: flex;
-  padding: 1.5rem;
-  justify-content:space-around;
+  padding: 0.5rem 5rem;
+  justify-content:space-between;
   line-height: 1.5;
   max-height: 100vh;
-}
-
-nav {
-  text-align: center;
 }
 
 nav a.router-link-exact-active {
@@ -117,7 +131,7 @@ nav a.router-link-exact-active:hover {
 }
 
 nav a {
-  display: inline-block;
+  display: flex;
   font-size: 1.2rem;
   padding: 0 1rem;
   font-size: 1.2rem;
@@ -135,6 +149,8 @@ header .search{
 }
 
 header .search > input{
+  color: #fff;
+  font-size: 1rem;
   background-color: var(--nav-content-color);
   height: 2rem;
   width: 15rem;
@@ -145,13 +161,6 @@ header .search > input{
 header .search > .input-year{
   width: 6rem;
 }
-.credit{
-      position: fixed;
-      bottom: 10px;
-      right: 0;
-      left: 0;
-      text-align: center;
-    }
 
 @media (min-width: 1024px) {
   header .wrapper {
