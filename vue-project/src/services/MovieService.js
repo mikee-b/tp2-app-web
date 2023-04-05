@@ -43,7 +43,9 @@ export async function getKeywordsIds(keywords) {
         let query = baseURL + 'search/keyword?' + apiKeyParam + apiKey + '&query=' + keywordsArray[i], headers;
         const response = await fetch(query, headers);
         const json = await response.json();
-        keywordIds += json.results[0].id + ','
+        
+        if (json.results.length > 0)
+            keywordIds += json.results[0].id + ','
     }
     return keywordIds;
 }
