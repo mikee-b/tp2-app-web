@@ -1,6 +1,6 @@
 
 <template>
-    <SearchResults :movies="movies"></SearchResults>
+    <SearchResults :key="movies"></SearchResults>
   </template>
   
   <script>
@@ -15,21 +15,33 @@
 },
     data() {
       return {
-        movies: []
+        movies: [],
+        // componentKey: 0 // nécessaire car c'est en changeant sa valeur que le component SearchResults s'update.
       }
     },
     mounted() {
-        let searchQuery = this.$route.query.searchQuery;
-        let year = this.$route.query.year;
-        let genre = this.$route.query.genre;
-        if (this.$route.query.searchQuery == undefined)
-            searchQuery = ''
-        if (this.$route.query.year == undefined)
-            year = ''
-        if (this.$route.query.genre == undefined)
-            genre = ''
-      searchMoviesByKeyWordsGenreAndYear(searchQuery, genre, year).then(response => this.movies = response);
+      this.updateSearchResults();
     },
+    beforeRouteUpdate(to, from)
+    {
+        this.updateSearchResults();
+    },
+    methods: {
+        updateSearchResults()
+        {
+            let searchQuery = this.$route.query.searchQuery;
+            let year = this.$route.query.year;
+            let genre = this.$route.query.genre;
+            if (this.$route.query.searchQuery == undefined)
+                searchQuery = ''
+            if (this.$route.query.year == undefined)
+                year = ''
+            if (this.$route.query.genre == undefined)
+                genre = ''
+            searchMoviesByKeyWordsGenreAndYear(searchQuery, genre, year).then(response => this.movies = response);
+            console.log(this.movies.total_results)
+        },
+    }
   };
   </script>
   
