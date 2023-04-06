@@ -5,14 +5,15 @@
       <button @click="prevPage" :disabled="pageNumber === 1">
         &lt; Previous
       </button>
-      Page {{ pageNumber }}
+      Page {{ currentPage() }}
       <button @click="nextPage" :disabled="pageNumber >= pageCount">
         Next &gt;
       </button>
+      <p>({{ getTotalResults() }} résultats)</p>
     </div>
     <ul class="movies">
       <li
-        v-for="movie in paginatedProducts"
+        v-for="movie in getMovies()"
         
         @click="onSelect(movie)" 
       >
@@ -25,6 +26,7 @@
 </template>
 
 <script>
+import { getCurrentInstance} from "vue";
 
 export default {
   props: {
@@ -32,48 +34,52 @@ export default {
       type: Array,
       default: () => [],
     },
-    pageSize: {
-      type: Number,
-      required: false,
-      default: 10,
-    },
   },
   data() {
     return {
       title: "Search your favorite movie!",
       selectedMovie: null,
       baseUrlImg: "https://image.tmdb.org/t/p/w500",
-      pageNumber: 1,
     };
   },
-  computed: {
-    movies() {
-      return ;
-    },
-    pageCount() {
-      let nbMovies = this.movies.total_results;
-      /*console.log(this.movies);
-      console.log(this.movies.total_results)*/
-      return Math.floor(nbMovies / this.pageSize);
-    },
-    paginatedProducts() {
-      const start = (this.pageNumber - 1) * this.pageSize,
-        end = start + this.pageSize;
-        console.log(this.movies.results[0]);
-      return this.movies.results;
-    },
-  },
   methods: {
+    updateSearchResults(page)
+        {
+            let searchQuery = this.$route.query.searchQuery;
+            let year = this.$route.query.year;
+            let genre = this.$route.query.genre;
+            if (this.$route.query.searchQuery == undefined)
+                searchQuery = ''
+            if (this.$route.query.year == undefined)
+                year = ''
+            if (this.$route.query.genre == undefined)
+                genre = ''
+            if (page == undefined)
+                page = 1
+            this.$router.push(`/movies?searchQuery=` + searchQuery + `&genre=` + genre + `&year=` + year + `&page=` + page);
+        },
+    getTotalResults()
+    {
+        return getCurrentInstance().vnode.key.total_results;
+    },
+    getMovies()
+    {
+        return getCurrentInstance().vnode.key.results;
+    },
     onSelect(movie) {
       this.$router.push({ name: "movie", params: { id: movie.id } });
     },
     nextPage() {
-      this.pageNumber++;
-      this.selectedMovie = null;
+        this.updateSearchResults(+this.$route.query.page + 1);
     },
     prevPage() {
-      this.pageNumber--;
-      this.selectedMovie = null;
+        let newPage = +this.$route.query.page - 1;
+        if (newPage < 1)
+            newPage = 1
+        this.updateSearchResults(newPage);
+    },
+    currentPage() {
+        return +this.$route.query.page;
     },
   },
 };

@@ -26,10 +26,10 @@ export async function getMovie(id) {
     return movie;
 }
 
-export async function searchMoviesByKeyWordsGenreAndYear(keywords, genre, year) {
+export async function searchMoviesByKeyWordsGenreAndYear(keywords, genre, year, page) {
 
     let keywordsIds = await getKeywordsIds(keywords);
-    let query = baseURL + 'discover/movie?' + apiKeyParam + apiKey + '&year=' + year + '&with_keywords=' + keywordsIds + '&with_genres=' + genre + '&include_adult=false', headers;
+    let query = baseURL + 'discover/movie?' + apiKeyParam + apiKey + '&year=' + year + '&with_keywords=' + keywordsIds + '&with_genres=' + genre + '&page=' + page + '&include_adult=false', headers;
     const response = await fetch(query, headers);
     let movies = await response.json();
     return movies;

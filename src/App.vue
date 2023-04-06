@@ -70,8 +70,7 @@ export default {
   methods: {
     async executeSearch()
     {
-        this.$router.push(`/movies?` + `searchQuery=` + this.keyWordInput + `&` + `genre=` + this.genreSelect + `&` + `year=` + this.yearInput).then(this.$forceUpdate())
-
+        this.$router.push(`/movies?searchQuery=` + this.keyWordInput + `&genre=` + this.genreSelect + `&year=` + this.yearInput + `&page=1`);
     }
   },
   created() {
