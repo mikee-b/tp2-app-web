@@ -32,8 +32,6 @@ export async function searchMoviesByKeyWordsGenreAndYear(keywords, genre, year) 
     let query = baseURL + 'discover/movie?' + apiKeyParam + apiKey + '&year=' + year + '&with_keywords=' + keywordsIds + '&with_genres=' + genre + '&include_adult=false', headers;
     const response = await fetch(query, headers);
     let movies = await response.json();
-    console.log(query)
-    console.log(movies)
     return movies;
 }
 

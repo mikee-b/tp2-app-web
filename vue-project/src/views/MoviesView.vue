@@ -1,6 +1,6 @@
 
 <template>
-    <SearchResults :movies="movies"></SearchResults>
+    <SearchResults :movies="movies" :page-size="10"></SearchResults>
   </template>
   
   <script>
