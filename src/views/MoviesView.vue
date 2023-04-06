@@ -39,7 +39,6 @@
             if (this.$route.query.genre == undefined)
                 genre = ''
             searchMoviesByKeyWordsGenreAndYear(searchQuery, genre, year).then(response => this.movies = response);
-            console.log(this.movies.total_results)
         },
     }
   };

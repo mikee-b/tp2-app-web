@@ -44,7 +44,6 @@
       getMovies()
       {
         let test = getCurrentInstance().vnode.key;
-        console.log(test.results)
         return test.results
     }
     },
