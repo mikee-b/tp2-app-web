@@ -1,6 +1,6 @@
 
 <template>
-    <SearchResults :key="movies"></SearchResults>
+    <SearchResults :key="movies" :page-size="10"></SearchResults>
   </template>
   
   <script>
