@@ -16,7 +16,6 @@
     data() {
       return {
         movies: [],
-        // componentKey: 0 // nécessaire car c'est en changeant sa valeur que le component SearchResults s'update.
       }
     },
     mounted() {
