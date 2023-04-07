@@ -50,7 +50,7 @@ export default {
   watch: {
     async keyWordInput()
     {
-        if (this.keyWordInput.length >= 3)
+        if (this.keyWordInput.length >= 3 || this.keyWordInput.length == 0)
         {
             this.executeSearch()
         }
