@@ -40,8 +40,12 @@ export default {
       title: "Search your favorite movie!",
       selectedMovie: null,
       baseUrlImg: "https://image.tmdb.org/t/p/w500",
+      key: null
     };
   },
+  created() {
+      this.key = getCurrentInstance().vnode.key;
+    },
   methods: {
     updateSearchResults(page)
         {
@@ -60,17 +64,24 @@ export default {
         },
     getTotalResults()
     {
-        return getCurrentInstance().vnode.key.total_results;
+        return this.key.total_results;
+    },
+    getTotalPages()
+    {
+        return this.key.total_pages;
     },
     getMovies()
     {
-        return getCurrentInstance().vnode.key.results;
+        return this.key.results;
     },
     onSelect(movie) {
       this.$router.push({ name: "movie", params: { id: movie.id } });
     },
     nextPage() {
-        this.updateSearchResults(+this.$route.query.page + 1);
+        let newPage = +this.$route.query.page + 1;
+        if (newPage > this.getTotalPages())
+            newPage = this.getTotalPages()
+        this.updateSearchResults(newPage);
     },
     prevPage() {
         let newPage = +this.$route.query.page - 1;
