@@ -32,6 +32,7 @@
             let year = '';
             let genre = '';
             let page = 1;
+            let sortBy = '';
             
             if (query == undefined)
             {
@@ -39,6 +40,7 @@
                 year = this.$route.query.year;
                 genre = this.$route.query.genre;
                 page = this.$route.query.page;
+                sortBy = this.$route.query.sortBy;
                 if (this.$route.query.searchQuery == undefined)
                     searchQuery = ''
                 if (this.$route.query.year == undefined)
@@ -47,6 +49,8 @@
                     genre = ''
                 if (this.$route.query.page == undefined)
                     page = 1
+                if (this.$route.query.sortBy == undefined)
+                    sortBy = 'rating'
             }
             else
             {
@@ -54,6 +58,7 @@
                 year = query.year;
                 genre = query.genre;
                 page = query.page;
+                sortBy = query.sortBy;
                 if (query.searchQuery == undefined)
                     searchQuery = ''
                 if (query.year == undefined)
@@ -62,9 +67,11 @@
                     genre = ''
                 if (query.page == undefined)
                     page = 1
+                if (query.sortBy == undefined)
+                    sortBy = 'rating'
             }
 
-            searchMoviesByKeyWordsGenreAndYear(searchQuery, genre, year, page).then(response => this.movies = response);
+            searchMoviesByKeyWordsGenreAndYear(searchQuery, genre, year, page, sortBy).then(response => this.movies = response);
         },
     }
   };

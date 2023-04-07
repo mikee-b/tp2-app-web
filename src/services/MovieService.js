@@ -29,7 +29,7 @@ export async function getMovie(id) {
 export async function searchMoviesByKeyWordsGenreAndYear(keywords, genre, year, page, sortMethod /* either  'date' or 'rating', default is rating*/) {
 
     let sortBy = 'vote_average.desc';
-    if (sortMethod == 'year')
+    if (sortMethod == 'date')
         sortBy = 'release_date.desc'
     let keywordsIds = await getKeywordsIds(keywords);
     let query = baseURL + 'discover/movie?' + apiKeyParam + apiKey + '&year=' + year + '&with_keywords=' + keywordsIds + '&with_genres=' + genre + '&page=' + page + '&sort_by=' + sortBy + '&include_adult=false', headers;

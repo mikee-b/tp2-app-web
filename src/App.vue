@@ -23,8 +23,10 @@ import { RouterLink, RouterView } from 'vue-router'
         </form>
         <div class="triage">
           <p>Trier:</p>
-          <button>Note d'appréciation</button>
-          <button>Date de parution</button>
+            <input v-model="sortRadio" type="radio" id="date" name="sort_method" v-bind:value="'date'">
+            <label for="date">Date de sortie</label>
+            <input v-model="sortRadio" type="radio" id="rating" name="sort_method" v-bind:value="'rating'" checked>
+            <label for="rating">Notes d'appréciation</label>
         </div>
       </div>
   </header>
@@ -44,7 +46,8 @@ export default {
       genres: [],
       keyWordInput: '',
       genreSelect: '',
-      yearInput: ''
+      yearInput: '',
+      sortRadio: 'rating'
     }
   },
   watch: {
@@ -55,22 +58,24 @@ export default {
             this.executeSearch()
         }
     },
-
     async genreSelect()
     {
         this.executeSearch()
     },
-
     async yearInput()
     {
         if (this.yearInput.length == 4 || this.yearInput.length == 0)
             this.executeSearch()
     },
+    async sortRadio()
+    {
+        this.executeSearch()
+    },
   },
   methods: {
     async executeSearch()
     {
-        this.$router.push(`/movies?searchQuery=` + this.keyWordInput + `&genre=` + this.genreSelect + `&year=` + this.yearInput + `&page=1`);
+        this.$router.push(`/movies?searchQuery=` + this.keyWordInput + `&genre=` + this.genreSelect + `&year=` + this.yearInput + `&sortBy=` + this.sortRadio + `&page=1`);
     }
   },
   created() {
