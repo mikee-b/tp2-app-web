@@ -22,6 +22,7 @@
         <span class="movie-release">{{ movie.release_date }}</span>
       </li>
     </ul>
+    <img class="no-result" :src="urlNoResultImg">
   </div>
 </template>
 
@@ -40,6 +41,7 @@ export default {
       title: "Search your favorite movie!",
       selectedMovie: null,
       baseUrlImg: "https://image.tmdb.org/t/p/w500",
+      urlNoResultImg: "",
       key: null
     };
   },
@@ -64,7 +66,15 @@ export default {
         },
     getTotalResults()
     {
-        return this.key.total_results;
+        let totalResults = this.key.total_results;
+        let div = document.getElementById("no-result");
+        if(totalResults === 0){
+          this.urlNoResultImg = "../../img/img_noresults_movies.png";
+        } else{
+          this.urlNoResultImg = "";
+        }
+        console.log(div)
+        return totalResults;
     },
     getTotalPages()
     {
@@ -97,6 +107,12 @@ export default {
 </script>
 
 <style lang="css" scoped>
+  .no-result{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 25vw;
+  }
   .movie-img{
     background-image: url(../../img/img_cannot_load_movie.png);
     width: 25vw;
@@ -104,7 +120,7 @@ export default {
     background-position: center;
     background-repeat: no-repeat;
     background-size: 15vw;
-}
+ }
   .movies{
     display: flex;
     justify-content: space-around;
