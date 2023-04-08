@@ -97,6 +97,13 @@ export default {
 </script>
 
 <style lang="css" scoped>
+  .movie-img{
+    background-image: url(../../img/img_noresults_movies.png);
+    width: 25vw;
+    height: 15vw;
+    background-position: center;
+    background-repeat: no-repeat;
+}
   .movies{
     display: flex;
     justify-content: space-around;
@@ -124,9 +131,6 @@ export default {
     font-size: 2rem;
     color: var(--main-text-color);
     margin: 2rem 0;
-  }
-  .movies .movie-img{
-    width: 25vw;
   }
   .movies .movie-title{
     font-size: 1.2rem;
