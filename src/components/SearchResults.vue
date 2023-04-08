@@ -98,11 +98,12 @@ export default {
 
 <style lang="css" scoped>
   .movie-img{
-    background-image: url(../../img/img_noresults_movies.png);
+    background-image: url(../../img/img_cannot_load_movie.png);
     width: 25vw;
     height: 15vw;
     background-position: center;
     background-repeat: no-repeat;
+    background-size: 15vw;
 }
   .movies{
     display: flex;
