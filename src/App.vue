@@ -24,9 +24,9 @@ import { RouterLink, RouterView } from 'vue-router'
         <div class="triage">
           <p>Trier:</p>
             <input v-model="sortRadio" type="radio" id="date" name="sort_method" v-bind:value="'date'">
-            <label for="date">Date de sortie</label>
+            <p for="date">Date de sortie</p>
             <input v-model="sortRadio" type="radio" id="rating" name="sort_method" v-bind:value="'rating'" checked>
-            <label for="rating">Notes d'appréciation</label>
+            <p for="rating">Notes d'appréciation</p>
         </div>
       </div>
   </header>
@@ -110,6 +110,8 @@ button{
 }
 .triage{
   display: flex;
+  margin-top: 0.5rem;
+  gap: 0.6rem;
   margin-left: auto;
   margin-right: auto;
 }
