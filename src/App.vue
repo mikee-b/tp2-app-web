@@ -29,6 +29,10 @@ import { RouterLink, RouterView } from 'vue-router'
             <p for="rating">Notes d'appréciation</p>
         </div>
       </div>
+      <div>
+        <button class="login">Connexion</button>
+        <button>Créer un compte</button>
+      </div>
   </header>
   <footer class="credit">
     <h2>Mathys Deshaies, Mikee Blanchet - 2023</h2>
@@ -85,6 +89,11 @@ export default {
 </script>
 
 <style scoped>
+.login{
+  background: rgb(66, 66, 66, 0.0);
+  border: 2px solid var(--nav-content-color);
+}
+
 .credit{
   position: fixed;
   bottom: 10px;
