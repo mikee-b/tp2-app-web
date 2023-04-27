@@ -66,7 +66,11 @@
       text-decoration: underline;
     }
     .movies .movie-img{
+      background-image: url(../../img/img_cannot_load_movie.png);
       width: 25vw;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: 15vw;
     }
     .movies .movie-title{
       font-size: 1.2rem;

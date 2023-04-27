@@ -93,6 +93,14 @@ h2{
 .main-info{
     margin: 0 1rem;
 }
+img{
+    background-image: url(../../img/img_cannot_load_movie.png);
+    width: 30vw;
+    height: 15vw;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 15vw;
+ }
 .img-main-info{
     display: flex;
 }
