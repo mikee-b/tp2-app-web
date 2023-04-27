@@ -30,7 +30,7 @@ import { RouterLink, RouterView } from 'vue-router'
         </div>
       </div>
       <div>
-        <button class="login">Connexion</button>
+        <button @click="onSelect()" class="login">Connexion</button>
         <button>Créer un compte</button>
       </div>
   </header>
@@ -80,7 +80,10 @@ export default {
     async executeSearch()
     {
         this.$router.push(`/movies?searchQuery=` + this.keyWordInput + `&genre=` + this.genreSelect + `&year=` + this.yearInput + `&sortBy=` + this.sortRadio + `&page=1`);
-    }
+    },
+    onSelect() {
+      this.$router.push(`/login`);
+    },
   },
   created() {
     getGenres().then(response => this.genres = response);

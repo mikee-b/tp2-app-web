@@ -28,6 +28,18 @@ const router = createRouter({
       component: () => import("../views/MovieDetailsView.vue"),
       props:true
     },
+    {
+      path: "/login",
+      name: "login",
+      component: () => import("../views/UserConnexionView.vue"),
+      props:true
+    },
+    {
+      path: "/signup",
+      name: "signup",
+      component: () => import("../views/CreateUserView.vue"),
+      props:true
+    },
   ]
 })
 
