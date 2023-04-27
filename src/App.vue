@@ -30,8 +30,8 @@ import { RouterLink, RouterView } from 'vue-router'
         </div>
       </div>
       <div>
-        <button @click="onSelect()" class="login">Connexion</button>
-        <button>Créer un compte</button>
+        <button @click="onLogin()" class="login">Connexion</button>
+        <button @click="onSignUp()">Créer un compte</button>
       </div>
   </header>
   <footer class="credit">
@@ -81,8 +81,11 @@ export default {
     {
         this.$router.push(`/movies?searchQuery=` + this.keyWordInput + `&genre=` + this.genreSelect + `&year=` + this.yearInput + `&sortBy=` + this.sortRadio + `&page=1`);
     },
-    onSelect() {
+    onLogin() {
       this.$router.push(`/login`);
+    },
+    onSignUp() {
+      this.$router.push(`/signup`);
     },
   },
   created() {
