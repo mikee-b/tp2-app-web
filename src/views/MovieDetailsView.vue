@@ -42,7 +42,24 @@
             <button id="update-rating" type="submit">Modifier</button>
         </form>
     </div>
+     <!--si administrateur ou user-->
+    <div>
+        <div class="card_commentary">
 
+        </div>
+    </div>
+    <div>
+        <button id="myBtn" @click=openSucessPopUp()>Click me</button>
+        <!-- The Modal -->
+        <div id="myModal" class="modal">
+
+        <!-- Modal content -->
+            <div class="modal-content">
+            <span id="close"  @click=closeSucessPopUp()>&times;</span>
+            <p>Hello! I am a popup.</p>
+            </div>
+        </div>
+    </div>
   </template>
   
   <script>
