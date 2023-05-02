@@ -37,25 +37,48 @@
                 <textarea type="text" placeholder="Commentaire ici..." maxlength="255"></textarea>
             </div>
             <!--si aucun commentaire-->
-            <button id="add-rating" type="submit">Ajouter</button>
+            <button id="add-rating" type="submit" @click=openSucessPopUp($event)>Ajouter</button>
             <!--si commentaire éxiste déjà-->
-            <button id="update-rating" type="submit">Modifier</button>
+            <button id="update-rating" type="submit" @click=openSucessPopUp($event)>Modifier</button>
         </form>
     </div>
      <!--si administrateur ou user-->
-    <div>
+     <h3>Commentaries</h3>
+    <div class="card_container">
+        <!--boucle for pour faire une carte pour chaque commentaire de l'api-->
         <div class="card_commentary">
-
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 1c-6.338 0-12 4.226-12 10.007 0 2.05.738 4.063 2.047 5.625.055 1.83-1.023 4.456-1.993 6.368 2.602-.47 6.301-1.508 7.978-2.536 9.236 2.247 15.968-3.405 15.968-9.457 0-5.812-5.701-10.007-12-10.007zm0 14h-6v-1h6v1zm6-3h-12v-1h12v1zm0-3h-12v-1h12v1z"/></svg>
+            <p class="name">Mikee Blanchet</p>
+            <p>1 janvier 2020</p>
+            <p class="commentary">wevhbiwfehbiwfehbiwfebiwefbhiwefhbi</p>
+        </div>
+        <!--exemples-->
+        <div class="card_commentary">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 1c-6.338 0-12 4.226-12 10.007 0 2.05.738 4.063 2.047 5.625.055 1.83-1.023 4.456-1.993 6.368 2.602-.47 6.301-1.508 7.978-2.536 9.236 2.247 15.968-3.405 15.968-9.457 0-5.812-5.701-10.007-12-10.007zm0 14h-6v-1h6v1zm6-3h-12v-1h12v1zm0-3h-12v-1h12v1z"/></svg>
+            <p class="name">Mikee Blanchet</p>
+            <p>1 janvier 2020</p>
+            <p class="commentary">iwefbhiwefhbi</p>
+        </div>
+        <div class="card_commentary">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 1c-6.338 0-12 4.226-12 10.007 0 2.05.738 4.063 2.047 5.625.055 1.83-1.023 4.456-1.993 6.368 2.602-.47 6.301-1.508 7.978-2.536 9.236 2.247 15.968-3.405 15.968-9.457 0-5.812-5.701-10.007-12-10.007zm0 14h-6v-1h6v1zm6-3h-12v-1h12v1zm0-3h-12v-1h12v1z"/></svg>
+            <p class="name">Mikee Blanchet</p>
+            <p>1 janvier 2020</p>
+            <p class="commentary">wevhbiwfehbiwwfewfewfewfefehbiwfebiwefbhiwefhbi</p>
+        </div>
+        <div class="card_commentary">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 1c-6.338 0-12 4.226-12 10.007 0 2.05.738 4.063 2.047 5.625.055 1.83-1.023 4.456-1.993 6.368 2.602-.47 6.301-1.508 7.978-2.536 9.236 2.247 15.968-3.405 15.968-9.457 0-5.812-5.701-10.007-12-10.007zm0 14h-6v-1h6v1zm6-3h-12v-1h12v1zm0-3h-12v-1h12v1z"/></svg>
+            <p class="name">Mikee Blanchet</p>
+            <p>1 janvier 2020</p>
+            <p class="commentary">wevhbiwfehbiqweffffffffffeeeeeeeeeeeeeeeeeeeeeeeeeeeffffffffffffffwfehbiwfebiwefbhiwefhbi</p>
         </div>
     </div>
     <div>
-        <button id="myBtn" @click=openSucessPopUp()>Click me</button>
         <!-- The Modal -->
         <div id="myModal" class="modal">
 
         <!-- Modal content -->
             <div class="modal-content">
-            <span id="close"  @click=closeSucessPopUp()>&times;</span>
+            <svg id="close" @click=closeSucessPopUp() stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="m21 3.998c0-.478-.379-1-1-1h-16c-.62 0-1 .519-1 1v16c0 .621.52 1 1 1h16c.478 0 1-.379 1-1zm-8.991 6.932 2.717-2.718c.146-.146.338-.219.53-.219.405 0 .751.325.751.75 0 .193-.073.384-.219.531l-2.718 2.717 2.728 2.728c.147.147.22.339.22.531 0 .427-.349.75-.75.75-.192 0-.384-.073-.531-.219l-2.728-2.728-2.728 2.728c-.146.146-.339.219-.531.219-.401 0-.75-.323-.75-.75 0-.192.073-.384.22-.531l2.728-2.728-2.722-2.722c-.146-.147-.219-.338-.219-.531 0-.425.346-.749.75-.749.192 0 .384.073.53.219z" fill-rule="nonzero"/></svg>
             <p>Hello! I am a popup.</p>
             </div>
         </div>
@@ -100,7 +123,9 @@
       getNumberOfStarsFromRating(num) {
         return Math.round(num / 2);
       },
-      openSucessPopUp(){
+      openSucessPopUp(event){
+        //empêcher l'envoie pour voir le pop-up et ne pas reloader la page
+        event.preventDefault()
         document.getElementById("myModal").style.display = "block";
       },
       closeSucessPopUp(){
@@ -111,65 +136,75 @@
   </script>
   
   <style lang="css" scoped>
+.card_container{
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    margin-top: 2rem;
+}
+.card_container svg{
+    fill: var(--third-text-color);
+    width: 2.5rem;
+    height: 2.5rem;
+    position: absolute;
+    top: -1.5rem;
+    right: 0.5rem;
+}
+.card_container p{
+    word-wrap: break-word
+}
+.card_container .name{
+    color: var(--main-text-color);
+    font-size: 1.5rem;
+    font-weight: large;
+}
+.card_container .commentary{
+    font-size: 1.2rem;
+    color: var(--main-text-color);
+}
 .card_commentary{
-    width: 30%;
-    aspect-ratio: 3/2;
+    position: relative;
+    padding: 0.8vw;
+    width: 35%;
+    margin-bottom: 3rem;
+    height: fit-content;
     border-radius: 5px;
-    border: 4px solid var(--second-text-color);
+    background-color: rgb(255, 81, 110, 0.1);
+    border: 2px solid var(--second-text-color);
 }
-#myBtn {
-  background-color: #4CAF50;
-  border: none;
-  color: white;
-  padding: 10px 20px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
-  margin: 20px;
-  cursor: pointer;
-}
-/* The Modal (background) */
+/*----pop up----*/
 .modal {
-  display: none; /* Hidden by default */
-  position: fixed; /* Stay in place */
-  z-index: 1; /* Sit on top */
-  left: 0;
-  top: 0;
-  width: 100%; /* Full width */
-  height: 100%; /* Full height */
-  overflow: auto; /* Enable scroll if needed */
-  background-color: rgb(0,0,0); /* Fallback color */
-  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0,0,0);
+    background-color: rgba(0,0,0,0.4);
 }
-
-/* Modal Content/Box */
 .modal-content {
-  background-color: #fefefe;
-  margin: 15% auto; /* 15% from the top and centered */
-  padding: 20px;
-  border: 1px solid #888;
-  width: 80%; /* Could be more or less, depending on screen size */
+    background-color: #fefefe;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 60%;
 }
-
-/* The Close Button */
-.close {
-  color: #aaaaaa;
-  float: right;
-  font-size: 28px;
-  font-weight: bold;
+.modal svg {
+    float: right;
+    width: 2rem;
+    fill: var(--main-text-color);
+    cursor: pointer;
 }
-
-.close:hover,
-.close:focus {
-  color: #000;
-  text-decoration: none;
-  cursor: pointer;
+.modal p {
+    width: fit-content;
 }
-
-
-
-
+.modal svg:hover {
+    fill: rgb(255, 50, 84);
+}
+/*-----------*/
 h3{
     margin-top: 1.5rem;
     color: var(--main-text-color);
@@ -177,7 +212,7 @@ h3{
 }
 .rating-form{
     display: block;
-    margin: 1rem auto 5rem auto;
+    margin: 1rem auto 3rem auto;
     width:50%;
     padding: 1rem;
     border: 3px solid var(--second-text-color);
