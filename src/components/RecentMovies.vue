@@ -8,9 +8,9 @@
           
           @click="onSelect(movie)" 
         >
-          <img class="movie-img" :src="baseUrlImg + movie.backdrop_path" alt="movie picture">
-          <span class="movie-title">{{ movie.title }}</span>
-          <span class="movie-release">{{ movie.release_date }}</span>
+          <img class="movie-img" :src="movie.image" alt="movie picture">
+          <span class="movie-title">{{ movie.titre }}</span>
+          <span class="movie-release">{{ movie.annee }}</span>
         </li>
       </ul>
     </div>
@@ -28,8 +28,7 @@
       return {
         title: "Most Popular Movies",
         greetingMessage: "🎥Welcome movies enjoyers🎥",
-        selectedmovie: null,
-        baseUrlImg: "https://image.tmdb.org/t/p/w500"
+        selectedmovie: null
       };
     },
     computed: {
