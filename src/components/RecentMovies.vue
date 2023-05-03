@@ -1,5 +1,6 @@
 <template>
     <div class="recent-movies-container">
+      <button class="add_movie_btn" @click=onAddMovie()>Ajout d'un film</button>
       <h3 class="greetingMessage">{{ greetingMessage }}</h3>
       <h2 class="title">{{ title }}</h2>
       <ul class="movies">
@@ -41,11 +42,24 @@
       onSelect(movie) {
         this.$router.push({ name: "movie", params: { id: movie.id } });
       },
+      onAddMovie(){
+        this.$router.push("/addMovie");
+      }
     },
   };
   </script>
   
   <style lang="css" scoped>
+    .add_movie_btn{
+      float: right;
+      font-size: 1.5rem;
+      height:3rem;
+      border-radius: 100px;
+      padding-left: 1.5rem;
+      padding-right: 1.5rem;
+      margin-top: 1rem;
+      margin-right: 10rem;
+    }
     .movies{
       display: flex;
       justify-content: space-around;
@@ -60,7 +74,7 @@
     .title, .greetingMessage{
       text-align: center;
       color: var(--main-text-color);
-      margin: 2rem 0;
+      margin: 4rem 0;
     }
     .title{
       text-decoration: underline;
