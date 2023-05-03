@@ -99,7 +99,6 @@ export default {
   background: rgb(66, 66, 66, 0.0);
   border: 2px solid var(--nav-content-color);
 }
-
 .credit{
   position: fixed;
   bottom: 10px;

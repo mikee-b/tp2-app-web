@@ -7,14 +7,47 @@
   --selected-color: rgba(0, 255, 0, 0.2);
   --main-text-color: rgb(255, 81, 110);
   --second-text-color: rgb(148, 44, 61);
+  --third-text-color: #ffb6b6;
 }
 
-h3{
-  font-size: 3rem;
+.form{
+  position: relative;
+  display: block;
+  margin: 1.5rem auto;
+  width:fit-content;
+  padding: 1rem;
+  border: 3px solid var(--second-text-color);
+  border-radius: 10px;
 }
-
+.form label{
+  color: var(--main-text-color);
+  font-size: 1.4rem;
+}
+.form input{
+  height: 1.8rem;
+  font-size: 1rem;
+  border: 3px solid var(--second-text-color);
+  border-radius: 10px;
+}
+.form > div {
+  margin: 0.4rem;
+}
+.form button {
+  margin: 0.4rem;
+  margin-top: 2rem;
+}
+.form svg {
+  position: absolute;
+  fill: var(--third-text-color);
+  top: -2.2rem;
+  left: -1.8rem;
+  width: 65px;
+}
 h2{
   font-size: 2rem;
+}
+h3{
+  font-size: 1.8rem;
 }
 
 button {
