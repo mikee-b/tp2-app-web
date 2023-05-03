@@ -1,7 +1,8 @@
 <template>
     <div>
         <h2>Créer un compte</h2>
-        <form>
+        <form class="form">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M24 1l-4.5 16.5-6.097-5.43 5.852-6.175-7.844 5.421-5.411-1.316 18-9zm-11 12.501v5.499l2.193-3.323-2.193-2.176zm-13 8.63c1.013-1.574 1.955-2.256 2.938-2.55l.234 1.448c-.663.256-1.215.806-1.965 1.971l-1.207-.869zm11-4.729c-.928 1.473-1.748 2.104-2.566 2.322l.254 1.436c.746-.176 1.521-.583 2.312-1.391v-2.367zm-3.855 2.385c-.883-.103-1.92-.365-2.938-.376l.236 1.462c.873.068 1.931.345 2.963.395l-.261-1.481z"/></svg>
             <div>
                 <label for="email">Email : </label>
                 <input type="email">
@@ -37,34 +38,5 @@ h2{
     margin-top: 1.5rem;
     color: var(--main-text-color);
     text-align: center;
-}
-form{
-    display: block;
-    margin: 1.5rem auto;
-    width:fit-content;
-    padding: 1rem;
-    border: 3px solid var(--second-text-color);
-    border-radius: 10px;
-}
-
-form label{
-    color: var(--main-text-color);
-    font-size: 1.4rem;
-}
-
-form input{
-    height: 1.8rem;
-    font-size: 1rem;
-    border: 3px solid var(--second-text-color);
-    border-radius: 10px;
-}
-
-form > div {
-    margin: 0.4rem;
-}
-
-form button {
-    margin: 0.4rem;
-    margin-top: 2rem;
 }
 </style>
