@@ -23,9 +23,22 @@ export async function createUser(email, password, firstName, lastName)
                 "last_name": lastName
         })
     };
-    console.log(options)
-
     const response = await fetch(baseURL + 'users', options);
+    let msg = await response.json();
+    return msg;
+}
+
+export async function login(email, password)
+{
+    let options = {
+        method: 'POST',
+        headers: headers,
+        body: JSON.stringify({
+                "email": email,
+                "password": password,
+        })
+    };
+    const response = await fetch(baseURL + 'login', options);
     let msg = await response.json();
     return msg;
 }
