@@ -88,7 +88,6 @@
   <script>
   import { getMovie } from '@/services/MovieService.js';
   import { rateMovie } from '@/services/MovieService.js';
-  import { getCurrentSessionId } from '@/services/MovieService.js';
   
   export default {
     data() {

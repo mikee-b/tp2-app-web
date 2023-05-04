@@ -16,12 +16,12 @@ export async function createUser(email, password, firstName, lastName)
     let options = {
         method: 'POST',
         headers: headers,
-        body: {
+        body: JSON.stringify({
                 "email": email,
                 "password": password,
                 "first_name": firstName,
                 "last_name": lastName
-        }
+        })
     };
     console.log(options)
 
