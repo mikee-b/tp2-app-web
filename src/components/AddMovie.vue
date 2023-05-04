@@ -1,74 +1,47 @@
 <template>
     <div>
         <h1>Ajouter un bon film</h1>
-        <form class="form">
+        <form class="form" @submit.prevent="onSubmit">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M24 1l-4.5 16.5-6.097-5.43 5.852-6.175-7.844 5.421-5.411-1.316 18-9zm-11 12.501v5.499l2.193-3.323-2.193-2.176zm-13 8.63c1.013-1.574 1.955-2.256 2.938-2.55l.234 1.448c-.663.256-1.215.806-1.965 1.971l-1.207-.869zm11-4.729c-.928 1.473-1.748 2.104-2.566 2.322l.254 1.436c.746-.176 1.521-.583 2.312-1.391v-2.367zm-3.855 2.385c-.883-.103-1.92-.365-2.938-.376l.236 1.462c.873.068 1.931.345 2.963.395l-.261-1.481z"/></svg>
             <div>
-                <label for="text">Titre du film : </label>
-                <input type="text">
+                <label for="title">Titre du film : </label>
+                <input id="title" name="title" type="text" required>
             </div>
             <div>
-                <label for="text">Image : </label>
+                <label for="file">Image : </label>
                 <!--upload file, par POST-->
-                <input type="file">
+                <input id="file" class="file" name="file" type="file" required>
             </div>
             <div>
-                <label for="text">Année de production : </label>
-                <input type="text" maxlength="4" minlength="4" step="1">
+                <label for="prodYear">Année de production : </label>
+                <input id="prodYear" name="prodYear" type="text" required>
             </div>
             <div>
-                <label for="text">Durée en minutes : </label>
-                <input type="number">
+                <label for="duration">Durée en minutes : </label>
+                <input id="duration" name="duration" type="number" required>
             </div>
             <div>
-                <label for="text">Auditoire : </label>
+                <label>Auditoire : </label>
                 <!--boucle pour chaque auditoire de dispo dans l'api-->
-                <select>
-                    <option>PG</option>
+                <select id="audience">
+                    <option>PG-13</option>
                     <option>R</option>
                     <option>NC-17</option>
+                    <option>G</option>
+                    <option>PG</option>
                 </select>
             </div>
+            <label>Acteurs : </label>
             <div class="actors">
-                <label for="text">Acteurs : </label>
                 <!--boucle pour chaque acteurs de la bd, mettre son nom à cocher-->
-                <div>
-                    <input type="checkbox">
-                    <p>acteur1</p>
-                </div>
-                <!--exemples-->
-                <div>
-                    <input type="checkbox">
-                    <p>acteur2</p>
-                </div>
-                <div>
-                    <input type="checkbox">
-                    <p>acteur3</p>
-                </div>
-                <div>
-                    <input type="checkbox">
-                    <p>acteur4</p>
-                </div>
-                <div>
-                    <input type="checkbox">
-                    <p>acteur4</p>
-                </div>
-                <div>
-                    <input type="checkbox">
-                    <p>acteur4</p>
-                </div>
-                <div>
-                    <input type="checkbox">
-                    <p>acteur4</p>
-                </div>
-                <div>
-                    <input type="checkbox">
-                    <p>acteur4</p>
+                <div v-for="actor in allActors">
+                    <input class="actor_checkbox" type="checkbox">
+                    <p>{{ actor.last_name }}</p>
                 </div>
             </div>
             <div>
-                <label for="text">Description du film : </label>
-                <textarea type="text" placeholder="Il était une fois..."></textarea>
+                <label for="desc">Description du film : </label>
+                <textarea id="desc" name="desc" type="text" placeholder="Il était une fois..."></textarea>
             </div>
             <button type="submit" @click=openSucessPopUp($event)>Ajouter</button>
         </form>
@@ -88,21 +61,75 @@
 
 <script>
 export default {
+    props: {
+      actors: {
+        type: Array,
+        default: () => [],
+      },
+    },
     data() {
       return {
-        popupMessage: "Merci pour votre envoie!😊",
+        popupMessage: ["Merci pour votre envoie!😊"],
         //Veillez vérifier vos champs😔
+        maxlength: 50,
+        minlength: 1
       };
     },
-    methods: {
-      openSucessPopUp(event){
-        //empêcher l'envoie pour voir le pop-up et ne pas reloader la page
-        event.preventDefault()
-        document.getElementById("myModal").style.display = "block";
+    computed: {
+      allActors() {
+        return this.actors;
       },
+    },
+    methods: {
       closeSucessPopUp(){
         document.getElementById("myModal").style.display = "none";
-      }
+      },
+      async onSubmit(event)
+      {
+        let form = event.target;
+        
+        let title = form.querySelector("#title").value
+        let file = form.querySelector("#file")
+        let prodYear = form.querySelector("#prodYear").value
+        let duration = form.querySelector("#duration").value
+        let audience = form.querySelector("#audience")
+        let actors = form.querySelectorAll(".actor_checkbox")
+        let desc = form.querySelector("#desc").value
+
+        console.log(file)
+
+        this.popupMessage = []
+        /*if(title.length >= this.maxlength && title.length > this.minlength){
+            this.popupMessage.push("- Le mail doit avoir 50 charactères ou moins et ne doit pas être vide.")
+        } 
+        if(file.length >= this.maxlength && file.length > this.minlength){
+            this.popupMessage.push("- Le prenom doit avoir 50 charactères ou moins et ne doit pas être vide.")
+        }
+        if(prodYear.length != 4){
+            this.popupMessage.push("- Le nom doit avoir 50 charactères ou moins et ne doit pas être vide.")
+        }
+        if(duration.length >= this.maxlength && duration.length > this.minlength){
+            this.popupMessage.push("- Le mot de passe doit avoir 50 charactères ou moins et ne doit pas être vide.")
+        }
+
+        if(desc.length >= this.maxlength && desc.length > this.minlength){
+            this.popupMessage.push("- Le mot de passe doit avoir 50 charactères ou moins et ne doit pas être vide.")
+        }*/
+
+        let checkedActors = []
+        for(let i = 0; i < actors.length; i++){
+            if(actors[i].checked){
+                checkedActors.push(actors[i])
+            }
+        }
+
+        if(this.popupMessage.length == 0){
+            this.popupMessage.push("Merci pour votre envoie!😊")
+            //document.getElementById("messages").style.color = "green"
+            await createMovie(title, file, prodYear, duration, audience, actors, desc);
+        } 
+        document.getElementById("myModal").style.display = "block";
+      },
     }
 }
 </script>
@@ -142,7 +169,15 @@ form{
     margin: 0 10px;
 }
 .actors{
+    border: 2px solid var(--second-text-color);
     display: flex;
     flex-wrap: wrap;
+    height: 10rem;
+    overflow-y:scroll;
+}
+
+.file{
+    border: none;
+    border-radius: 0px;
 }
 </style>
