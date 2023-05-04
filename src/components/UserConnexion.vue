@@ -29,11 +29,14 @@
 
 <script>
 import { login } from '@/services/MovieService.js'
+import { useTokensStore } from '@/stores/TokensStore.js';
+
 export default {
     data() {
       return {
         popupMessage: ["Merci pour votre envoie!😊"],
-        maxlength: 50
+        maxlength: 50,
+        tokensStore: useTokensStore()
         //Veillez vérifier vos champs...😔
       };
     },
@@ -60,6 +63,7 @@ export default {
       },
       async logUser(email, password){
         let token = await login(email, password)
+        this.tokensStore.addToken(token)
       },
       closePopUp(){
         document.getElementById("myModal").style.display = "none";

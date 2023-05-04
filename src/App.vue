@@ -1,5 +1,8 @@
 <script setup>
 import { RouterLink, RouterView } from 'vue-router'
+import { useTokensStore } from '@/stores/TokensStore.js';
+
+const tokensStore = useTokensStore();
 </script>
 
 <template>
@@ -29,7 +32,7 @@ import { RouterLink, RouterView } from 'vue-router'
             <p for="rating">Notes d'appréciation</p>
         </div>
       </div>
-      <div>
+      <div v-if="!tokensStore.isLoggedIn()">
         <button @click="onLogin()" class="login">Connexion</button>
         <button @click="onSignUp()">Créer un compte</button>
       </div>
