@@ -1,12 +1,12 @@
 <template>
-    <h2>{{ movie.title }}</h2>
+    <h2>{{ movie.titre }}</h2>
     <div class="img-main-info">
         <img
-        :src="baseUrlImg + movie.backdrop_path" width="600" />
+        :src="movie.imageUrl" width="600" />
         <div class="main-info">
-            <p class="overview">{{ movie.overview }}</p>
-            <p>Durée: {{ movie.runtime }} min</p>
-            <p>Année de parution: {{ getYearFromDate(movie.release_date) }}</p>
+            <p class="overview">{{ movie.description }}</p>
+            <p>Durée: {{ movie.longueur }} min</p>
+            <p>Année de parution: {{ getYearFromDate(movie.annee) }}</p>
             <p>Site: <a :href="movie.homepage" target="_blank">{{ movie.homepage }}</a></p>
         </div>
     </div>
@@ -88,7 +88,6 @@
   <script>
   import { getMovie } from '@/services/MovieService.js';
   import { rateMovie } from '@/services/MovieService.js';
-  import { getCurrentSessionId } from '@/services/MovieService.js';
   
   export default {
     data() {
