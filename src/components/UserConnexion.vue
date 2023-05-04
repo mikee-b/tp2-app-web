@@ -1,7 +1,7 @@
 <template>
     <div>
         <h2>Connexion</h2>
-        <form class="form">
+        <form class="form" @submit.prevent="openPopUp">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M24 1l-4.5 16.5-6.097-5.43 5.852-6.175-7.844 5.421-5.411-1.316 18-9zm-11 12.501v5.499l2.193-3.323-2.193-2.176zm-13 8.63c1.013-1.574 1.955-2.256 2.938-2.55l.234 1.448c-.663.256-1.215.806-1.965 1.971l-1.207-.869zm11-4.729c-.928 1.473-1.748 2.104-2.566 2.322l.254 1.436c.746-.176 1.521-.583 2.312-1.391v-2.367zm-3.855 2.385c-.883-.103-1.92-.365-2.938-.376l.236 1.462c.873.068 1.931.345 2.963.395l-.261-1.481z"/></svg>
             <div>
                 <label for="email">Email : </label>
@@ -11,7 +11,7 @@
                 <label for="password">Mot de passe : </label>
                 <input id="password" type="password" maxlength="50">
             </div>
-            <button type="submit" @click=openPopUp($event)>Se connecter</button>
+            <button type="submit">Se connecter</button>
         </form>
         <div class="popup">
             <!-- The Modal -->
@@ -28,6 +28,7 @@
 </template>
 
 <script>
+import { login } from '@/services/MovieService.js'
 export default {
     data() {
       return {
@@ -40,18 +41,25 @@ export default {
       openPopUp(event){
         //empêcher l'envoie pour voir le pop-up et ne pas reloader la page
         event.preventDefault()
+        let form = event.target
         this.popupMessage = []
-        if(document.getElementById("email").value.length >= this.maxlength){
+        let email = form.querySelector("#email").value
+        let password = form.querySelector("#password").value
+        if(email.length >= this.maxlength){
             this.popupMessage.push("- Email doit avoir 50 charactères ou moins.")
         } 
-        if(document.getElementById("password").value.length >= this.maxlength){
+        if(password.length >= this.maxlength){
             this.popupMessage.push("- Password doit avoir 50 charactères ou moins.")
         }
         if(this.popupMessage.length == 0){
             this.popupMessage.push("Merci pour votre envoie!😊")
+            this.logUser(email, password)
             //document.getElementById("messages").style.color = "green"
         } 
         document.getElementById("myModal").style.display = "block";
+      },
+      async logUser(email, password){
+        let token = await login(email, password)
       },
       closePopUp(){
         document.getElementById("myModal").style.display = "none";
