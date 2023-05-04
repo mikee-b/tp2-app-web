@@ -40,6 +40,12 @@ const router = createRouter({
       component: () => import("../views/CreateUserView.vue"),
       props:true
     },
+    {
+      path: "/addMovie",
+      name: "addMovie",
+      component: () => import("../views/AddMovieView.vue"),
+      props:true
+    },
   ]
 })
 

@@ -1,7 +1,8 @@
 <template>
     <div>
         <h2>Créer un compte</h2>
-        <form action="" method="post" @submit.prevent="onSubmit">
+         <form action="" method="post" @submit.prevent="onSubmit">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M24 1l-4.5 16.5-6.097-5.43 5.852-6.175-7.844 5.421-5.411-1.316 18-9zm-11 12.501v5.499l2.193-3.323-2.193-2.176zm-13 8.63c1.013-1.574 1.955-2.256 2.938-2.55l.234 1.448c-.663.256-1.215.806-1.965 1.971l-1.207-.869zm11-4.729c-.928 1.473-1.748 2.104-2.566 2.322l.254 1.436c.746-.176 1.521-.583 2.312-1.391v-2.367zm-3.855 2.385c-.883-.103-1.92-.365-2.938-.376l.236 1.462c.873.068 1.931.345 2.963.395l-.261-1.481z"/></svg>
             <div>
                 <label for="email">Email : </label>
                 <input type="email">
@@ -24,74 +25,46 @@
             </div>
             <button type="submit">S'inscrire</button>
         </form>
+        <div class="popup">
+            <!-- The Modal -->
+            <div id="myModal" class="modal">
+
+                <!-- Modal content -->
+                <div class="modal-content">
+                <svg id="close" @click=closeSucessPopUp() stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="m21 3.998c0-.478-.379-1-1-1h-16c-.62 0-1 .519-1 1v16c0 .621.52 1 1 1h16c.478 0 1-.379 1-1zm-8.991 6.932 2.717-2.718c.146-.146.338-.219.53-.219.405 0 .751.325.751.75 0 .193-.073.384-.219.531l-2.718 2.717 2.728 2.728c.147.147.22.339.22.531 0 .427-.349.75-.75.75-.192 0-.384-.073-.531-.219l-2.728-2.728-2.728 2.728c-.146.146-.339.219-.531.219-.401 0-.75-.323-.75-.75 0-.192.073-.384.22-.531l2.728-2.728-2.722-2.722c-.146-.147-.219-.338-.219-.531 0-.425.346-.749.75-.749.192 0 .384.073.53.219z" fill-rule="nonzero"/></svg>
+                <p>{{ popupMessage }}</p>
+                </div>
+            </div>
+        </div>
     </div>
 </template>
 
 <script>
 import { createUser } from '@/services/MovieService.js';
 export default {
-  methods: {
-    async onSubmit()
-    {
+    data() {
+      return {
+        popupMessage: "Merci pour votre envoie!😊",
+        //Veillez vérifier vos champs😔
+      };
+    },
+    methods: {
+      openSucessPopUp(event){
+        //empêcher l'envoie pour voir le pop-up et ne pas reloader la page
+        event.preventDefault()
+        document.getElementById("myModal").style.display = "block";
+      },
+      closeSucessPopUp(){
+        document.getElementById("myModal").style.display = "none";
+      }
+      async onSubmit()
+      {
         console.log(await createUser("userTest@email.com", "password", "firstNameTest", "lastNameTest"));
         // need to add validation
         
-    },
-    updateSearchResults(page)
-        {
-            let searchQuery = this.$route.query.searchQuery;
-            let year = this.$route.query.year;
-            let genre = this.$route.query.genre;
-            if (this.$route.query.searchQuery == undefined)
-                searchQuery = ''
-            if (this.$route.query.year == undefined)
-                year = ''
-            if (this.$route.query.genre == undefined)
-                genre = ''
-            if (page == undefined)
-                page = 1
-            this.$router.push(`/movies?searchQuery=` + searchQuery + `&genre=` + genre + `&year=` + year + `&page=` + page);
-        },
-    getTotalResults()
-    {
-        let totalResults = this.key.total_results;
-        let div = document.getElementById("no-result");
-        if(totalResults === 0){
-          this.urlNoResultImg = "../../img/img_noresults_movies.png";
-        } else{
-          this.urlNoResultImg = "";
-        }
-        console.log(div)
-        return totalResults;
-    },
-    getTotalPages()
-    {
-        return this.key.total_pages;
-    },
-    getMovies()
-    {
-        return this.key.results;
-    },
-    onSelect(movie) {
-      this.$router.push({ name: "movie", params: { id: movie.id } });
-    },
-    nextPage() {
-        let newPage = +this.$route.query.page + 1;
-        if (newPage > this.getTotalPages())
-            newPage = this.getTotalPages()
-        this.updateSearchResults(newPage);
-    },
-    prevPage() {
-        let newPage = +this.$route.query.page - 1;
-        if (newPage < 1)
-            newPage = 1
-        this.updateSearchResults(newPage);
-    },
-    currentPage() {
-        return +this.$route.query.page;
-    },
-  },
-};
+      },
+    }
+}
 </script>
 
 <style lang="css" scoped>
@@ -99,34 +72,5 @@ h2{
     margin-top: 1.5rem;
     color: var(--main-text-color);
     text-align: center;
-}
-form{
-    display: block;
-    margin: 1.5rem auto;
-    width:fit-content;
-    padding: 1rem;
-    border: 3px solid var(--second-text-color);
-    border-radius: 10px;
-}
-
-form label{
-    color: var(--main-text-color);
-    font-size: 1.4rem;
-}
-
-form input{
-    height: 1.8rem;
-    font-size: 1rem;
-    border: 3px solid var(--second-text-color);
-    border-radius: 10px;
-}
-
-form > div {
-    margin: 0.4rem;
-}
-
-form button {
-    margin: 0.4rem;
-    margin-top: 2rem;
 }
 </style>
