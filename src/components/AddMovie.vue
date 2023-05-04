@@ -60,6 +60,7 @@
 </template>
 
 <script>
+import { createMovie } from '@/services/MovieService.js';
 export default {
     props: {
       actors: {
