@@ -96,3 +96,9 @@ export async function rateMovie(movieId, rating, guestSessionId) {
     let msg = await response.json();
     return msg;
 }
+
+export async function getAllActors() {
+    const response = await fetch(baseURL + 'actors', headers);
+    let actors = await response.json();
+    return actors;
+}
