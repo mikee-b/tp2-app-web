@@ -1,29 +1,46 @@
-const apiKey = '7a43453c090876ec404f9d3117402b26';
-const apiKeyParam = 'api_key='
-const baseURL = 'https://api.themoviedb.org/3/';
+const baseURL = 'http://laravel-e23.herokuapp.com/api/'
 const headers = {
     "Accept": "application/json;charset=utf-8",
     "Content-Type": "application/json;charset=utf-8"
 };
-const sessionId = await getNewGuestSessionId();
 
 
 export async function getRecentMovies() {
-  const response = await fetch(baseURL + '/trending/movie/day' + '?' + apiKeyParam + apiKey, headers);
-  let json = await response.json()
-  return await json.results.slice(0, 3);
+  const response = await fetch(baseURL + 'films', headers);
+  let json = await response.json();
+  return await json.data.slice(0, 3);
+}
+
+export async function createUser(email, password, firstName, lastName)
+{
+    let options = {
+        method: 'POST',
+        headers: headers,
+        body: {
+                "email": email,
+                "password": password,
+                "first_name": firstName,
+                "last_name": lastName
+        }
+    };
+    console.log(options)
+
+    const response = await fetch(baseURL + 'users', options);
+    let msg = await response.json();
+    return msg;
 }
 
 export async function getGenres() {
-    const response = await fetch(baseURL + 'genre/movie/list' + '?' + apiKeyParam + apiKey, headers);
-    let json = await response.json();
-    return json.genres;
+    // const response = await fetch(baseURL + 'genre/movie/list' + '?' + apiKeyParam + apiKey, headers);
+    // let json = await response.json();
+    // return json.genres;
+    return null;
 }
 
 export async function getMovie(id) {
-    const response = await fetch(baseURL + 'movie/' + id + '?' + apiKeyParam + apiKey, headers);
+    const response = await fetch(baseURL + 'films/' + id, headers);
     let movie = await response.json();
-    return movie;
+    return movie.data;
 }
 
 export async function searchMoviesByKeyWordsGenreAndYear(keywords, genre, year, page, sortMethod /* either  'date' or 'rating', default is rating*/) {
@@ -65,14 +82,4 @@ export async function rateMovie(movieId, rating, guestSessionId) {
     const response = await fetch(baseURL + 'movie/' + movieId + '/rating?' + apiKeyParam + apiKey + '&guest_session_id=' + guestSessionId, options);
     let msg = await response.json();
     return msg;
-}
-
-export async function getNewGuestSessionId() {
-    const response = await fetch(baseURL + 'authentication/guest_session/new' + '?' + apiKeyParam + apiKey, headers);
-    let msg = await response.json();
-    return msg.guest_session_id;
-}
-
-export function getCurrentSessionId() {
-    return sessionId;
 }
