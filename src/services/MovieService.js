@@ -11,6 +11,25 @@ export async function getRecentMovies() {
   return await json.data.slice(0, 3);
 }
 
+export async function createUser(email, password, firstName, lastName)
+{
+    let options = {
+        method: 'POST',
+        headers: headers,
+        body: {
+                "email": email,
+                "password": password,
+                "first_name": firstName,
+                "last_name": lastName
+        }
+    };
+    console.log(options)
+
+    const response = await fetch(baseURL + 'users', options);
+    let msg = await response.json();
+    return msg;
+}
+
 export async function getGenres() {
     // const response = await fetch(baseURL + 'genre/movie/list' + '?' + apiKeyParam + apiKey, headers);
     // let json = await response.json();
@@ -63,8 +82,4 @@ export async function rateMovie(movieId, rating, guestSessionId) {
     const response = await fetch(baseURL + 'movie/' + movieId + '/rating?' + apiKeyParam + apiKey + '&guest_session_id=' + guestSessionId, options);
     let msg = await response.json();
     return msg;
-}
-
-export function getCurrentSessionId() {
-    return sessionId;
 }
