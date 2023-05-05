@@ -42,7 +42,7 @@ export default {
       };
     },
     methods: {
-      openPopUp(event){
+      async openPopUp(event){
         //empêcher l'envoie pour voir le pop-up et ne pas reloader la page
         event.preventDefault()
         let form = event.target
@@ -57,15 +57,21 @@ export default {
             this.popupMessage.push("- Password doit avoir 50 charactères ou moins.")
         }
         if(this.popupMessage.length == 0){
-            this.popupMessage.push("Merci pour votre envoie!😊")
-            this.logUser(email, password)
+            let error = await this.logUser(email, password)
+            if (error != null)
+                this.popupMessage.push(error);
+            if(this.popupMessage.length == 0)
+                this.popupMessage.push("Merci pour votre envoie!😊")
             //document.getElementById("messages").style.color = "green"
         } 
         document.getElementById("myModal").style.display = "block";
       },
       async logUser(email, password){
-        let token = await login(email, password)
-        this.tokensStore.addToken(token)
+        let map = await login(email, password)
+        if (map['statusCode'] == 201)
+            this.tokensStore.addToken(map['token'])
+        else
+            return map['error']
       },
       closePopUp(){
         document.getElementById("myModal").style.display = "none";
