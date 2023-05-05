@@ -36,12 +36,14 @@ export default {
       return {
         popupMessage: ["Merci pour votre envoie!😊"],
         maxlength: 50,
-        tokensStore: useTokensStore()
+        minlength: 1,
+        tokensStore: useTokensStore(),
+        isLoggedIn: false
         //Veillez vérifier vos champs...😔
       };
     },
     methods: {
-      openPopUp(event){
+      async openPopUp(event){
         //empêcher l'envoie pour voir le pop-up et ne pas reloader la page
         event.preventDefault()
         let form = event.target
@@ -55,8 +57,14 @@ export default {
             this.popupMessage.push("- Password doit avoir 50 charactères ou moins.")
         }
         if(this.popupMessage.length == 0){
-            this.popupMessage.push("Merci pour votre envoie!😊")
-            this.logUser(email, password)
+            let error = await this.logUser(email, password)
+            if (error != null)
+                this.popupMessage.push(error);
+            if(this.popupMessage.length == 0)
+            {
+                this.popupMessage.push("Connexion réussie!😊")
+                this.isLoggedIn = true;
+            }
             //document.getElementById("messages").style.color = "green"
         } 
         document.getElementById("myModal").style.display = "block";
@@ -66,7 +74,10 @@ export default {
         this.tokensStore.addToken(token)
       },
       closePopUp(){
-        document.getElementById("myModal").style.display = "none";
+        if (this.isLoggedIn)
+            this.$router.go(-1)
+        else  
+            document.getElementById("myModal").style.display = "none";
       }
     }
 }
