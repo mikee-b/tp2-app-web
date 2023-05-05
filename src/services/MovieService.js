@@ -40,7 +40,6 @@ export async function login(email, password)
     };
     const response = await fetch(baseURL + 'login', options);
     let msg = await response.json();
-    console.log(msg.token)
     return msg.token;
 }
 
