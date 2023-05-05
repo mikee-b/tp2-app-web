@@ -36,7 +36,7 @@ export default {
       return {
         popupMessage: ["Merci pour votre envoie!😊"],
         maxlength: 50,
-        minlength: 1
+        minlength: 1,
         tokensStore: useTokensStore()
         //Veillez vérifier vos champs...😔
       };
