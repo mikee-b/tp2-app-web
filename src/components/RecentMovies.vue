@@ -9,7 +9,7 @@
           
           @click="onSelect(movie)" 
         >
-          <img class="movie-img" :src="movie.image" alt="movie picture">
+          <img class="movie-img" :src="movie.image">
           <span class="movie-title">{{ movie.titre }}</span>
           <span class="movie-release">{{ movie.annee }}</span>
         </li>
@@ -81,6 +81,7 @@
     .movies .movie-img{
       background-image: url(../../img/img_cannot_load_movie.png);
       width: 25vw;
+      height: 16vw;
       background-position: center;
       background-repeat: no-repeat;
       background-size: 15vw;
