@@ -11,6 +11,11 @@ export async function getRecentMovies() {
   return await json.data.slice(0, 3);
 }
 
+export async function createMovie()
+{
+
+}
+
 export async function createUser(email, password, firstName, lastName)
 {
     let options = {
@@ -69,18 +74,18 @@ export async function searchMoviesByKeyWordsGenreAndYear(keywords, genre, year, 
 }
 
 export async function getKeywordsIds(keywords) {
-    let keywordIds = '';
-    let keywordsArray = keywords.split(",");
-    for (let i = 0; i < keywordsArray.length; i++)
-    {
-        let query = baseURL + 'search/keyword?' + apiKeyParam + apiKey + '&query=' + keywordsArray[i], headers;
-        const response = await fetch(query, headers);
-        const json = await response.json();
+    // let keywordIds = '';
+    // let keywordsArray = keywords.split(",");
+    // for (let i = 0; i < keywordsArray.length; i++)
+    // {
+    //     let query = baseURL + 'search/keyword?' + apiKeyParam + apiKey + '&query=' + keywordsArray[i], headers;
+    //     const response = await fetch(query, headers);
+    //     const json = await response.json();
         
-        if (json.results.length > 0)
-            keywordIds += json.results[0].id + ','
-    }
-    return keywordIds;
+    //     if (json.results.length > 0)
+    //         keywordIds += json.results[0].id + ','
+    // }
+    // return keywordIds;
 }
 
 export async function rateMovie(movieId, rating, guestSessionId) {
@@ -95,4 +100,10 @@ export async function rateMovie(movieId, rating, guestSessionId) {
     const response = await fetch(baseURL + 'movie/' + movieId + '/rating?' + apiKeyParam + apiKey + '&guest_session_id=' + guestSessionId, options);
     let msg = await response.json();
     return msg;
+}
+
+export async function getAllActors() {
+    const response = await fetch(baseURL + 'actors', headers);
+    let actors = await response.json();
+    return actors;
 }
