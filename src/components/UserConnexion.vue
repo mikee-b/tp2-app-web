@@ -72,7 +72,6 @@ export default {
       },
       async logUser(email, password){
         let map = await login(email, password)
-        console.log(map)
         if (map['statusCode'] == 201)
         {
             let roleMap = await getRole(map['token'])

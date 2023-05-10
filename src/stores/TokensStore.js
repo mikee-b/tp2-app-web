@@ -5,7 +5,7 @@ export const useTokensStore = defineStore('tokensStore', {
     tokensMap: new Map()
   }),
   getters: {
-    latestToken: state => {
+    latestTokenRole: state => {
       let role = null
       if (state.tokensMap.size > 0)
       {
@@ -17,7 +17,7 @@ export const useTokensStore = defineStore('tokensStore', {
   },
   actions: {
     addToken (token, role) {
-      this.tokensMap[token] = role;  
+      this.tokensMap.set(token, role);  
     },
     isLoggedIn() {
         return this.tokensMap.size != 0

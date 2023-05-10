@@ -46,7 +46,6 @@ export async function login(email, password)
     const msg = await fetch(baseURL + 'login', options);
     let returnValue = new Map();
     returnValue['statusCode'] = msg.status;
-    console.log(msg.status)
     if (msg.status == 201)
     {
         let json = await msg.json();
