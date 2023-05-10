@@ -37,7 +37,8 @@ export default {
         popupMessage: ["Merci pour votre envoie!😊"],
         maxlength: 50,
         minlength: 1,
-        tokensStore: useTokensStore()
+        tokensStore: useTokensStore(),
+        isLoggedIn: false
         //Veillez vérifier vos champs...😔
       };
     },
@@ -61,7 +62,10 @@ export default {
             if (error != null)
                 this.popupMessage.push(error);
             if(this.popupMessage.length == 0)
-                this.popupMessage.push("Merci pour votre envoie!😊")
+            {
+                this.popupMessage.push("Connexion réussie!😊")
+                this.isLoggedIn = true;
+            }
             //document.getElementById("messages").style.color = "green"
         } 
         document.getElementById("myModal").style.display = "block";
@@ -88,7 +92,10 @@ export default {
         }
       },
       closePopUp(){
-        document.getElementById("myModal").style.display = "none";
+        if (this.isLoggedIn)
+            this.$router.go(-1)
+        else  
+            document.getElementById("myModal").style.display = "none";
       }
     }
 }
