@@ -1,19 +1,22 @@
 <template>
     <div>
-        <h2>Créer un compte</h2>
+        <h2 v-if="isUserLoggedIn()">Modifier le compte</h2>
+        <h2 v-else>Créer un compte</h2>
          <form class="form" action="" method="post" @submit.prevent="onSubmit">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M24 1l-4.5 16.5-6.097-5.43 5.852-6.175-7.844 5.421-5.411-1.316 18-9zm-11 12.501v5.499l2.193-3.323-2.193-2.176zm-13 8.63c1.013-1.574 1.955-2.256 2.938-2.55l.234 1.448c-.663.256-1.215.806-1.965 1.971l-1.207-.869zm11-4.729c-.928 1.473-1.748 2.104-2.566 2.322l.254 1.436c.746-.176 1.521-.583 2.312-1.391v-2.367zm-3.855 2.385c-.883-.103-1.92-.365-2.938-.376l.236 1.462c.873.068 1.931.345 2.963.395l-.261-1.481z"/></svg>
             <div>
                 <label for="email">Email : </label>
                 <input id="email" type="email" minlength="1" maxlength="50" required>
             </div>
-            <div>
-                <label for="password">Mot de passe : </label>
-                <input id="password" type="password" minlength="1" maxlength="50" required>
-            </div>
-            <div>
-                <label for="confirmationPassword">Confirmation du mot de passe : </label>
-                <input id="confirmationPassword" type="password" minlength="1" maxlength="50" required>
+            <div v-if="!isUserLoggedIn()">
+                <div>
+                    <label for="password">Mot de passe : </label>
+                    <input id="password" type="password" minlength="1" maxlength="50" required>
+                </div>
+                <div>
+                    <label for="confirmationPassword">Confirmation du mot de passe : </label>
+                    <input id="confirmationPassword" type="password" minlength="1" maxlength="50" required>
+                </div>
             </div>
             <div>
                 <label for="firstname">Prenom : </label>
@@ -23,7 +26,8 @@
                 <label for="lastname">Nom : </label>
                 <input id="lastname" type="text" minlength="1" maxlength="50" required>
             </div>
-            <button type="submit">S'inscrire</button>
+            <button v-if="isUserLoggedIn()" type="submit">Modifier</button>
+            <button v-else type="submit">S'inscrire</button>
         </form>
         <div class="popup">
             <!-- The Modal -->
@@ -40,7 +44,11 @@
 </template>
 
 <script>
-import { createUser } from '@/services/MovieService.js';
+import { createUser, modifyUser } from '@/services/MovieService.js';
+import { useTokensStore } from '@/stores/TokensStore.js';
+
+const tokensStore = useTokensStore();
+
 export default {
     data() {
       return {
@@ -54,40 +62,55 @@ export default {
       closeSucessPopUp(){
         document.getElementById("myModal").style.display = "none";
       },
+      isUserLoggedIn(){
+        return tokensStore.isLoggedIn();
+      },
       async onSubmit(event)
       {
         let form = event.target;
-        
-        let email = form.querySelector("#email").value
-        let password = form.querySelector("#password").value
-        let confirmationPassword = form.querySelector("#confirmationPassword").value
         let firstname = form.querySelector("#firstname").value
         let lastname = form.querySelector("#lastname").value
-
+        let email = form.querySelector("#email").value
         this.popupMessage = []
-        if(email.length >= this.maxlength && email.length > this.minlength){
-            this.popupMessage.push("- Le mail doit avoir 50 charactères ou moins et ne doit pas être vide.")
-        } 
+
         if(firstname.length >= this.maxlength && firstname.length > this.minlength){
             this.popupMessage.push("- Le prenom doit avoir 50 charactères ou moins et ne doit pas être vide.")
         }
         if(lastname.length >= this.maxlength && lastname.length > this.minlength){
             this.popupMessage.push("- Le nom doit avoir 50 charactères ou moins et ne doit pas être vide.")
         }
-        if(password.length >= this.maxlength && password.length > this.minlength){
-            this.popupMessage.push("- Le mot de passe doit avoir 50 charactères ou moins et ne doit pas être vide.")
-        }
-        if(password != confirmationPassword){
-            this.popupMessage.push("- Le mot de passe doit être le même que la confirmation du mot de passe.")
-        }
-
-        if(this.popupMessage.length == 0){
-            this.popupMessage.push("Merci pour votre envoie!😊")
-            //document.getElementById("messages").style.color = "green"
-            await createUser(email, password, firstname, lastname);
+        if(email.length >= this.maxlength && email.length > this.minlength){
+            this.popupMessage.push("- Le mail doit avoir 50 charactères ou moins et ne doit pas être vide.")
         } 
-        document.getElementById("myModal").style.display = "block";
-      },
+        
+        if (this.isUserLoggedIn())
+        {
+            if(this.popupMessage.length == 0){
+                let modifyMap = await modifyUser(firstname, lastname, email, tokensStore.latestToken);
+                this.popupMessage.push("Merci pour votre envoi!😊")
+                console.log(this.popupMessage)
+            }
+        }
+        else
+        {
+            let password = form.querySelector("#password").value
+            let confirmationPassword = form.querySelector("#confirmationPassword").value
+
+            if(password.length >= this.maxlength && password.length > this.minlength){
+                this.popupMessage.push("- Le mot de passe doit avoir 50 charactères ou moins et ne doit pas être vide.")
+            }
+            if(password != confirmationPassword){
+                this.popupMessage.push("- Le mot de passe doit être le même que la confirmation du mot de passe.")
+            }
+
+            document.getElementById("myModal").style.display = "block";
+            if(this.popupMessage.length == 0){
+                this.popupMessage.push("Merci pour votre envoi!😊")
+                await createUser(email, password, firstname, lastname);
+                //document.getElementById("messages").style.color = "green"
+            } 
+        }        
+    },
     }
 }
 </script>

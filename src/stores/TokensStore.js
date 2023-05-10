@@ -9,11 +9,19 @@ export const useTokensStore = defineStore('tokensStore', {
       let role = null
       if (state.tokensMap.size > 0)
       {
-        role = myMap.get(Array.from(state.tokensMap.keys()).pop());
+        role = myMap.get(latestToken);
         
       }
       return role
     },
+    latestToken: state => {
+        let token = null
+        if (state.tokensMap.size > 0)
+        {
+          token = Array.from(state.tokensMap.keys()).pop();          
+        }
+        return token
+      }
   },
   actions: {
     addToken (token, role) {

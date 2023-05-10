@@ -134,3 +134,28 @@ export async function getAllActors() {
     let actors = await response.json();
     return actors;
 }
+
+export async function modifyUser(firstName, lastName, email, token) {
+    let newHeaders = headers
+    newHeaders["Authorization"] = "Bearer " + token;
+    let options = {
+        method: 'PATCH',
+        headers: newHeaders,
+        body: JSON.stringify({
+                "email": email,
+                "first_name": firstName,
+                "last_name": lastName
+        })
+    };
+    const response = await fetch(baseURL + 'user', options);
+    let returnValue = new Map();
+    returnValue['statusCode'] = response.status;
+    if (response.status == 200)
+        returnValue['message'] = await response.text();
+    else
+    {
+        let json = await response.json()
+        returnValue['message'] = json.message;
+    }
+    return returnValue;
+}
