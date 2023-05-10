@@ -2,24 +2,25 @@ import { defineStore } from 'pinia'
 
 export const useTokensStore = defineStore('tokensStore', {
   state: () => ({
-    tokens: []
+    tokensMap: new Map()
   }),
   getters: {
     latestToken: state => {
-      let token = null
-      if (state.tokens.length > 0)
+      let role = null
+      if (state.tokensMap.size > 0)
       {
-        token = state.tokens[state.tokens.length - 1]
+        role = myMap.get(Array.from(state.tokensMap.keys()).pop());
+        
       }
-      return token
+      return role
     },
   },
   actions: {
-    addToken (token) {
-      this.tokens.push(token)
+    addToken (token, role) {
+      this.tokensMap[token] = role;  
     },
     isLoggedIn() {
-        return this.tokens.length != 0
+        return this.tokensMap.size != 0
     }
   }
 })

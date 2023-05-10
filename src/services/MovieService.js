@@ -43,14 +43,36 @@ export async function login(email, password)
                 "password": password,
         })
     };
-    const response = await fetch(baseURL + 'login', options);
-    let msg = await response;
+    const msg = await fetch(baseURL + 'login', options);
     let returnValue = new Map();
     returnValue['statusCode'] = msg.status;
+    console.log(msg.status)
     if (msg.status == 201)
-        returnValue['token'] = msg.token;
+    {
+        let json = await msg.json();
+        returnValue['token'] = json.token;
+    }
     else
         returnValue['error'] = msg.text();
+    return returnValue;
+}
+
+export async function getRole(token)
+{
+    let newHeaders = headers
+    newHeaders["Authorization"] = "Bearer " + token;
+    let options = {
+        method: 'GET',
+        headers: newHeaders
+    };
+    const response = await fetch(baseURL + 'user', options);
+    let msg = await response.json();
+    let returnValue = new Map();
+    returnValue['statusCode'] = response.status;
+    if (response.status == 200)
+        returnValue['roleId'] = msg.role_id;
+    else
+        returnValue['error'] = msg.message;
     return returnValue;
 }
 
