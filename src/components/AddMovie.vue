@@ -97,7 +97,6 @@ export default {
         let actors = form.querySelectorAll(".actor_checkbox")
         let desc = form.querySelector("#desc").value
 
-        console.log(file)
 
         this.popupMessage = []
         /*if(title.length >= this.maxlength && title.length > this.minlength){
