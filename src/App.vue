@@ -31,11 +31,12 @@ const tokensStore = useTokensStore();
             <input v-model="sortRadio" type="radio" id="rating" name="sort_method" v-bind:value="'rating'" checked>
             <p for="rating">Notes d'appréciation</p>
         </div>
-      </div>
-      <div v-if="!tokensStore.isLoggedIn()">
-        <button @click="onLogin()" class="login">Connexion</button>
-        <button @click="onSignUp()">Créer un compte</button>
-      </div>
+    </div>
+    <button @click="onSignUp()" v-if="tokensStore.isLoggedIn()">Modifier le compte</button>
+    <div v-else>
+      <button @click="onLogin()" class="login">Connexion</button>
+      <button @click="onSignUp()">Créer un compte</button>
+    </div>
   </header>
   <footer class="credit">
     <h2>Mathys Deshaies, Mikee Blanchet - 2023</h2>
@@ -80,6 +81,12 @@ export default {
     },
   },
   methods: {
+    getLoginText() {
+        if (this.$store.state.token.isLoggedIn())
+            return "Modifier le compte"
+        else
+            return "Connexion"
+    },
     async executeSearch()
     {
         this.$router.push(`/movies?searchQuery=` + this.keyWordInput + `&genre=` + this.genreSelect + `&year=` + this.yearInput + `&sortBy=` + this.sortRadio + `&page=1`);
