@@ -58,8 +58,7 @@ export async function login(email, password)
 
 export async function getRole(token)
 {
-    let newHeaders = headers
-    newHeaders["Authorization"] = "Bearer " + token;
+    let newHeaders = addTokenToHeaders();
     let options = {
         method: 'GET',
         headers: newHeaders
@@ -136,8 +135,7 @@ export async function getAllActors() {
 }
 
 export async function modifyUser(firstName, lastName, email, token) {
-    let newHeaders = headers
-    newHeaders["Authorization"] = "Bearer " + token;
+    let newHeaders = addTokenToHeaders(token);
     let options = {
         method: 'PATCH',
         headers: newHeaders,
@@ -158,4 +156,34 @@ export async function modifyUser(firstName, lastName, email, token) {
         returnValue['message'] = json.message;
     }
     return returnValue;
+}
+
+export async function modifyPassword(oldPassword, newPassword, newPasswordConfirm, token) {
+    let newHeaders = addTokenToHeaders(token);
+    let options = {
+        method: 'PATCH',
+        headers: newHeaders,
+        body: JSON.stringify({
+            "old_password": oldPassword,
+            "new_password": newPassword,
+            "new_password_confirm": newPasswordConfirm
+        })
+    };
+
+    const response = await fetch(baseURL + 'user/password', options);
+    let returnValue = new Map();
+    returnValue['statusCode'] = response.status;
+    if (response.status == 200)
+        returnValue['message'] = await response.text();
+    else
+    {
+        returnValue['message'] = "Failed to change password";
+    }
+    return returnValue;
+}
+
+async function addTokenToHeaders(headers, token)
+{
+    headers["Authorization"] = "Bearer " + token;
+    return headers
 }
