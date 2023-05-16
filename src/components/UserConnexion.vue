@@ -93,8 +93,7 @@ export default {
       closePopUp(){
         if (this.isLoggedIn)
             this.$router.go(-1)
-        else  
-            document.getElementById("myModal").style.display = "none";
+        document.getElementById("myModal").style.display = "none";
       }
     }
 }

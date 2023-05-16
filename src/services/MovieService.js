@@ -87,7 +87,7 @@ export async function getUsername(token)
     let returnValue = new Map();
     returnValue['statusCode'] = response.status;
     if (response.status == 200)
-        returnValue['roleId'] = msg.role_id;
+        returnValue['email'] = msg.email;
     else
         returnValue['error'] = msg.message;
     return returnValue;
@@ -101,7 +101,7 @@ export async function logout(token)
         headers: newHeaders
     };
     const response = await fetch(baseURL + 'logout', options);
-    let msg = await response;
+    let returnValue = new Map();
     returnValue['statusCode'] = response.status;
     if (response.status != 204)
         returnValue['error'] = "Impossible de se déconnecter.";
@@ -208,10 +208,11 @@ export async function modifyPassword(oldPassword, newPassword, newPasswordConfir
         body: JSON.stringify({
             "old_password": oldPassword,
             "new_password": newPassword,
-            "new_password_confirm": newPasswordConfirm
+            "confirm_new_password": newPasswordConfirm
         })
     };
 
+    
     const response = await fetch(baseURL + 'user/password', options);
     let returnValue = new Map();
     returnValue['statusCode'] = response.status;

@@ -7,7 +7,9 @@ import './assets/main.css'
 
 const app = createApp(App)
 
-app.use(createPinia())
+let pinia = createPinia();
+
+app.use(pinia)
 
 app.use(router)
 

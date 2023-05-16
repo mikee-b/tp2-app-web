@@ -1,5 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
+import { useTokensStore } from '@/stores/TokensStore.js';
+
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -47,6 +49,12 @@ const router = createRouter({
       props:true
     },
   ]
+})
+
+router.beforeEach((to, from) => {
+    const tokensStore = useTokensStore();
+    if (to.fullPath == '/addMovie' && tokensStore.getLatestTokenRole() != 1)
+        return false;
 })
 
 export default router

@@ -32,9 +32,12 @@ const tokensStore = useTokensStore();
             <p for="rating">Notes d'appréciation</p>
         </div>
     </div>
-    <button @click="onSignUp()" v-if="tokensStore.isLoggedIn()">Modifier le compte</button>
+    <div v-if="tokensStore.isLoggedIn()">
+      <button @click="onSignUp()" class="login">Profil</button>
+      <button @click="onLogout(tokensStore)">Se déconnecter</button>
+    </div>
     <div v-else>
-      <button @click="onLogin()" class="login">Connexion</button>
+      <button @click="onLogin()" class="login">Se connecter</button>
       <button @click="onSignUp()">Créer un compte</button>
     </div>
     <p v-if="tokensStore.isLoggedIn()">Hi {{ getName(tokensStore.latestToken) }}!</p>
@@ -46,8 +49,8 @@ const tokensStore = useTokensStore();
 </template>
 
 <script>
-import { getGenres } from '@/services/MovieService.js';
-import { searchMoviesByKeyWordsGenreAndYear, getUsername } from '@/services/MovieService.js';
+
+import { getGenres, logout, getUsername} from '@/services/MovieService.js';
 
 export default {
   data() {
@@ -99,8 +102,9 @@ export default {
     onSignUp() {
       this.$router.push(`/signup`);
     },
-    onLogout(){
-      logout(tokensStore.latestToken);
+    onLogout(tokensStore){
+        logout(tokensStore.latestToken);
+        tokensStore.logOut();
     },
     getName(token){
       let email = getUsername(token).then((map) => {
@@ -119,10 +123,13 @@ export default {
   created() {
     getGenres().then(response => this.genres = response);
   },
-};
+}
 </script>
 
 <style scoped>
+p{
+  color: white;
+}
 .login{
   background: rgb(66, 66, 66, 0.0);
   border: 2px solid var(--nav-content-color);
