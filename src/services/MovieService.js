@@ -63,7 +63,6 @@ export async function getRole(token)
         method: 'GET',
         headers: newHeaders
     };
-    console.log(options);
     const response = await fetch(baseURL + 'user', options);
     let msg = await response.json();
     let returnValue = new Map();
@@ -72,6 +71,21 @@ export async function getRole(token)
         returnValue['roleId'] = msg.role_id;
     else
         returnValue['error'] = msg.message;
+    return returnValue;
+}
+
+export async function logout(token)
+{
+    let newHeaders = await addTokenToHeaders(headers, token);
+    let options = {
+        method: 'GET',
+        headers: newHeaders
+    };
+    const response = await fetch(baseURL + 'logout', options);
+    let msg = await response;
+    returnValue['statusCode'] = response.status;
+    if (response.status != 204)
+        returnValue['error'] = "Impossible de se déconnecter.";
     return returnValue;
 }
 
