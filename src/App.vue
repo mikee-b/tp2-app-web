@@ -40,6 +40,7 @@ const tokensStore = useTokensStore();
       <button @click="onLogin()" class="login">Connexion</button>
       <button @click="onSignUp()">Créer un compte</button>
     </div>
+    <p v-if="tokensStore.isLoggedIn()">Hi {{ getName() }}!</p>
   </header>
   <footer class="credit">
     <h2>Mathys Deshaies, Mikee Blanchet - 2023</h2>
@@ -48,8 +49,7 @@ const tokensStore = useTokensStore();
 </template>
 
 <script>
-import { getGenres } from '@/services/MovieService.js';
-//import { logout,  } from '@/services/MovieService.js';
+import { getGenres, logout, getUsername} from '@/services/MovieService.js';
 
 export default {
   data() {
@@ -101,7 +101,19 @@ export default {
       this.$router.push(`/signup`);
     },
     onLogout(){
-      //logout(tokensStore.latestToken);
+      logout(tokensStore.latestToken);
+    },
+    async getName(){
+      let map = await getUsername(tokensStore.latestToken)
+      console.log(map);
+        if (map['statusCode'] == 200)
+        {
+          return map['email']
+        }
+        else
+        {
+          return map['error']
+        }
     }
   },
   created() {
@@ -111,6 +123,9 @@ export default {
 </script>
 
 <style scoped>
+p{
+  color: white;
+}
 .login{
   background: rgb(66, 66, 66, 0.0);
   border: 2px solid var(--nav-content-color);

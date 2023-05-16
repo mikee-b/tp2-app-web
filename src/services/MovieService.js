@@ -88,7 +88,7 @@ export async function getUsername(token)
     let returnValue = new Map();
     returnValue['statusCode'] = response.status;
     if (response.status == 200)
-        returnValue['roleId'] = msg.role_id;
+        returnValue['email'] = msg.email;
     else
         returnValue['error'] = msg.message;
     return returnValue;
