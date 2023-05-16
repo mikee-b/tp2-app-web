@@ -77,8 +77,7 @@ async function getUser(token)
         method: 'GET',
         headers: newHeaders
     };
-    let e =  await fetch(baseURL + 'user', options);
-    return e;
+    return await fetch(baseURL + 'user', options);
 }
 
 export async function getUsername(token)
