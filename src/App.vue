@@ -37,6 +37,7 @@ const tokensStore = useTokensStore();
       <button @click="onLogin()" class="login">Connexion</button>
       <button @click="onSignUp()">Créer un compte</button>
     </div>
+    <p v-if="tokensStore.isLoggedIn()">Hi {{ getName(tokensStore.latestToken) }}!</p>
   </header>
   <footer class="credit">
     <h2>Mathys Deshaies, Mikee Blanchet - 2023</h2>
@@ -46,7 +47,7 @@ const tokensStore = useTokensStore();
 
 <script>
 import { getGenres } from '@/services/MovieService.js';
-import { searchMoviesByKeyWordsGenreAndYear } from '@/services/MovieService.js';
+import { searchMoviesByKeyWordsGenreAndYear, getUsername } from '@/services/MovieService.js';
 
 export default {
   data() {
@@ -55,7 +56,8 @@ export default {
       keyWordInput: '',
       genreSelect: '',
       yearInput: '',
-      sortRadio: 'rating'
+      sortRadio: 'rating',
+      userName: ''
     }
   },
   watch: {
@@ -97,6 +99,22 @@ export default {
     onSignUp() {
       this.$router.push(`/signup`);
     },
+    onLogout(){
+      logout(tokensStore.latestToken);
+    },
+    getName(token){
+      let email = getUsername(token).then((map) => {
+          if (map['statusCode'] == 200)
+          {
+            return map['email']
+          }
+          else
+          {
+            return map['error']
+          }
+      });
+      return email;
+    }
   },
   created() {
     getGenres().then(response => this.genres = response);
