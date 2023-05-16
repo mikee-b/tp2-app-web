@@ -58,11 +58,12 @@ export async function login(email, password)
 
 export async function getRole(token)
 {
-    let newHeaders = addTokenToHeaders();
+    let newHeaders = await addTokenToHeaders(headers, token);
     let options = {
         method: 'GET',
         headers: newHeaders
     };
+    console.log(options);
     const response = await fetch(baseURL + 'user', options);
     let msg = await response.json();
     let returnValue = new Map();
@@ -135,7 +136,7 @@ export async function getAllActors() {
 }
 
 export async function modifyUser(firstName, lastName, email, token) {
-    let newHeaders = addTokenToHeaders(token);
+    let newHeaders = await addTokenToHeaders(headers, token);
     let options = {
         method: 'PATCH',
         headers: newHeaders,
@@ -159,7 +160,7 @@ export async function modifyUser(firstName, lastName, email, token) {
 }
 
 export async function modifyPassword(oldPassword, newPassword, newPasswordConfirm, token) {
-    let newHeaders = addTokenToHeaders(token);
+    let newHeaders = await addTokenToHeaders(headers, token);
     let options = {
         method: 'PATCH',
         headers: newHeaders,
