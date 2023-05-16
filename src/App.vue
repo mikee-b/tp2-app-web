@@ -34,10 +34,10 @@ const tokensStore = useTokensStore();
     </div>
     <div v-if="tokensStore.isLoggedIn()">
       <button @click="onSignUp()" class="login">Profil</button>
-      <button @click="onLogout(tokensStore)">Logout</button>
+      <button @click="onLogout(tokensStore)">Se déconnecter</button>
     </div>
     <div v-else>
-      <button @click="onLogin()" class="login">Connexion</button>
+      <button @click="onLogin()" class="login">Se connecter</button>
       <button @click="onSignUp()">Créer un compte</button>
     </div>
   </header>
