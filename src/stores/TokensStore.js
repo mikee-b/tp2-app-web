@@ -8,15 +8,6 @@ export const useTokensStore = defineStore('tokensStore', {
 
     // role '1' = admin
     // role '2' = user
-    latestTokenRole: state => {
-      let role = null
-      if (state.tokensMap.size > 0)
-      {
-        role = myMap.get(latestToken);
-        
-      }
-      return role
-    },
     latestToken: state => {
         let token = null
         if (state.tokensMap.size > 0)
@@ -27,6 +18,15 @@ export const useTokensStore = defineStore('tokensStore', {
       }
   },
   actions: {
+    getLatestTokenRole() {
+        let role = null
+        if (this.$state.tokensMap.size > 0)
+        {
+          role = this.$state.tokensMap.get(this.latestToken);
+          
+        }
+        return role
+    },
     addToken (token, role) {
       this.tokensMap.set(token, role);  
     },

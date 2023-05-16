@@ -11,8 +11,6 @@ let pinia = createPinia();
 
 app.use(pinia)
 
-// router.use(pinia)
-
 app.use(router)
 
 app.mount('#app')
