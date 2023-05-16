@@ -29,6 +29,9 @@ export const useTokensStore = defineStore('tokensStore', {
     },
     isLoggedIn() {
         return this.tokensMap.size != 0
+    },
+    logOut() {
+        this.tokensMap.clear();
     }
   }
 })

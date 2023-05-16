@@ -101,7 +101,7 @@ export async function logout(token)
         headers: newHeaders
     };
     const response = await fetch(baseURL + 'logout', options);
-    let msg = await response;
+    let returnValue = new Map();
     returnValue['statusCode'] = response.status;
     if (response.status != 204)
         returnValue['error'] = "Impossible de se déconnecter.";

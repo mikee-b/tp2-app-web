@@ -34,7 +34,7 @@ const tokensStore = useTokensStore();
     </div>
     <div v-if="tokensStore.isLoggedIn()">
       <button @click="onSignUp()" class="login">Profil</button>
-      <button @click="onLogout()">Logout</button>
+      <button @click="onLogout(tokensStore)">Logout</button>
     </div>
     <div v-else>
       <button @click="onLogin()" class="login">Connexion</button>
@@ -49,7 +49,7 @@ const tokensStore = useTokensStore();
 
 <script>
 import { getGenres } from '@/services/MovieService.js';
-//import { logout,  } from '@/services/MovieService.js';
+import { logout } from '@/services/MovieService.js';
 
 export default {
   data() {
@@ -100,8 +100,9 @@ export default {
     onSignUp() {
       this.$router.push(`/signup`);
     },
-    onLogout(){
-      //logout(tokensStore.latestToken);
+    onLogout(tokensStore){
+        logout(tokensStore.latestToken);
+        tokensStore.logOut();
     }
   },
   created() {
