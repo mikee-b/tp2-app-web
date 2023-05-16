@@ -1,6 +1,6 @@
 <template>
     <div>
-        <h2 v-if="isUserLoggedIn()">Modifier le compte</h2>
+        <h3 v-if="isUserLoggedIn()">Modifier information</h3>
         <h2 v-else>Créer un compte</h2>
          <form class="form" action="" method="post" @submit.prevent="onSubmit">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M24 1l-4.5 16.5-6.097-5.43 5.852-6.175-7.844 5.421-5.411-1.316 18-9zm-11 12.501v5.499l2.193-3.323-2.193-2.176zm-13 8.63c1.013-1.574 1.955-2.256 2.938-2.55l.234 1.448c-.663.256-1.215.806-1.965 1.971l-1.207-.869zm11-4.729c-.928 1.473-1.748 2.104-2.566 2.322l.254 1.436c.746-.176 1.521-.583 2.312-1.391v-2.367zm-3.855 2.385c-.883-.103-1.92-.365-2.938-.376l.236 1.462c.873.068 1.931.345 2.963.395l-.261-1.481z"/></svg>
@@ -29,6 +29,25 @@
             <button v-if="isUserLoggedIn()" type="submit">Modifier</button>
             <button v-else type="submit">S'inscrire</button>
         </form>
+        <div v-if="isUserLoggedIn()">
+            <h2>Modifier mot de passe</h2>
+            <form class="form" action="" method="post" @submit.prevent="onSubmitPasswordChange">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M24 1l-4.5 16.5-6.097-5.43 5.852-6.175-7.844 5.421-5.411-1.316 18-9zm-11 12.501v5.499l2.193-3.323-2.193-2.176zm-13 8.63c1.013-1.574 1.955-2.256 2.938-2.55l.234 1.448c-.663.256-1.215.806-1.965 1.971l-1.207-.869zm11-4.729c-.928 1.473-1.748 2.104-2.566 2.322l.254 1.436c.746-.176 1.521-.583 2.312-1.391v-2.367zm-3.855 2.385c-.883-.103-1.92-.365-2.938-.376l.236 1.462c.873.068 1.931.345 2.963.395l-.261-1.481z"/></svg>
+                <div>
+                    <label for="oldPaddword">Ancien Mot de Passe : </label>
+                    <input id="oldPaddword" type="text" minlength="1" maxlength="50" required>
+                </div>
+                <div>
+                    <label for="newPassword">Nouveau Mot de passe : </label>
+                    <input id="newPassword" type="password" minlength="1" maxlength="50" required>
+                </div>
+                <div>
+                    <label for="confirmationNewPassword">Confirmation du nouveau mot de passe : </label>
+                    <input id="confirmationNewPassword" type="password" minlength="1" maxlength="50" required>
+                </div>
+                <button type="submit">Modifier</button>
+            </form>
+        </div>
         <div class="popup">
             <!-- The Modal -->
             <div id="myModal" class="modal">
@@ -48,11 +67,12 @@ import { createUser, modifyUser } from '@/services/MovieService.js';
 import { useTokensStore } from '@/stores/TokensStore.js';
 
 const tokensStore = useTokensStore();
+const MESSAGE_CONFORMATION = "Merci pour la création de votre compte!😊";
 
 export default {
     data() {
       return {
-        popupMessage: ["Merci pour votre envoie!😊"],
+        popupMessage: [MESSAGE_CONFORMATION],
         //Veillez vérifier vos champs😔
         maxlength: 50,
         minlength: 0,
@@ -87,7 +107,7 @@ export default {
         {
             if(this.popupMessage.length == 0){
                 let modifyMap = await modifyUser(firstname, lastname, email, tokensStore.latestToken);
-                this.popupMessage.push("Merci pour votre envoi!😊")
+                this.popupMessage.push(MESSAGE_CONFORMATION)
                 console.log(this.popupMessage)
             }
         }
@@ -105,11 +125,36 @@ export default {
 
             document.getElementById("myModal").style.display = "block";
             if(this.popupMessage.length == 0){
-                this.popupMessage.push("Merci pour votre envoi!😊")
+                this.popupMessage.push(MESSAGE_CONFORMATION)
                 await createUser(email, password, firstname, lastname);
                 //document.getElementById("messages").style.color = "green"
             } 
         }        
+    },
+    async onSubmitPasswordChange(event)
+    {
+        let form = event.target;
+        let oldPassword = form.querySelector("#oldPassword").value
+        let newPassword = form.querySelector("#newPassword").value
+        let confirmationNewPassword = form.querySelector("#confirmationNewPassword").value
+        this.popupMessage = []
+
+        if(oldPassword.length >= this.maxlength && oldPassword.length > this.minlength){
+            this.popupMessage.push("- Le l'ancien mot de passe doit avoir 50 charactères ou moins et ne doit pas être vide.")
+        }
+        if(newPassword.length >= this.maxlength && newPassword.length > this.minlength){
+            this.popupMessage.push("- Le nouveau mot de passe doit avoir 50 charactères ou moins et ne doit pas être vide.")
+        }
+        if(confirmationNewPassword.length >= this.maxlength && confirmationNewPassword.length > this.minlength){
+            this.popupMessage.push("- La confirmation du nouveau mot de passe doit avoir 50 charactères ou moins et ne doit pas être vide.")
+        } 
+
+        document.getElementById("myModal").style.display = "block";
+        if(this.popupMessage.length == 0){
+            this.popupMessage.push(MESSAGE_CONFORMATION)
+            await modifyPassword(oldPassword, newPassword, confirmationNewPassword, tokensStore.latestToken);
+            //document.getElementById("messages").style.color = "green"
+        } 
     },
     }
 }

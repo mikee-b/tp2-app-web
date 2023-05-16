@@ -32,7 +32,10 @@ const tokensStore = useTokensStore();
             <p for="rating">Notes d'appréciation</p>
         </div>
     </div>
-    <button @click="onSignUp()" v-if="tokensStore.isLoggedIn()">Modifier le compte</button>
+    <div v-if="tokensStore.isLoggedIn()">
+      <button @click="onSignUp()" class="login">Profil</button>
+      <button @click="onLogout()">Logout</button>
+    </div>
     <div v-else>
       <button @click="onLogin()" class="login">Connexion</button>
       <button @click="onSignUp()">Créer un compte</button>
@@ -46,7 +49,7 @@ const tokensStore = useTokensStore();
 
 <script>
 import { getGenres } from '@/services/MovieService.js';
-import { searchMoviesByKeyWordsGenreAndYear } from '@/services/MovieService.js';
+//import { logout,  } from '@/services/MovieService.js';
 
 export default {
   data() {
@@ -97,6 +100,9 @@ export default {
     onSignUp() {
       this.$router.push(`/signup`);
     },
+    onLogout(){
+      //logout(tokensStore.latestToken);
+    }
   },
   created() {
     getGenres().then(response => this.genres = response);
