@@ -11,6 +11,7 @@ export async function getRecentMovies() {
   return await json.data.slice(0, 3);
 }
 
+//old
 export async function createMovie()
 {
 
@@ -58,12 +59,31 @@ export async function login(email, password)
 
 export async function getRole(token)
 {
+    const response = await getUser(token);
+    let msg = await response.json();
+    let returnValue = new Map();
+    returnValue['statusCode'] = response.status;
+    if (response.status == 200)
+        returnValue['roleId'] = msg.role_id;
+    else
+        returnValue['error'] = msg.message;
+    return returnValue;
+}
+
+async function getUser(token)
+{
     let newHeaders = await addTokenToHeaders(headers, token);
     let options = {
         method: 'GET',
         headers: newHeaders
     };
-    const response = await fetch(baseURL + 'user', options);
+    let e =  await fetch(baseURL + 'user', options);
+    return e;
+}
+
+export async function getUsername(token)
+{
+    let response = await getUser(token);
     let msg = await response.json();
     let returnValue = new Map();
     returnValue['statusCode'] = response.status;
@@ -89,6 +109,7 @@ export async function logout(token)
     return returnValue;
 }
 
+//old
 export async function getGenres() {
     // const response = await fetch(baseURL + 'genre/movie/list' + '?' + apiKeyParam + apiKey, headers);
     // let json = await response.json();
@@ -96,12 +117,14 @@ export async function getGenres() {
     return null;
 }
 
+//old
 export async function getMovie(id) {
     const response = await fetch(baseURL + 'films/' + id, headers);
     let movie = await response.json();
     return movie.data;
 }
 
+//old
 export async function searchMoviesByKeyWordsGenreAndYear(keywords, genre, year, page, sortMethod /* either  'date' or 'rating', default is rating*/) {
 
     let sortBy = 'vote_average.desc';
@@ -114,6 +137,7 @@ export async function searchMoviesByKeyWordsGenreAndYear(keywords, genre, year, 
     return movies;
 }
 
+//old
 export async function getKeywordsIds(keywords) {
     // let keywordIds = '';
     // let keywordsArray = keywords.split(",");
@@ -129,6 +153,8 @@ export async function getKeywordsIds(keywords) {
     // return keywordIds;
 }
 
+
+//old
 export async function rateMovie(movieId, rating, guestSessionId) {
     // rating between 0.5 and 10
     let options = {
@@ -143,6 +169,8 @@ export async function rateMovie(movieId, rating, guestSessionId) {
     return msg;
 }
 
+
+//old
 export async function getAllActors() {
     const response = await fetch(baseURL + 'actors', headers);
     let actors = await response.json();
