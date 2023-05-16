@@ -11,11 +11,11 @@
             <div v-if="!isUserLoggedIn()">
                 <div>
                     <label for="password">Mot de passe : </label>
-                    <input id="password" type="password" minlength="1" maxlength="50" required>
+                    <input id="password" type="password" minlength="6" maxlength="50" required>
                 </div>
                 <div>
                     <label for="confirmationPassword">Confirmation du mot de passe : </label>
-                    <input id="confirmationPassword" type="password" minlength="1" maxlength="50" required>
+                    <input id="confirmationPassword" type="password" minlength="6" maxlength="50" required>
                 </div>
             </div>
             <div>
@@ -35,15 +35,15 @@
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M24 1l-4.5 16.5-6.097-5.43 5.852-6.175-7.844 5.421-5.411-1.316 18-9zm-11 12.501v5.499l2.193-3.323-2.193-2.176zm-13 8.63c1.013-1.574 1.955-2.256 2.938-2.55l.234 1.448c-.663.256-1.215.806-1.965 1.971l-1.207-.869zm11-4.729c-.928 1.473-1.748 2.104-2.566 2.322l.254 1.436c.746-.176 1.521-.583 2.312-1.391v-2.367zm-3.855 2.385c-.883-.103-1.92-.365-2.938-.376l.236 1.462c.873.068 1.931.345 2.963.395l-.261-1.481z"/></svg>
                 <div>
                     <label for="oldPaddword">Ancien Mot de Passe : </label>
-                    <input id="oldPaddword" type="text" minlength="1" maxlength="50" required>
+                    <input id="oldPaddword" type="text" minlength="6" maxlength="50" required>
                 </div>
                 <div>
                     <label for="newPassword">Nouveau Mot de passe : </label>
-                    <input id="newPassword" type="password" minlength="1" maxlength="50" required>
+                    <input id="newPassword" type="password" minlength="6" maxlength="50" required>
                 </div>
                 <div>
                     <label for="confirmationNewPassword">Confirmation du nouveau mot de passe : </label>
-                    <input id="confirmationNewPassword" type="password" minlength="1" maxlength="50" required>
+                    <input id="confirmationNewPassword" type="password" minlength="6" maxlength="50" required>
                 </div>
                 <button type="submit">Modifier</button>
             </form>
@@ -75,7 +75,8 @@ export default {
         popupMessage: [MESSAGE_CONFORMATION],
         //Veillez vérifier vos champs😔
         maxlength: 50,
-        minlength: 0,
+        minlength: 1,
+        minlengthPassword: 6,
       };
     },
     methods: {
@@ -116,11 +117,11 @@ export default {
             let password = form.querySelector("#password").value
             let confirmationPassword = form.querySelector("#confirmationPassword").value
 
-            if(password.length >= this.maxlength && password.length > this.minlength){
-                this.popupMessage.push("- Le mot de passe doit avoir 50 charactères ou moins et ne doit pas être vide.")
+            if(password.length >= this.maxlength && password.length > this.minlengthPassword){
+                this.popupMessage.push("- Le mot de passe doit avoir entre 6 et 50 charactères.")
             }
             if(password != confirmationPassword){
-                this.popupMessage.push("- Le mot de passe doit être le même que la confirmation du mot de passe.")
+                this.popupMessage.push("- Le mot de passe doit avoir entre 6 et 50 charactères.")
             }
 
             document.getElementById("myModal").style.display = "block";
@@ -139,14 +140,14 @@ export default {
         let confirmationNewPassword = form.querySelector("#confirmationNewPassword").value
         this.popupMessage = []
 
-        if(oldPassword.length >= this.maxlength && oldPassword.length > this.minlength){
-            this.popupMessage.push("- Le l'ancien mot de passe doit avoir 50 charactères ou moins et ne doit pas être vide.")
+        if(oldPassword.length >= this.maxlength && oldPassword.length > this.minlengthPassword){
+            this.popupMessage.push("- Le l'ancien mot de passe doit avoir entre 6 et 50 charactères.")
         }
-        if(newPassword.length >= this.maxlength && newPassword.length > this.minlength){
-            this.popupMessage.push("- Le nouveau mot de passe doit avoir 50 charactères ou moins et ne doit pas être vide.")
+        if(newPassword.length >= this.maxlength && newPassword.length > this.minlengthPassword){
+            this.popupMessage.push("- Le nouveau mot de passe doit avoir entre 6 et 50 charactères.")
         }
-        if(confirmationNewPassword.length >= this.maxlength && confirmationNewPassword.length > this.minlength){
-            this.popupMessage.push("- La confirmation du nouveau mot de passe doit avoir 50 charactères ou moins et ne doit pas être vide.")
+        if(confirmationNewPassword.length >= this.maxlength && confirmationNewPassword.length > this.minlengthPassword){
+            this.popupMessage.push("- La confirmation du nouveau mot de passe doit avoir entre 6 et 50 charactères.")
         } 
 
         document.getElementById("myModal").style.display = "block";

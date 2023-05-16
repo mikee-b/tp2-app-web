@@ -9,7 +9,7 @@
             </div>
             <div>
                 <label for="password">Mot de passe : </label>
-                <input id="password" type="password" minlength="1" maxlength="50" required>
+                <input id="password" type="password" minlength="6" maxlength="50" required>
             </div>
             <button type="submit">Se connecter</button>
         </form>
@@ -37,6 +37,7 @@ export default {
         popupMessage: ["Merci pour votre envoie!😊"],
         maxlength: 50,
         minlength: 1,
+        minlengthPassword: 1,
         tokensStore: useTokensStore(),
         isLoggedIn: false
         //Veillez vérifier vos champs...😔
@@ -52,10 +53,10 @@ export default {
         let email = form.querySelector("#email").value
         let password = form.querySelector("#password").value
         if(email.length >= this.maxlength || email.length < this.minlength ){
-            this.popupMessage.push("- Email doit avoir 50 charactères ou moins.")
+            this.popupMessage.push("- Email doit avoir entre 6 et 50 charactères.")
         } 
-        if(password.length >= this.maxlength || password.length < this.minlength){
-            this.popupMessage.push("- Password doit avoir 50 charactères ou moins.")
+        if(password.length >= this.maxlength || password.length < this.minlengthPassword){
+            this.popupMessage.push("- Password doit avoir entre 6 et 50 charactères.")
         }
         if(this.popupMessage.length == 0){
             let error = await this.logUser(email, password)
