@@ -5,6 +5,9 @@ export const useTokensStore = defineStore('tokensStore', {
     tokensMap: new Map()
   }),
   getters: {
+
+    // role '1' = admin
+    // role '2' = user
     latestTokenRole: state => {
       let role = null
       if (state.tokensMap.size > 0)
