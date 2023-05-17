@@ -70,6 +70,8 @@ export async function getRole(token)
     return returnValue;
 }
 
+
+
 async function getUser(token)
 {
     let newHeaders = await addTokenToHeaders(headers, token);
