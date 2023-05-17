@@ -32,7 +32,7 @@ import { useTokensStore } from '@/stores/TokensStore.js';
     </div>
     <div v-if="isLoggedIn()">
       <button @click="onSignUp()" class="login">Profil</button>
-      <button @click="onLogout(tokensStore)">Se déconnecter</button>
+      <button @click="onLogout()">Se déconnecter</button>
     </div>
     <div v-else>
       <button @click="onLogin()" class="login">Se connecter</button>
@@ -109,9 +109,9 @@ export default {
     onSignUp() {
       this.$router.push(`/signup`);
     },
-    onLogout(tokensStore){
-        logout(tokensStore.latestToken);
-        tokensStore.logOut();
+    onLogout(){
+        logout(this.tokensStore.latestToken);
+        this.tokensStore.logOut();
     },
     getName(){
       let email = getUsername(this.tokensStore.latestToken).then((map) => {
