@@ -53,7 +53,7 @@ const router = createRouter({
 
 router.beforeEach((to, from) => {
     const tokensStore = useTokensStore();
-    if (to.fullPath == '/addMovie' && tokensStore.getLatestTokenRole() != 1)
+    if (to.fullPath == '/addMovie' && tokensStore.getLatestTokenDetails()['roleId'] != 1)
         return false;
 })
 

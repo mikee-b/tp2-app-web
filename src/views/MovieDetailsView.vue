@@ -110,7 +110,6 @@
     mounted() {
       getMovie(this.id).then(response => this.movie = response);
       this.userId = 1;
-      console.log("mounted")
     },
     methods: {
       isLoggedIn()

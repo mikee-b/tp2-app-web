@@ -18,19 +18,21 @@ export const useTokensStore = defineStore('tokensStore', {
       }
   },
   actions: {
-    getLatestTokenRole() {
+    getLatestTokenDetails() {
         let role = null
         if (this.$state.tokensMap.size > 0)
         {
-          role = this.$state.tokensMap.get(this.latestToken)['role'];
+          role = this.$state.tokensMap.get(this.latestToken);
           
         }
         return role
     },
-    addToken (token, role, userName) {
+    addToken (token, userId, roleId, firstName, lastName) {
       let detailsMap = new Map();
-      detailsMap['role'] = role;
-      detailsMap['userName'] = userName;
+      detailsMap['roleId'] = roleId;
+      detailsMap['userId'] = userId;
+      detailsMap['firstName'] = firstName;
+      detailsMap['lastName'] = lastName;
       this.tokensMap.set(token, detailsMap);  
     },
     isLoggedIn() {

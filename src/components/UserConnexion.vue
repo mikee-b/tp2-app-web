@@ -28,7 +28,7 @@
 </template>
 
 <script>
-import { login, getRole } from '@/services/MovieService.js'
+import { login, getUser } from '@/services/MovieService.js'
 import { useTokensStore } from '@/stores/TokensStore.js';
 
 export default {
@@ -74,15 +74,14 @@ export default {
         let map = await login(email, password)
         if (map['statusCode'] == 201)
         {
-            let roleMap = await getRole(map['token'])
-            if (roleMap.statusCode == 200)
+            let details = await getUser(map['token'])
+            if (details.statusCode == 200)
             {
-                const roleId = roleMap['roleId']
-                this.tokensStore.addToken(map['token'], roleId)
+                this.tokensStore.addToken(map['token'], details['id'], details['roleId'], details['firstName'], details['lastName'])
             }
             else
             {
-                return roleMap['message']
+                return details['message']
             }
         }
         else

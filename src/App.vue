@@ -38,7 +38,7 @@ import { useTokensStore } from '@/stores/TokensStore.js';
       <button @click="onLogin()" class="login">Se connecter</button>
       <button @click="onSignUp()">Créer un compte</button>
     </div>
-    <p v-if="isLoggedIn()">Hi {{ getName() }}!</p>
+    <p v-if="isLoggedIn()">Hi {{ userName }}!</p>
   </header>
   <footer class="credit">
     <h2>Mathys Deshaies, Mikee Blanchet - 2023</h2>
@@ -48,7 +48,7 @@ import { useTokensStore } from '@/stores/TokensStore.js';
 
 <script>
 
-import { getGenres, logout, getUsername} from '@/services/MovieService.js';
+import { getGenres, logout} from '@/services/MovieService.js';
 
 export default {
     // setup() {
@@ -101,7 +101,15 @@ export default {
     },
     isLoggedIn()
     {
-        return this.tokensStore.isLoggedIn();
+        let isLoggedIn = this.tokensStore.isLoggedIn();
+        if (isLoggedIn)
+        {
+            let details = this.tokensStore.getLatestTokenDetails()
+            this.userName = details['firstName'] + ' ' + details['lastName']
+            
+            console.log("true")
+        }
+        return isLoggedIn;
     },
     onLogin() {
       this.$router.push(`/login`);
@@ -112,24 +120,11 @@ export default {
     onLogout(){
         logout(this.tokensStore.latestToken);
         this.tokensStore.logOut();
-    },
-    getName(){
-      let email = getUsername(this.tokensStore.latestToken).then((map) => {
-          if (map['statusCode'] == 200)
-          {
-            return map['email']
-          }
-          else
-          {
-            return map['error']
-          }
-      });
-      return email;
     }
   },
-  created() {
+  mounted() {
     getGenres().then(response => this.genres = response);
-  },
+  }
 }
 </script>
 

@@ -57,27 +57,28 @@ export async function login(email, password)
     return returnValue;
 }
 
-export async function getRole(token)
-{
-    const response = await getUser(token);
-    let msg = await response.json();
-    let returnValue = new Map();
-    returnValue['statusCode'] = response.status;
-    if (response.status == 200)
-        returnValue['roleId'] = msg.role_id;
-    else
-        returnValue['error'] = msg.message;
-    return returnValue;
-}
-
-async function getUser(token)
+export async function getUser(token)
 {
     let newHeaders = await addTokenToHeaders(headers, token);
     let options = {
         method: 'GET',
         headers: newHeaders
     };
-    return await fetch(baseURL + 'user', options);
+    let response = await fetch(baseURL + 'user', options);
+    let msg = await response.json();
+    let returnValue = new Map();
+    returnValue['statusCode'] = response.status;
+    if (response.status == 200)
+    {
+        returnValue['email'] = msg.email;
+        returnValue['firstName'] = msg.first_name;
+        returnValue['lastName'] = msg.last_name;
+        returnValue['role'] = msg.role_id;
+        returnValue['id'] = msg.id;
+    }
+    else
+        returnValue['error'] = msg.message;
+    return returnValue;
 }
 
 export async function getUsername(token)
