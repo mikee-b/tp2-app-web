@@ -106,6 +106,28 @@ export async function getUserId(token)
     return returnValue;
 }
 
+export async function addCritic(token, movieId, comment, score)
+{
+    let newHeaders = addTokenToHeaders(token)
+    let options = {
+        method: 'POST',
+        headers: headers,
+        body: JSON.stringify({
+            "comment": comment,
+            "score": score,
+        })
+    };
+
+    const response = await fetch(baseURL + 'films/' + movieId, options);
+    let returnValue = new Map();
+    returnValue['statusCode'] = response.status;
+    if (response.status == 200)
+        returnValue['message'] = response.text()
+    else
+        returnValue['message'] = "erreur"
+    return returnValue;
+}
+
 export async function logout(token)
 {
     let newHeaders = await addTokenToHeaders(headers, token);
