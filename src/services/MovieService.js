@@ -87,13 +87,15 @@ export async function getCritics(token, movieId)
         method: 'GET',
         headers: newHeaders
     };
-    let response = await fetch(baseURL + 'user/' + movieId +"/critics/", options);
+    let response = await fetch(baseURL + 'films/' + movieId +"/", options);
     let returnValue = new Map();
     returnValue['statusCode'] = response.status;
     if (response.status != 204)
         returnValue['error'] = "Impossible de récupérer les commentaires.";
     let json = response.json()
     returnValue['critics'] = json.data.critiques;
+
+
     return returnValue;
 }
 
