@@ -1,8 +1,6 @@
 <script setup>
 import { RouterLink, RouterView } from 'vue-router'
 import { useTokensStore } from '@/stores/TokensStore.js';
-
-const tokensStore = useTokensStore();
 </script>
 
 <template>
@@ -32,7 +30,7 @@ const tokensStore = useTokensStore();
             <p for="rating">Notes d'appréciation</p>
         </div>
     </div>
-    <div v-if="tokensStore.isLoggedIn()">
+    <div v-if="isLoggedIn()">
       <button @click="onSignUp()" class="login">Profil</button>
       <button @click="onLogout(tokensStore)">Se déconnecter</button>
     </div>
@@ -40,7 +38,7 @@ const tokensStore = useTokensStore();
       <button @click="onLogin()" class="login">Se connecter</button>
       <button @click="onSignUp()">Créer un compte</button>
     </div>
-    <p v-if="tokensStore.isLoggedIn()">Hi {{ getName() }}!</p>
+    <p v-if="isLoggedIn()">Hi {{ getName() }}!</p>
   </header>
   <footer class="credit">
     <h2>Mathys Deshaies, Mikee Blanchet - 2023</h2>
@@ -53,13 +51,19 @@ const tokensStore = useTokensStore();
 import { getGenres, logout, getUsername} from '@/services/MovieService.js';
 
 export default {
+    // setup() {
+    //     const tokensStore = useTokensStore();
+    //     return { tokensStore };
+    // },
   data() {
     return {
       genres: [],
       keyWordInput: '',
       genreSelect: '',
       yearInput: '',
-      sortRadio: 'rating'
+      sortRadio: 'rating',
+      userName: '',
+      tokensStore: useTokensStore()
     }
   },
   watch: {
@@ -95,6 +99,10 @@ export default {
     {
         this.$router.push(`/movies?searchQuery=` + this.keyWordInput + `&genre=` + this.genreSelect + `&year=` + this.yearInput + `&sortBy=` + this.sortRadio + `&page=1`);
     },
+    isLoggedIn()
+    {
+        return this.tokensStore.isLoggedIn();
+    },
     onLogin() {
       this.$router.push(`/login`);
     },
@@ -105,19 +113,20 @@ export default {
         logout(tokensStore.latestToken);
         tokensStore.logOut();
     },
-    async getName(){
-      let map = await getUsername(tokensStore.latestToken)
-      console.log(map);
-        if (map['statusCode'] == 200)
-        {
-          return map['email']
-        }
-        else
-        {
-          return map['error']
-        }
+    getName(){
+      let email = getUsername(this.tokensStore.latestToken).then((map) => {
+          if (map['statusCode'] == 200)
+          {
+            return map['email']
+          }
+          else
+          {
+            return map['error']
+          }
+      });
+      return email;
     }
-},
+  },
   created() {
     getGenres().then(response => this.genres = response);
   },
