@@ -22,13 +22,16 @@ export const useTokensStore = defineStore('tokensStore', {
         let role = null
         if (this.$state.tokensMap.size > 0)
         {
-          role = this.$state.tokensMap.get(this.latestToken);
+          role = this.$state.tokensMap.get(this.latestToken)['role'];
           
         }
         return role
     },
-    addToken (token, role) {
-      this.tokensMap.set(token, role);  
+    addToken (token, role, userName) {
+      let detailsMap = new Map();
+      detailsMap['role'] = role;
+      detailsMap['userName'] = userName;
+      this.tokensMap.set(token, detailsMap);  
     },
     isLoggedIn() {
         return this.tokensMap.size != 0
