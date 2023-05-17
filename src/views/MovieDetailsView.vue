@@ -18,7 +18,7 @@
         </div>
     </div>
      <!--si administrateur ou user-->
-    <div v-if="tokensStore.isLoggedIn()">
+    <div v-if="isLoggedIn()">
         <h3>Rating</h3>
         <form class="rating-form">
             <div class="rate">
@@ -44,10 +44,10 @@
         </form>
     </div>
      <h3>Critiques</h3>
-    <div v-if="tokensStore.isLoggedIn()" class="card_container">
+    <div class="card_container">
         <!--boucle for pour faire une carte pour chaque commentaire de l'api, sauf celui du membre-->
-        <div class="card_commentary" v-for="critic in getCritics()" v-if="critic.user_id != getUserId()">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 1c-6.338 0-12 4.226-12 10.007 0 2.05.738 4.063 2.047 5.625.055 1.83-1.023 4.456-1.993 6.368 2.602-.47 6.301-1.508 7.978-2.536 9.236 2.247 15.968-3.405 15.968-9.457 0-5.812-5.701-10.007-12-10.007zm0 14h-6v-1h6v1zm6-3h-12v-1h12v1zm0-3h-12v-1h12v1z"/></svg>
+        <div class="card_commentary" v-for="critic in movie.critiques">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 1c-6.38 0-12 4.226-12 10.007 0 2.05.738 4.063 2.047 5.625.055 1.83-1.023 4.456-1.993 6.368 2.602-.47 6.301-1.508 7.978-2.536 9.236 2.247 15.968-3.405 15.968-9.457 0-5.812-5.701-10.007-12-10.007zm0 14h-6v-1h6v1zm6-3h-12v-1h12v1zm0-3h-12v-1h12v1z"/></svg>
             <p class="name">{{ critic.user_name }}</p>
             <!-- ex: Mikee Blanchet -->
             <p>{{ critic.commentaire }}</p>
@@ -89,10 +89,8 @@
   </template>
   
   <script>
-  import { getMovie, rateMovie, getCritics, getUserId } from '@/services/MovieService.js';
+  import { getMovie, rateMovie } from '@/services/MovieService.js';
   import { useTokensStore } from '@/stores/TokensStore.js';
-
-  const tokensStore = useTokensStore();
 
   export default {
     data() {
@@ -100,8 +98,8 @@
         popupMessage: "Merci pour votre envoie!😊",
         //Veillez vérifier vos champs😔
         baseUrlImg: "https://image.tmdb.org/t/p/original/",
-        critics: null,
-        movie: Object
+        movie: Object,
+        tokensStore: useTokensStore(),
       };
     },
     props: {
@@ -111,8 +109,14 @@
     },
     mounted() {
       getMovie(this.id).then(response => this.movie = response);
+      this.userId = 1;
+      console.log("mounted")
     },
     methods: {
+      isLoggedIn()
+      {
+        return this.tokensStore.isLoggedIn();  
+    },
       getYearFromDate(date)
       {
           if (date != undefined)
@@ -128,7 +132,6 @@
           rateMovie(this.id, rating, getCurrentSessionId())
       },
       getNumberOfStarsFromRating(num) {
-        getCritics(tokensStore, this.id);
         return Math.round(num / 2);
       },
       openSucessPopUp(event){
@@ -138,9 +141,6 @@
       },
       closeSucessPopUp(){
         document.getElementById("myModal").style.display = "none";
-      },
-      getCritics(){
-        return getCritics(tokensStore, this.id);
       }
     }
   };
