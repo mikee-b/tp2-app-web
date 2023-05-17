@@ -16,7 +16,7 @@
             <p v-if="getNumberOfStarsFromRating(movie.vote_average) <= (index - 1)" class="static-rate empty-star">★</p>
         </div>
     </div>
-    <!--si administrateur-->
+     <!--si administrateur ou user-->
     <div>
         <h3>Rating</h3>
         <form class="rating-form">
@@ -42,17 +42,19 @@
             <button id="update-rating" type="submit" @click=openSucessPopUp($event)>Modifier</button>
         </form>
     </div>
-     <!--si administrateur ou user-->
-     <h3>Commentaries</h3>
+     <h3>Critiques</h3>
     <div class="card_container">
         <!--boucle for pour faire une carte pour chaque commentaire de l'api, sauf celui du membre-->
-        <div class="card_commentary">
+        <div class="card_commentary" v-for="critic in getCritics(tokensStore, this.id)" v-if="critic.id != getUserId()">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 1c-6.338 0-12 4.226-12 10.007 0 2.05.738 4.063 2.047 5.625.055 1.83-1.023 4.456-1.993 6.368 2.602-.47 6.301-1.508 7.978-2.536 9.236 2.247 15.968-3.405 15.968-9.457 0-5.812-5.701-10.007-12-10.007zm0 14h-6v-1h6v1zm6-3h-12v-1h12v1zm0-3h-12v-1h12v1z"/></svg>
-            <p class="name">Mikee Blanchet</p>
-            <p>1 janvier 2020</p>
-            <p class="commentary">wevhbiwfehbiwfehbiwfebiwefbhiwefhbi</p>
+            <p class="name">{{ critic.name }}</p>
+            <!-- ex: Mikee Blanchet -->
+            <p>{{ critic.msg }}</p>
+            <!-- ex: 1 janvier 2020 -->
+            <p class="commentary">{{ critic.msg }}</p>
+            <!-- ex: hello world -->
         </div>
-        <!--exemples-->
+        <!--exemples
         <div class="card_commentary">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 1c-6.338 0-12 4.226-12 10.007 0 2.05.738 4.063 2.047 5.625.055 1.83-1.023 4.456-1.993 6.368 2.602-.47 6.301-1.508 7.978-2.536 9.236 2.247 15.968-3.405 15.968-9.457 0-5.812-5.701-10.007-12-10.007zm0 14h-6v-1h6v1zm6-3h-12v-1h12v1zm0-3h-12v-1h12v1z"/></svg>
             <p class="name">Mikee Blanchet</p>
@@ -70,7 +72,7 @@
             <p class="name">Mikee Blanchet</p>
             <p>1 janvier 2020</p>
             <p class="commentary">wevhbiwfehbiqweffffffffffeeeeeeeeeeeeeeeeeeeeeeeeeeeffffffffffffffwfehbiwfebiwefbhiwefhbi</p>
-        </div>
+        </div>-->
     </div>
     <div class="popup">
         <!-- The Modal -->
@@ -86,15 +88,18 @@
   </template>
   
   <script>
-  import { getMovie } from '@/services/MovieService.js';
-  import { rateMovie } from '@/services/MovieService.js';
-  
+  import { getMovie, rateMovie, getCritics, getUserId } from '@/services/MovieService.js';
+  import { useTokensStore } from '@/stores/TokensStore.js';
+
+  const tokensStore = useTokensStore();
+
   export default {
     data() {
       return {
         popupMessage: "Merci pour votre envoie!😊",
         //Veillez vérifier vos champs😔
         baseUrlImg: "https://image.tmdb.org/t/p/original/",
+        critics: null,
         movie: Object
       };
     },

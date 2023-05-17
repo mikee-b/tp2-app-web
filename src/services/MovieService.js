@@ -80,6 +80,23 @@ async function getUser(token)
     return await fetch(baseURL + 'user', options);
 }
 
+export async function getCritics(token, movieId)
+{
+    let newHeaders = await addTokenToHeaders(headers, token);
+    let options = {
+        method: 'GET',
+        headers: newHeaders
+    };
+    let response = await fetch(baseURL + 'user/' + movieId +"/critics/", options);
+    let returnValue = new Map();
+    returnValue['statusCode'] = response.status;
+    if (response.status != 204)
+        returnValue['error'] = "Impossible de récupérer les commentaires.";
+    let json = response.json()
+    returnValue['critics'] = json.data.critiques;
+    return returnValue;
+}
+
 export async function getUsername(token)
 {
     let response = await getUser(token);
@@ -88,6 +105,19 @@ export async function getUsername(token)
     returnValue['statusCode'] = response.status;
     if (response.status == 200)
         returnValue['email'] = msg.email;
+    else
+        returnValue['error'] = msg.message;
+    return returnValue;
+}
+
+export async function getUserId(token)
+{
+    let response = await getUser(token);
+    let msg = await response.json();
+    let returnValue = new Map();
+    returnValue['statusCode'] = response.status;
+    if (response.status == 200)
+        returnValue['id'] = msg.id;
     else
         returnValue['error'] = msg.message;
     return returnValue;
