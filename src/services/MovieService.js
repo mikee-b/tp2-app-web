@@ -11,10 +11,34 @@ export async function getRecentMovies() {
   return await json.data.slice(0, 3);
 }
 
-//old
-export async function createMovie()
+//marche pas
+export async function createMovie(token, title, year, description, length, actors, rating, image)
 {
 
+    let newHeaders = addTokenToHeaders(headers, token)
+    let options = {
+        method: 'POST',
+        headers: newHeaders,
+        body: JSON.stringify({
+            "titre": title,
+            "annee": year,
+            "description": description,
+            "classement": rating,
+            "longueur": length,
+            "acteurs": actors,
+            "imageUrl": image
+        })
+    };
+    console.log(options)
+
+    const response = await fetch(baseURL + 'films', options);
+    let returnValue = new Map();
+    returnValue['statusCode'] = response.status;
+    if (response.status == 200)
+        returnValue['message'] = response.text()
+    else
+        returnValue['error'] = "erreur"
+    return returnValue;
 }
 
 export async function createUser(email, password, firstName, lastName)
@@ -59,7 +83,7 @@ export async function login(email, password)
 
 export async function getUser(token)
 {
-    let newHeaders = await addTokenToHeaders(headers, token);
+    let newHeaders = addTokenToHeaders(headers, token);
     let options = {
         method: 'GET',
         headers: newHeaders
@@ -155,7 +179,7 @@ export async function addCritic(token, movieId, comment, score)
 
 export async function logout(token)
 {
-    let newHeaders = await addTokenToHeaders(headers, token);
+    let newHeaders = addTokenToHeaders(headers, token);
     let options = {
         method: 'GET',
         headers: newHeaders
@@ -237,7 +261,7 @@ export async function getAllActors() {
 }
 
 export async function modifyUser(firstName, lastName, email, token) {
-    let newHeaders = await addTokenToHeaders(headers, token);
+    let newHeaders = addTokenToHeaders(headers, token);
     let options = {
         method: 'PATCH',
         headers: newHeaders,
@@ -261,7 +285,7 @@ export async function modifyUser(firstName, lastName, email, token) {
 }
 
 export async function modifyPassword(oldPassword, newPassword, newPasswordConfirm, token) {
-    let newHeaders = await addTokenToHeaders(headers, token);
+    let newHeaders = addTokenToHeaders(headers, token);
     let options = {
         method: 'PATCH',
         headers: newHeaders,

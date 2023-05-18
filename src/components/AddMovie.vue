@@ -8,9 +8,9 @@
                 <input id="title" name="title" type="text" required>
             </div>
             <div>
-                <label for="file">Image : </label>
+                <label for="image">Image : </label>
                 <!--upload file, par POST-->
-                <input id="file" class="file" name="file" type="file" required>
+                <input id="image" name="image" type="text" placeholder="Image URL" required>
             </div>
             <div>
                 <label for="prodYear">Année de production : </label>
@@ -35,7 +35,7 @@
             <div class="actors">
                 <!--boucle pour chaque acteurs de la bd, mettre son nom à cocher-->
                 <div v-for="actor in allActors">
-                    <input class="actor_checkbox" type="checkbox">
+                    <input class="actor_checkbox" :value="actor.first_name + ' ' + actor.last_name" type="checkbox">
                     <p>{{ actor.last_name }}</p>
                 </div>
             </div>
@@ -43,7 +43,7 @@
                 <label for="desc">Description du film : </label>
                 <textarea id="desc" name="desc" type="text" placeholder="Il était une fois..."></textarea>
             </div>
-            <button type="submit" @click=openSucessPopUp($event)>Ajouter</button>
+            <button type="submit">Ajouter</button>
         </form>
         <div class="popup">
             <!-- The Modal -->
@@ -61,6 +61,7 @@
 
 <script>
 import { createMovie } from '@/services/MovieService.js';
+import { useTokensStore } from '@/stores/TokensStore.js';
 export default {
     props: {
       actors: {
@@ -73,7 +74,8 @@ export default {
         popupMessage: ["Merci pour votre envoie!😊"],
         //Veillez vérifier vos champs😔
         maxlength: 50,
-        minlength: 1
+        minlength: 1,
+        tokensStore: useTokensStore()
       };
     },
     computed: {
@@ -90,44 +92,44 @@ export default {
         let form = event.target;
         
         let title = form.querySelector("#title").value
-        let file = form.querySelector("#file")
+        let image = form.querySelector("#image").value
         let prodYear = form.querySelector("#prodYear").value
         let duration = form.querySelector("#duration").value
-        let audience = form.querySelector("#audience")
-        let actors = form.querySelectorAll(".actor_checkbox")
+        let audience = form.querySelector("#audience").value
         let desc = form.querySelector("#desc").value
-
-
-        this.popupMessage = []
-        /*if(title.length >= this.maxlength && title.length > this.minlength){
-            this.popupMessage.push("- Le mail doit avoir 50 charactères ou moins et ne doit pas être vide.")
-        } 
-        if(file.length >= this.maxlength && file.length > this.minlength){
-            this.popupMessage.push("- Le prenom doit avoir 50 charactères ou moins et ne doit pas être vide.")
-        }
-        if(prodYear.length != 4){
-            this.popupMessage.push("- Le nom doit avoir 50 charactères ou moins et ne doit pas être vide.")
-        }
-        if(duration.length >= this.maxlength && duration.length > this.minlength){
-            this.popupMessage.push("- Le mot de passe doit avoir 50 charactères ou moins et ne doit pas être vide.")
-        }
-
-        if(desc.length >= this.maxlength && desc.length > this.minlength){
-            this.popupMessage.push("- Le mot de passe doit avoir 50 charactères ou moins et ne doit pas être vide.")
-        }*/
-
+        let actors = form.querySelectorAll(".actor_checkbox")
         let checkedActors = []
         for(let i = 0; i < actors.length; i++){
             if(actors[i].checked){
-                checkedActors.push(actors[i])
+                checkedActors.push(actors[i].value)
             }
+        }
+        this.popupMessage = []
+        if(title.length >= this.maxlength || title.length < this.minlength){
+            this.popupMessage.push("- Le titre doit avoir 50 charactères ou moins et ne doit pas être vide.")
+        } 
+        if(image.length >= this.maxlength || image.length < this.minlength){
+            this.popupMessage.push("- L'URL de l'image doit avoir 50 charactères ou moins et ne doit pas être vide.")
+        }
+        if(prodYear.length != 4 || prodYear > new Date().getFullYear()){
+            this.popupMessage.push("L'année doit être dans le passé.")
+        }
+        if(duration.length <= 0){
+            this.popupMessage.push("La durée ne doit pas être vide.")
+        }
+        if(desc.length >= this.maxlength || desc.length < this.minlength){
+            this.popupMessage.push("La description doit avoir 50 charactères ou moins et ne doit pas être vide.")
         }
 
         if(this.popupMessage.length == 0){
-            this.popupMessage.push("Merci pour votre envoie!😊")
-            //document.getElementById("messages").style.color = "green"
-            await createMovie(title, file, prodYear, duration, audience, actors, desc);
-        } 
+            let response = await createMovie(this.tokensStore.latestToken, title, prodYear, desc, duration, checkedActors, audience, image);
+            if (response['statusCode'] != 200)
+                this.popupMessage.push(response['error']);
+            if(this.popupMessage.length == 0)
+            {
+                this.popupMessage.push(response['message'])
+            }
+        }
         document.getElementById("myModal").style.display = "block";
       },
     }
@@ -174,10 +176,5 @@ form{
     flex-wrap: wrap;
     height: 10rem;
     overflow-y:scroll;
-}
-
-.file{
-    border: none;
-    border-radius: 0px;
 }
 </style>

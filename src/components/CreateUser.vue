@@ -108,7 +108,6 @@ export default {
             if(this.popupMessage.length == 0){
                 let modifyMap = await modifyUser(firstname, lastname, email, tokensStore.latestToken);
                 this.popupMessage.push(MESSAGE_CONFORMATION)
-                console.log(this.popupMessage)
             }
         }
         else
