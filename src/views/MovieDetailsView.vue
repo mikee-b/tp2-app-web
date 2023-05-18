@@ -21,7 +21,7 @@
      <!--si administrateur ou user-->
     <div v-if="isLoggedIn()">
         <h3>Rating</h3>
-        <form class="rating-form">
+        <form class="rating-form" action="" method="post" @submit.prevent="submitForm">
             <div class="rate">
                 <input type="radio" id="star5" name="rate" value="10" />
                 <label for="star5" title="text">5 stars</label>
@@ -35,13 +35,13 @@
                 <label for="star1" title="text">1 star</label>
             </div>
             <div>
-                <label for="text">Message : </label>
-                <textarea type="text" placeholder="Commentaire ici..." maxlength="255"></textarea>
+                <label for="comment">Message : </label>
+                <textarea type="text" name="comment" id="comment" placeholder="Commentaire ici..." maxlength="255"></textarea>
             </div>
             <!--si aucun commentaire-->
-            <button id="add-rating" type="submit" @click=openSucessPopUp($event)>Ajouter</button>
+            <button v-if="previousComment == null" id="add-rating" type="submit">Ajouter</button>
             <!--si commentaire éxiste déjà-->
-            <button id="update-rating" type="submit" @click=openSucessPopUp($event)>Modifier</button>
+            <button v-else id="update-rating" type="submit">Modifier</button>
         </form>
     </div>
      <h3>Critiques</h3>
@@ -91,7 +91,7 @@
   </template>
   
   <script>
-  import { getMovie, rateMovie } from '@/services/MovieService.js';
+  import { getMovie, addCritic } from '@/services/MovieService.js';
   import { useTokensStore } from '@/stores/TokensStore.js';
 
   export default {
@@ -103,7 +103,8 @@
         movie: Object,
         tokensStore: useTokensStore(),
         criticMessage: '',
-        noteMessage: ''
+        noteMessage: '',
+        previousComment: null
       };
     },
     props: {
@@ -128,11 +129,13 @@
       },
       submitForm(e)
       {
+        console.log("hello")
           const formData = new FormData(e.target);
           let rating = formData.get("rate");
+          let comment = formData.get("comment");
           if (rating == null)
               rating = 0.5;
-          rateMovie(this.id, rating, getCurrentSessionId())
+          addCritic(this.tokensStore.latestToken, this.id, comment, rating)
       },
       getNumberOfStarsFromRating(num) {
         return Math.round(num / 2);

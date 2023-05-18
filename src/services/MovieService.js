@@ -107,23 +107,47 @@ export async function getUserId(token)
     return returnValue;
 }
 
-export async function addCritic(token, movieId, comment, score)
+export async function getPreciousComment(userId, movieId)
 {
-    let newHeaders = addTokenToHeaders(token)
+    let newHeaders = addTokenToHeaders(headers, token)
     let options = {
         method: 'POST',
-        headers: headers,
+        headers: newHeaders,
         body: JSON.stringify({
             "comment": comment,
             "score": score,
         })
     };
+    console.log(options)
 
-    const response = await fetch(baseURL + 'films/' + movieId, options);
+    const response = await fetch(baseURL + 'films/' + movieId + "/critics", options);
     let returnValue = new Map();
     returnValue['statusCode'] = response.status;
     if (response.status == 200)
-        returnValue['message'] = response.text()
+        returnValue['message'] = "succès!"
+    else
+        returnValue['message'] = "erreur"
+    return returnValue;
+}
+
+export async function addCritic(token, movieId, comment, score)
+{
+    let newHeaders = addTokenToHeaders(headers, token)
+    let options = {
+        method: 'POST',
+        headers: newHeaders,
+        body: JSON.stringify({
+            "comment": comment,
+            "score": score,
+        })
+    };
+    console.log(options)
+
+    const response = await fetch(baseURL + 'films/' + movieId + "/critics", options);
+    let returnValue = new Map();
+    returnValue['statusCode'] = response.status;
+    if (response.status == 200)
+        returnValue['message'] = "succès!"
     else
         returnValue['message'] = "erreur"
     return returnValue;
@@ -261,7 +285,7 @@ export async function modifyPassword(oldPassword, newPassword, newPasswordConfir
     return returnValue;
 }
 
-async function addTokenToHeaders(headers, token)
+function addTokenToHeaders(headers, token)
 {
     headers["Authorization"] = "Bearer " + token;
     return headers
