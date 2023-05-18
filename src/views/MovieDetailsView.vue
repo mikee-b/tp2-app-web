@@ -9,6 +9,7 @@
             <p>Année de parution: {{ getYearFromDate(movie.annee) }}</p>
             <p>Site: <a :href="movie.homepage" target="_blank">{{ movie.homepage }}</a></p>
             <button>Delete</button>
+            <!-- v-if="getUser(tokensStore.latestToken)['role'] == 'admin'" @click="deleteMovie()" -->
         </div>
     </div>
     <div class="average-rating">
@@ -46,11 +47,12 @@
      <h3>Critiques</h3>
     <div class="card_container">
         <!--boucle for pour faire une carte pour chaque commentaire de l'api, sauf celui du membre-->
-        <div class="card_commentary" v-for="critic in movie.critiques">
+        <div class="card_commentary" v-for="critic in movie.critiques" v-if="isDifferentUser()">
+            <!-- v-if="critic.user_id != getUser(tokensStore.latestToken)['id']" -->
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 1c-6.38 0-12 4.226-12 10.007 0 2.05.738 4.063 2.047 5.625.055 1.83-1.023 4.456-1.993 6.368 2.602-.47 6.301-1.508 7.978-2.536 9.236 2.247 15.968-3.405 15.968-9.457 0-5.812-5.701-10.007-12-10.007zm0 14h-6v-1h6v1zm6-3h-12v-1h12v1zm0-3h-12v-1h12v1z"/></svg>
             <p class="name">{{ critic.user_name }}</p>
             <!-- ex: Mikee Blanchet -->
-            <p>{{ critic.commentaire }}</p>
+            <p>{{ dateConvert(critic.date) }}</p>
             <!-- ex: 1 janvier 2020 -->
             <p class="commentary">{{ critic.commentaire }}</p>
             <!-- ex: hello world -->
@@ -100,6 +102,8 @@
         baseUrlImg: "https://image.tmdb.org/t/p/original/",
         movie: Object,
         tokensStore: useTokensStore(),
+        criticMessage: '',
+        noteMessage: ''
       };
     },
     props: {
@@ -140,7 +144,36 @@
       },
       closeSucessPopUp(){
         document.getElementById("myModal").style.display = "none";
-      }
+      },
+      deleteMovie(){
+        
+      },
+      dateConvert(dateString){
+        const date = new Date(dateString);
+        const formattedDate = date.toLocaleDateString("fr-FR", {
+            day: "numeric",
+            month: "long",
+            year: "numeric"
+        });
+        return formattedDate;
+      },
+      isDifferentUser(){
+        if (this.tokensStore.isLoggedIn())
+        {
+            /*let details = this.tokensStore.getLatestTokenDetails()
+            return critic.user_id != details['id'];*/
+        }
+        return true;
+      },
+      /*isLoggedIn(){
+        if (isLoggedIn())
+        {
+            let details = this.tokensStore.getLatestTokenDetails()
+            this.userName = details['firstName'] + ' ' + details['lastName']
+
+        }
+      }*/
+
     }
   };
   </script>
