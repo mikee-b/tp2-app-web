@@ -107,7 +107,6 @@ export default {
             let details = this.tokensStore.getLatestTokenDetails()
             this.userName = details['firstName'] + ' ' + details['lastName']
             
-            console.log("true")
         }
         return isLoggedIn;
     },

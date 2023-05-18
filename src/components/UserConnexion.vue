@@ -77,7 +77,6 @@ export default {
             let details = await getUser(map['token'])
             if (details.statusCode == 200)
             {
-                console.log(details)
                 this.tokensStore.addToken(map['token'], details['id'], details['role'], details['firstName'], details['lastName'])
             }
             else
