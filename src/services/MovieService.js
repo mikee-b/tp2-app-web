@@ -30,13 +30,30 @@ export async function createMovie(token, title, year, description, length, actor
             "language_id": 1
         })
     };
-    console.log(options)
 
     const response = await fetch(baseURL + 'films', options);
     let returnValue = new Map();
     returnValue['statusCode'] = response.status;
     if (response.status == 201)
         returnValue['message'] = "id du film: " + await response.json();
+    else
+        returnValue['error'] = "erreur"
+    return returnValue;
+}
+
+export async function deleteMovie(token, movieId)
+{
+    let newHeaders = addTokenToHeaders(headers, token)
+    let options = {
+        method: 'DELETE',
+        headers: newHeaders
+    };
+
+    const response = await fetch(baseURL + 'films/' + movieId, options);
+    let returnValue = new Map();
+    returnValue['statusCode'] = response.status;
+    if (response.status == 201)
+        returnValue['message'] = "succès";
     else
         returnValue['error'] = "erreur"
     return returnValue;

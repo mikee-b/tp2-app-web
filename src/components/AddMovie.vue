@@ -108,8 +108,8 @@ export default {
         if(title.length >= this.maxlength || title.length < this.minlength){
             this.popupMessage.push("- Le titre doit avoir 50 charactères ou moins et ne doit pas être vide.")
         } 
-        if(image.length >= this.maxlength || image.length < this.minlength){
-            this.popupMessage.push("- L'URL de l'image doit avoir 50 charactères ou moins et ne doit pas être vide.")
+        if(image.length < this.minlength){
+            this.popupMessage.push("- L'URL de l'image ne doit pas être vide.")
         }
         if(prodYear.length != 4 || prodYear > new Date().getFullYear()){
             this.popupMessage.push("L'année doit être dans le passé.")

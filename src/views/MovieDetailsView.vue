@@ -8,7 +8,7 @@
             <p>Durée: {{ movie.longueur }} min</p>
             <p>Année de parution: {{ getYearFromDate(movie.annee) }}</p>
             <p>Site: <a :href="movie.homepage" target="_blank">{{ movie.homepage }}</a></p>
-            <button v-if="isAdmin()">Delete</button>
+            <button v-if="isAdmin()" @click="onDeleteMovie">Delete</button>
             <!-- v-if="getUser(tokensStore.latestToken)['role'] == 'admin'" @click="deleteMovie()" -->
         </div>
     </div>
@@ -91,7 +91,7 @@
   </template>
   
   <script>
-  import { getMovie, addCritic, getPreviousComment, modifyCritic } from '@/services/MovieService.js';
+  import { getMovie, addCritic, getPreviousComment, modifyCritic, deleteMovie } from '@/services/MovieService.js';
   import { useTokensStore } from '@/stores/TokensStore.js';
 
   export default {
@@ -147,6 +147,11 @@
           if (date != undefined)
               date = date.split("-", 1).pop();
           return date;
+      },
+      async onDeleteMovie()
+      {
+        let response = deleteMovie(this.tokensStore.latestToken, this.id)
+        this.$router.go(-1)
       },
       submitForm(e)
       {
