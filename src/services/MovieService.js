@@ -20,13 +20,14 @@ export async function createMovie(token, title, year, description, length, actor
         method: 'POST',
         headers: newHeaders,
         body: JSON.stringify({
-            "titre": title,
-            "annee": year,
+            "title": title,
+            "release_year": year,
             "description": description,
-            "classement": rating,
-            "longueur": length,
-            "acteurs": actors,
-            "imageUrl": image
+            "rating": rating,
+            "length": length,
+            "actors": actors,
+            "image": image,
+            "language_id": 1
         })
     };
     console.log(options)
@@ -34,8 +35,8 @@ export async function createMovie(token, title, year, description, length, actor
     const response = await fetch(baseURL + 'films', options);
     let returnValue = new Map();
     returnValue['statusCode'] = response.status;
-    if (response.status == 200)
-        returnValue['message'] = response.text()
+    if (response.status == 201)
+        returnValue['message'] = "id du film: " + await response.json();
     else
         returnValue['error'] = "erreur"
     return returnValue;
@@ -131,27 +132,34 @@ export async function getUserId(token)
     return returnValue;
 }
 
-export async function getPreciousComment(userId, movieId)
+export async function getPreviousComment(userId, movieId)
 {
-    let newHeaders = addTokenToHeaders(headers, token)
     let options = {
-        method: 'POST',
-        headers: newHeaders,
-        body: JSON.stringify({
-            "comment": comment,
-            "score": score,
-        })
+        method: 'GET',
+        headers: headers,
     };
-    console.log(options)
 
-    const response = await fetch(baseURL + 'films/' + movieId + "/critics", options);
+    const response = await fetch(baseURL + 'films/' + movieId, options);
     let returnValue = new Map();
     returnValue['statusCode'] = response.status;
     if (response.status == 200)
-        returnValue['message'] = "succès!"
+    {
+        let json = await response.json();
+        for (let i = 0; i < json.data.critiques.length; i++)
+        {
+            if (json.data.critiques[i].user_id == userId)
+                returnValue['comment'] = json.data.critiques[i]
+        }
+    }
     else
-        returnValue['message'] = "erreur"
+    {
+        returnValue['error'] = "erreur";
+    }
     return returnValue;
+        // returnValue[''] = "!"
+    // else
+        // returnValue['message'] = "erreur"
+    // return returnValue;
 }
 
 export async function addCritic(token, movieId, comment, score)
@@ -165,9 +173,30 @@ export async function addCritic(token, movieId, comment, score)
             "score": score,
         })
     };
-    console.log(options)
 
     const response = await fetch(baseURL + 'films/' + movieId + "/critics", options);
+    let returnValue = new Map();
+    returnValue['statusCode'] = response.status;
+    if (response.status == 200)
+        returnValue['message'] = "succès!"
+    else
+        returnValue['message'] = "erreur"
+    return returnValue;
+}
+
+export async function modifyCritic(token, movieId, criticId, comment, score)
+{
+    let newHeaders = addTokenToHeaders(headers, token)
+    let options = {
+        method: 'PUT',
+        headers: newHeaders,
+        body: JSON.stringify({
+            "comment": comment,
+            "score": score,
+        })
+    };
+
+    const response = await fetch(baseURL + 'films/' + movieId + "/critics/" + criticId, options);
     let returnValue = new Map();
     returnValue['statusCode'] = response.status;
     if (response.status == 200)

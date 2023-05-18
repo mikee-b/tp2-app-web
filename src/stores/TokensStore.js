@@ -5,9 +5,6 @@ export const useTokensStore = defineStore('tokensStore', {
     tokensMap: new Map()
   }),
   getters: {
-
-    // role '1' = admin
-    // role '2' = user
     latestToken: state => {
         let token = null
         if (state.tokensMap.size > 0)
@@ -19,16 +16,17 @@ export const useTokensStore = defineStore('tokensStore', {
   },
   actions: {
     getLatestTokenDetails() {
-        let role = null
+        let details = null
         if (this.$state.tokensMap.size > 0)
         {
-          role = this.$state.tokensMap.get(this.latestToken);
-          
+          details = this.$state.tokensMap.get(this.latestToken);
         }
-        return role
+        return details
     },
     addToken (token, userId, roleId, firstName, lastName) {
       let detailsMap = new Map();
+        // role '1' = admin
+        // role '2' = user
       detailsMap['roleId'] = roleId;
       detailsMap['userId'] = userId;
       detailsMap['firstName'] = firstName;

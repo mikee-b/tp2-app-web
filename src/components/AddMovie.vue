@@ -35,7 +35,7 @@
             <div class="actors">
                 <!--boucle pour chaque acteurs de la bd, mettre son nom à cocher-->
                 <div v-for="actor in allActors">
-                    <input class="actor_checkbox" :value="actor.first_name + ' ' + actor.last_name" type="checkbox">
+                    <input class="actor_checkbox" :value="actor.id" type="checkbox">
                     <p>{{ actor.last_name }}</p>
                 </div>
             </div>

@@ -8,7 +8,7 @@
             <p>Durée: {{ movie.longueur }} min</p>
             <p>Année de parution: {{ getYearFromDate(movie.annee) }}</p>
             <p>Site: <a :href="movie.homepage" target="_blank">{{ movie.homepage }}</a></p>
-            <button>Delete</button>
+            <button v-if="isAdmin()">Delete</button>
             <!-- v-if="getUser(tokensStore.latestToken)['role'] == 'admin'" @click="deleteMovie()" -->
         </div>
     </div>
@@ -91,7 +91,7 @@
   </template>
   
   <script>
-  import { getMovie, addCritic } from '@/services/MovieService.js';
+  import { getMovie, addCritic, getPreviousComment, modifyCritic } from '@/services/MovieService.js';
   import { useTokensStore } from '@/stores/TokensStore.js';
 
   export default {
@@ -114,9 +114,30 @@
     },
     mounted() {
       getMovie(this.id).then(response => this.movie = response);
-      this.userId = 1;
+      if (this.isLoggedIn())
+      {
+          let userId = this.tokensStore.getLatestTokenDetails()['userId'];
+          getPreviousComment(userId, this.id).then(response => {
+            console.log(response)
+            if (response['statusCode'] == 200 && response['comment'] != undefined)
+            {
+                this.previousComment = response['comment'];
+                let score = 5 - Math.floor(this.previousComment.score / 2)
+                let stars = document.querySelector(".rate").querySelectorAll("input")
+                if (score < 5)
+                    stars[score].checked = true;
+                document.querySelector("#comment").innerHTML = this.previousComment.commentaire;
+            }
+          });
+      }
     },
     methods: {
+      isAdmin() {
+        if (!this.isLoggedIn())
+            return false
+        return this.tokensStore.getLatestTokenDetails()['roleId'] == 1
+
+      },
       isLoggedIn()
       {
         return this.tokensStore.isLoggedIn();  
@@ -129,13 +150,19 @@
       },
       submitForm(e)
       {
-        console.log("hello")
-          const formData = new FormData(e.target);
-          let rating = formData.get("rate");
+        const formData = new FormData(e.target);
+        let rating = formData.get("rate");
           let comment = formData.get("comment");
           if (rating == null)
               rating = 0.5;
-          addCritic(this.tokensStore.latestToken, this.id, comment, rating)
+        if (this.previousComment == null)
+        {
+            addCritic(this.tokensStore.latestToken, this.id, comment, rating)
+        }
+        else
+        {
+            modifyCritic(this.tokensStore.latestToken, this.id, this.previousComment.critic_id, comment, rating)
+        }
       },
       getNumberOfStarsFromRating(num) {
         return Math.round(num / 2);
