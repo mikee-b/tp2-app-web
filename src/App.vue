@@ -89,6 +89,11 @@ export default {
     },
   },
   methods: {
+    isAdmin() {
+        if (!this.isLoggedIn())
+            return false
+        return this.tokensStore.getLatestTokenDetails()['roleId'] == 1
+    },
     getLoginText() {
         if (this.$store.state.token.isLoggedIn())
             return "Modifier le compte"
