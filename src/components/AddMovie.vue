@@ -49,10 +49,10 @@
             <!-- The Modal -->
             <div id="myModal" class="modal">
 
-            <!-- Modal content -->
+                <!-- Modal content -->
                 <div class="modal-content">
-                <svg id="close" @click=closeSucessPopUp() stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="m21 3.998c0-.478-.379-1-1-1h-16c-.62 0-1 .519-1 1v16c0 .621.52 1 1 1h16c.478 0 1-.379 1-1zm-8.991 6.932 2.717-2.718c.146-.146.338-.219.53-.219.405 0 .751.325.751.75 0 .193-.073.384-.219.531l-2.718 2.717 2.728 2.728c.147.147.22.339.22.531 0 .427-.349.75-.75.75-.192 0-.384-.073-.531-.219l-2.728-2.728-2.728 2.728c-.146.146-.339.219-.531.219-.401 0-.75-.323-.75-.75 0-.192.073-.384.22-.531l2.728-2.728-2.722-2.722c-.146-.147-.219-.338-.219-.531 0-.425.346-.749.75-.749.192 0 .384.073.53.219z" fill-rule="nonzero"/></svg>
-                <p>{{ popupMessage }}</p>
+                <svg id="close" @click=closePopUp() stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="m21 3.998c0-.478-.379-1-1-1h-16c-.62 0-1 .519-1 1v16c0 .621.52 1 1 1h16c.478 0 1-.379 1-1zm-8.991 6.932 2.717-2.718c.146-.146.338-.219.53-.219.405 0 .751.325.751.75 0 .193-.073.384-.219.531l-2.718 2.717 2.728 2.728c.147.147.22.339.22.531 0 .427-.349.75-.75.75-.192 0-.384-.073-.531-.219l-2.728-2.728-2.728 2.728c-.146.146-.339.219-.531.219-.401 0-.75-.323-.75-.75 0-.192.073-.384.22-.531l2.728-2.728-2.722-2.722c-.146-.147-.219-.338-.219-.531 0-.425.346-.749.75-.749.192 0 .384.073.53.219z" fill-rule="nonzero"/></svg>
+                <p id="messages" v-for="pop in popupMessage"> {{ pop }} </p>
                 </div>
             </div>
         </div>
@@ -71,7 +71,7 @@ export default {
     },
     data() {
       return {
-        popupMessage: ["Merci pour votre envoie!😊"],
+        popupMessage: [],
         //Veillez vérifier vos champs😔
         maxlength: 50,
         minlength: 1,
@@ -84,7 +84,7 @@ export default {
       },
     },
     methods: {
-      closeSucessPopUp(){
+        closePopUp(){
         document.getElementById("myModal").style.display = "none";
       },
       async onSubmit(event)
@@ -108,24 +108,25 @@ export default {
         if(title.length >= this.maxlength || title.length < this.minlength){
             this.popupMessage.push("- Le titre doit avoir 50 charactères ou moins et ne doit pas être vide.")
         } 
-        if(image.length < this.minlength){
+        if(image.lenght > this.minlength){
             this.popupMessage.push("- L'URL de l'image ne doit pas être vide.")
         }
         if(prodYear.length != 4 || prodYear > new Date().getFullYear()){
-            this.popupMessage.push("L'année doit être dans le passé.")
+            this.popupMessage.push("- L'année doit être dans le passé et doit avoir 4 charactères.")
         }
         if(duration.length <= 0){
-            this.popupMessage.push("La durée ne doit pas être vide.")
+            this.popupMessage.push("- La durée ne doit pas être vide.")
         }
         if(desc.length >= this.maxlength || desc.length < this.minlength){
-            this.popupMessage.push("La description doit avoir 50 charactères ou moins et ne doit pas être vide.")
+            this.popupMessage.push("- La description doit avoir 50 charactères ou moins et ne doit pas être vide.")
         }
 
         if(this.popupMessage.length == 0){
             let response = await createMovie(this.tokensStore.latestToken, title, prodYear, desc, duration, checkedActors, audience, image);
+            //console.log(response['statusCode']);
             if (response['statusCode'] != 200)
                 this.popupMessage.push(response['error']);
-            if(this.popupMessage.length == 0)
+            else
             {
                 this.popupMessage.push(response['message'])
             }
@@ -144,6 +145,7 @@ h1{
 }
 p{
     color: var(--main-text-color);
+    margin-right: 2rem;
 }
 select{
   background-color: var(--main-text-color);
