@@ -123,7 +123,6 @@ export default {
 
         if(this.popupMessage.length == 0){
             let response = await createMovie(this.tokensStore.latestToken, title, prodYear, desc, duration, checkedActors, audience, image);
-            //console.log(response['statusCode']);
             if (response['statusCode'] != 200)
                 this.popupMessage.push(response['error']);
             else
