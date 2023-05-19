@@ -1,6 +1,6 @@
 <template>
     <div class="recent-movies-container">
-      <button class="add_movie_btn" @click=onAddMovie()>Ajout d'un film</button>
+      <button v-if="isAdmin()" class="add_movie_btn" @click=onAddMovie()>Ajout d'un film</button>
       <h3 class="greetingMessage">{{ greetingMessage }}</h3>
       <h2 class="title">{{ title }}</h2>
       <ul class="movies">
@@ -18,6 +18,8 @@
   </template>
   
   <script>
+ import { useTokensStore } from '@/stores/TokensStore.js';
+
   export default {
     props: {
       movies: {
@@ -29,7 +31,8 @@
       return {
         title: "Most Popular Movies",
         greetingMessage: "🎥Welcome movies enjoyers🎥",
-        selectedmovie: null
+        selectedmovie: null,
+        tokensStore: useTokensStore(),
       };
     },
     computed: {
@@ -38,6 +41,12 @@
       },
     },
     methods: {
+      isAdmin() {
+        if (!this.tokensStore.isLoggedIn())
+            return false
+        return this.tokensStore.getLatestTokenDetails()['roleId'] == 1
+
+      },
       onSelect(movie) {
         this.$router.push({ name: "movie", params: { id: movie.id } });
       },
