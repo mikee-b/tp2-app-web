@@ -35,9 +35,9 @@ export async function createMovie(token, title, year, description, length, actor
     let returnValue = new Map();
     returnValue['statusCode'] = response.status;
     if (response.status == 201)
-        returnValue['message'] = "id du film: " + await response.json();
+        returnValue['message'] = "Création du film a bel et bien fonctionné!";
     else
-        returnValue['error'] = "erreur"
+        returnValue['error'] = "La création du film a échouée, veillez réessayer plus tard."
     return returnValue;
 }
 
