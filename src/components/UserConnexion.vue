@@ -30,11 +30,11 @@
 <script>
 import { login, getUser } from '@/services/MovieService.js'
 import { useTokensStore } from '@/stores/TokensStore.js';
-
+const SUCCESS_MESSAGE = "Connexion réussie!😊"
 export default {
     data() {
       return {
-        popupMessage: ["Merci pour votre envoie!😊"],
+        popupMessage: [],
         maxlength: 50,
         minlength: 1,
         tokensStore: useTokensStore(),
@@ -63,7 +63,7 @@ export default {
                 this.popupMessage.push(error);
             if(this.popupMessage.length == 0)
             {
-                this.popupMessage.push("Connexion réussie!😊")
+                this.popupMessage.push(SUCCESS_MESSAGE)
                 this.isLoggedIn = true;
             }
             //document.getElementById("messages").style.color = "green"
