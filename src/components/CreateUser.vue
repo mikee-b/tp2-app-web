@@ -116,7 +116,7 @@ export default {
             let confirmationPassword = form.querySelector("#confirmationPassword").value
 
             if(password.length >= this.maxlength && password.length > this.minlength){
-                this.popupMessage.push("- Le mot de passe doit avoir 50 charactères ou moins et ne doit pas être vide.")
+                this.popupMessage.push("- Le mot de passe doit avoir entre 6 et 50 charactères et ne doit pas être vide.")
             }
             if(password != confirmationPassword){
                 this.popupMessage.push("- Le mot de passe doit être le même que la confirmation du mot de passe.")
@@ -139,13 +139,13 @@ export default {
         this.popupMessage = []
 
         if(oldPassword.length >= this.maxlength && oldPassword.length > this.minlength){
-            this.popupMessage.push("- Le l'ancien mot de passe doit avoir 50 charactères ou moins et ne doit pas être vide.")
+            this.popupMessage.push("- Le l'ancien mot de passe doit avoir entre 6 et 50 charactères et ne doit pas être vide.")
         }
         if(newPassword.length >= this.maxlength && newPassword.length > this.minlength){
-            this.popupMessage.push("- Le nouveau mot de passe doit avoir 50 charactères ou moins et ne doit pas être vide.")
+            this.popupMessage.push("- Le nouveau mot de passe doit avoir entre 6 et 50 charactères et ne doit pas être vide.")
         }
         if(confirmationNewPassword.length >= this.maxlength && confirmationNewPassword.length > this.minlength){
-            this.popupMessage.push("- La confirmation du nouveau mot de passe doit avoir 50 charactères ou moins et ne doit pas être vide.")
+            this.popupMessage.push("- La confirmation du nouveau mot de passe doit avoir entre 6 et 50 charactères et ne doit pas être vide.")
         }
         if(confirmationNewPassword != newPassword){
             this.popupMessage.push("- La confirmation du nouveau mot de passe doit être identique au nouveau mot de passe.")
