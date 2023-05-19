@@ -1,5 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
+import { useTokensStore } from '@/stores/TokensStore.js';
+
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -28,7 +30,31 @@ const router = createRouter({
       component: () => import("../views/MovieDetailsView.vue"),
       props:true
     },
+    {
+      path: "/login",
+      name: "login",
+      component: () => import("../views/UserConnexionView.vue"),
+      props:true
+    },
+    {
+      path: "/signup",
+      name: "signup",
+      component: () => import("../views/CreateUserView.vue"),
+      props:true
+    },
+    {
+      path: "/addMovie",
+      name: "addMovie",
+      component: () => import("../views/AddMovieView.vue"),
+      props:true
+    },
   ]
+})
+
+router.beforeEach((to, from) => {
+    const tokensStore = useTokensStore();
+    if (to.fullPath == '/addMovie' && tokensStore.getLatestTokenDetails()['roleId'] != 1)
+        return false;
 })
 
 export default router
